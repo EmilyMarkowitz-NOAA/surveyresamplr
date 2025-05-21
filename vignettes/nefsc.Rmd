@@ -114,8 +114,7 @@ srvy <- "NWA_SPRING"
 
 ### Run ------------------------------------------------------------------------
 
-sink(file = paste0(dir_out, srvy, "_", Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE) # for screen and log
-map(
+purrr::map(
   1:nrow(spp_list),
   ~ clean_and_resample(spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
@@ -123,11 +122,11 @@ map(
     test = TRUE
   )
 )
-sink()
 
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
+
 ```
 
 ```{r results-run, eval, echo = FALSE}
@@ -193,8 +192,7 @@ srvy <- "NWA_FALL"
 
 ### Run ------------------------------------------------------------------------
 
-sink(file = paste0(dir_out, srvy, "_", Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE) # for screen and log
-map(
+purrr::map(
   1:nrow(spp_list),
   ~ clean_and_resample(spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
@@ -202,11 +200,11 @@ map(
     test = TRUE
   )
 )
-sink()
 
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
+
 ```
 
 ```{r results-run, eval, echo = FALSE}

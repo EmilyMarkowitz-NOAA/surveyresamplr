@@ -100,8 +100,6 @@ replicate_num <- 3
 
 ### Run ------------------------------------------------------------------------
 
-start.time <- Sys.time()
-sink(file = paste0(dir_final, srvy, Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE)
 purrr::map(
   1:nrow(spp_list),
   ~ clean_and_resample(spp_list[.x, ],
@@ -111,11 +109,11 @@ purrr::map(
     test = FALSE
   )
 )
-sink()
-write.csv(x = data.frame(time = as.numeric(Sys.time() - start.time), units = units(Sys.time() - start.time)), file = paste0(dir_final, srvy, "_time.csv"))
 
 ### Plot indices ---------------------------------------------------------------
+
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
+
 ```
 
 ```{r results-run, eval = TRUE, echo = FALSE}

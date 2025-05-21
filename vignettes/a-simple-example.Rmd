@@ -207,7 +207,6 @@ explain why `purrr::map` is important, what the sink files are for.
 
 ```{r run-models, eval = FALSE}
 start.time <- Sys.time()
-sink(file = paste0(dir_final, srvy, "_simple_logfile.txt"), append = FALSE, split = TRUE)
 purrr::map(
   1:nrow(spp_list),
   ~ clean_and_resample(
@@ -216,7 +215,6 @@ purrr::map(
     tot_dataframes, replicate_num, grid_yrs, dir_out
   )
 )
-sink()
 write.csv(x = data.frame(time = as.numeric(Sys.time() - start.time), units = units(Sys.time() - start.time)), file = paste0(dir_final, srvy, "_simple_time.csv"))
 ```
 

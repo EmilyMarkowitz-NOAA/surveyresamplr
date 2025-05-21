@@ -158,7 +158,6 @@ replicate_num <- 10
 
 ### Run ------------------------------------------------------------------------
 
-sink(file = paste0(dir_out, srvy, "_", Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE) # for screen and log
 purrr::map(
   1:nrow(spp_list),
   ~ clean_and_resample(spp_list[.x, ],
@@ -174,7 +173,6 @@ purrr::map(
     bio = bio
   )
 )
-sink()
 
 ### Plot indices ---------------------------------------------------------------
 
