@@ -15,60 +15,41 @@ knitr::opts_chunk$set(
 ```
 
 ```{r eval = TRUE}
-# Set directories --------------------------------------------------------------
-library(here)
+# Get rid of memory limits -----------------------------------------------------
+options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
+# Install Libraries ------------------------------------------------------------
+
+# Here we list all the packages we will need for this whole process
+# We'll also use this in our works cited page.
+PKG <- c(
+  "surveyresamplr",
+  "dplyr",
+  "tidyr",
+  "purrr",
+  "ggplot2",
+  "future.callr",
+  "flextable", 
+  "sdmTMB"
+)
+
+pkg_install <- function(p) {
+  if (!require(p, character.only = TRUE)) {
+    install.packages(p)
+  }
+  require(p, character.only = TRUE)
+}
+base::lapply(unique(PKG), pkg_install)
+
+# Set directories --------------------------------------------------------------
 wd <- paste0(here::here(), "/vignettes/")
 dir_out <- paste0(wd, "output/")
 dir_final <- paste0(dir_out, "CA_0results/")
 ```
 
+# Run scenarios
 
 ```{r eval = FALSE}
-# get rid of memory limits
-options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
-
-# Install Libraries ------------------------------------------------------------
-library(surveyresamplr)
-
-# Here we list all the packages we will need for this whole process
-# We'll also use this in our works cited page.
-PKG <- c(
-  "here",
-  "dplyr",
-  "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "flextable",
-
-  # parallelizing
-  "forcats",
-  "purrr",
-  "furrr",
-  "doParallel",
-
-  # sampling
-  "sampling",
-
-  # modeling
-  "arrow",
-  "future.apply",
-  "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
-)
-
-pkg_install <- function(p) {
-  install.packages(p)
-  require(p, character.only = TRUE)
-}
-base::lapply(unique(PKG), pkg_install)
 
 ### Define study species -------------------------------------------------------
 

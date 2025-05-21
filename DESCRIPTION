@@ -19,9 +19,20 @@ Imports:
     dplyr,
     furrr,
     future,
+    callr,
     ggplot2,
     purrr,
-    utils
+    utils, 
+    forcats,
+    doParallel, 
+    sampling, 
+    future.callr,
+    future.apply,
+    Matrix,
+    MASS, 
+    cluster,
+    TMB,
+    INLA
 Suggests: 
     knitr,
     rmarkdown,

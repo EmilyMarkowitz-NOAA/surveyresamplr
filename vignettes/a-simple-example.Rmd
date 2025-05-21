@@ -18,52 +18,36 @@ knitr::opts_chunk$set(
 # set CRAN mirror
 options(repos = c(CRAN = "https://cran.rstudio.com"))
 
-# get rid of memory limits
+# Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
-```
 
-## Install and load libraries
-```{r comment = FALSE, warning = FALSE, message = FALSE, error = FALSE, results='hide'}
-library(surveyresamplr)
+# Install Libraries ------------------------------------------------------------
 
 # Here we list all the packages we will need for this whole process
 # We'll also use this in our works cited page.
-p <- c(
-  "here",
-  "flextable",
-
-  # tidyverse
+PKG <- c(
+  "surveyresamplr",
   "dplyr",
   "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "data.table",
-
-  # parallelizing
-  "forcats",
   "purrr",
-  "furrr",
-  "doParallel",
-
-  # modeling
-  "arrow",
-  "future.apply",
+  "ggplot2",
   "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
+  "flextable", 
+  "sdmTMB"
 )
 
 pkg_install <- function(p) {
-  install.packages(p)
+  if (!require(p, character.only = TRUE)) {
+    install.packages(p)
+  }
   require(p, character.only = TRUE)
 }
-base::lapply(p, pkg_install)
+base::lapply(unique(PKG), pkg_install)
+
+# Set directories --------------------------------------------------------------
+wd <- paste0(here::here(), "/vignettes/")
+dir_out <- paste0(wd, "output/")
+dir_final <- paste0(dir_out, "CA_0results/")
 ```
 
 ## Test Species List

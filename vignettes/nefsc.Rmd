@@ -15,8 +15,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = FALSE}
-# get rid of memory limits
+```{r eval = TRUE}
+# Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
 # Install Libraries ------------------------------------------------------------
@@ -25,35 +25,13 @@ options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 # We'll also use this in our works cited page.
 PKG <- c(
   "surveyresamplr",
-
-  # tidyverse
   "dplyr",
   "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "data.table",
-
-  # parallelizing
-  "forcats",
   "purrr",
-  "furrr",
-  "doParallel",
-
-  # sampling
-  "sampling",
-
-  # modeling
-  "arrow",
-  "future.apply",
+  "ggplot2",
   "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
+  "flextable", 
+  "sdmTMB"
 )
 
 pkg_install <- function(p) {
@@ -64,6 +42,11 @@ pkg_install <- function(p) {
 }
 base::lapply(unique(PKG), pkg_install)
 
+```
+
+# Run scenarios
+
+```{r eval = FALSE}
 ### Define study species -------------------------------------------------------
 
 spp_list <-
@@ -114,7 +97,6 @@ replicate_num <- 3
 
 ```{r}
 # Set directories --------------------------------------------------------------
-library(here)
 
 wd <- paste0(here::here(), "/vignettes/")
 dir_out <- paste0(wd, "output/")
@@ -194,7 +176,6 @@ head(out$tables[i][[1]]) %>%
 
 ```{r}
 # Set directories --------------------------------------------------------------
-library(here)
 
 wd <- paste0(here::here(), "/vignettes/")
 dir_out <- paste0(wd, "output/")

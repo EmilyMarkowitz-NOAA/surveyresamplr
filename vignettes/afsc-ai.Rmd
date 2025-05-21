@@ -15,17 +15,7 @@ knitr::opts_chunk$set(
 ```
 
 ```{r eval = TRUE}
-# Set directories --------------------------------------------------------------
-library(here)
-
-wd <- paste0(here::here(), "/vignettes/")
-dir_out <- paste0(wd, "output/")
-dir_final <- paste0(dir_out, "AI_0results/")
-```
-
-
-```{r eval = FALSE}
-# get rid of memory limits
+# Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
 # Install Libraries ------------------------------------------------------------
@@ -34,36 +24,13 @@ options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 # We'll also use this in our works cited page.
 PKG <- c(
   "surveyresamplr",
-
-  # tidyverse
   "dplyr",
   "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "data.table",
-  "flextable",
-
-  # parallelizing
-  "forcats",
   "purrr",
-  "furrr",
-  "doParallel",
-
-  # sampling
-  "sampling",
-
-  # modeling
-  "arrow",
-  "future.apply",
+  "ggplot2",
   "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
+  "flextable", 
+  "sdmTMB"
 )
 
 pkg_install <- function(p) {
@@ -74,10 +41,14 @@ pkg_install <- function(p) {
 }
 base::lapply(unique(PKG), pkg_install)
 
-# Run scenarios ----------------------------------------------------------------
+# Set directories --------------------------------------------------------------
+wd <- paste0(here::here(), "/vignettes/")
+dir_out <- paste0(wd, "output/")
+dir_final <- paste0(dir_out, "AI_0results/")
+```
+# Run scenarios
 
-## Aleutian Islands ------------------------------------------------------------
-
+```{r eval = FALSE}
 ### Define study species -------------------------------------------------------
 
 spp_list <- data.frame(
@@ -112,7 +83,7 @@ catch <- surveyresamplr::noaa_afsc_catch |>
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- replicate_df(surveyresamplr::noaa_afsc_ai_pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(surveyresamplr::noaa_afsc_ai_pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -139,6 +110,7 @@ sink()
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
+
 ```
 
 ```{r results-run, eval = TRUE, echo = FALSE}
