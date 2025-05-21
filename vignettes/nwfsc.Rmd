@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = TRUE}
+```{r setup}
 # Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
@@ -180,7 +180,7 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 ```
 
 ```{r results-run, eval, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata"))
+load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
 ```
 
 ```{r results-plots}

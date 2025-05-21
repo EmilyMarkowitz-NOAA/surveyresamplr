@@ -203,7 +203,7 @@ crs_latlon <- "+proj=longlat +datum=WGS84" # decimal degrees
 
 # Run resampling models
 
-explain why `purrr::map` is important, what the sink files are for. 
+TOLDEO: explain why `purrr::map` is important, what the sink files are for. 
 
 ```{r run-models, eval = FALSE}
 start.time <- Sys.time()
@@ -221,10 +221,6 @@ write.csv(x = data.frame(time = as.numeric(Sys.time() - start.time), units = uni
 ```{r time}
 a <- read.csv(file = paste0(dir_final, srvy, "_simple_time.csv"))
 print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
-```
-
-```{r sink-results, eval = FALSE}
-cat(readLines(con = paste0(dir_final, srvy, "_simple_logfile.txt")))
 ```
 
 ```{r sink-results-backup}
@@ -311,16 +307,15 @@ cat(readLines(con = paste0(dir_final, srvy, "_simple_logfile.txt")))
 # ...Parallel SDM processing complete
 ```
 
-```{r results-run1, eval = TRUE}
+```{r results-run1}
 out <- plot_results(srvy = paste0(srvy, "_simple"), dir_out = dir_out, dir_final = dir_final)
 ```
 
-```{r results-run, eval = TRUE, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata"))
+```{r results-run, echo = FALSE}
+load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
 ```
 
 ```{r results-plots}
-# load(file = paste0(dir_out, paste0(srvy, "_simple_0figures/figures.rdata")), verbose = TRUE)
 out$plots
 ```
 

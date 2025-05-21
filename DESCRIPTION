@@ -31,8 +31,7 @@ Imports:
     Matrix,
     MASS, 
     cluster,
-    TMB,
-    INLA
+    TMB
 Suggests: 
     knitr,
     rmarkdown,

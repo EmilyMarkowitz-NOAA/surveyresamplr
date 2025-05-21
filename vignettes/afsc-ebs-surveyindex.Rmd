@@ -14,7 +14,7 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = FALSE}
+```{r setup}
 # get rid of memory limits
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
