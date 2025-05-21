@@ -129,24 +129,24 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 
 ```
 
-```{r results-run, eval, echo = FALSE}
+```{r results-run1, echo = FALSE}
 load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
 ```
 
-```{r results-plots}
+```{r results-plots1}
 out$plots
 ```
 
 Parameter output: 
 
-```{r results-tables-1}
+```{r results-tables-1a}
 i <- 1
 print(names(out$tables)[i])
 head(out$tables[i][[1]]) %>%
   flextable::flextable()
 ```
 
-```{r results-tables-2}
+```{r results-tables-2a}
 i <- 1 + i
 print(names(out$tables)[i])
 head(out$tables[i][[1]]) %>%
@@ -154,7 +154,7 @@ head(out$tables[i][[1]]) %>%
 ```
 
 
-```{r results-tables-3}
+```{r results-tables-3a}
 i <- 1 + i
 print(names(out$tables)[i])
 head(out$tables[i][[1]]) %>%
@@ -162,7 +162,7 @@ head(out$tables[i][[1]]) %>%
 ```
 
 
-```{r results-tables-4}
+```{r results-tables-4a}
 i <- 1 + i
 print(names(out$tables)[i])
 head(out$tables[i][[1]]) %>%
@@ -205,7 +205,7 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 
 ```
 
-```{r results-run, eval, echo = FALSE}
+```{r results-run, echo = FALSE}
 load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
 ```
 

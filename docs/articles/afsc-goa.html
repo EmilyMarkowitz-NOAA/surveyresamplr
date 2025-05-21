@@ -108,15 +108,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Set directories --------------------------------------------------------------</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; here() starts at Z:/Projects/surveyresamplr_general/surveyresamplr</span></span>
-<span></span>
-<span><span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/vignettes/"</span><span class="op">)</span></span>
-<span><span class="va">dir_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">wd</span>, <span class="st">"output/"</span><span class="op">)</span></span>
-<span><span class="va">dir_final</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_out</span>, <span class="st">"GOA_0results/"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># get rid of memory limits</span></span>
+<code class="sourceCode R"><span><span class="co"># Get rid of memory limits -----------------------------------------------------</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">4</span><span class="op">)</span> <span class="co"># Allow up to 1 TB for globals</span></span>
 <span></span>
 <span><span class="co"># Install Libraries ------------------------------------------------------------</span></span>
@@ -125,36 +117,13 @@
 <span><span class="co"># We'll also use this in our works cited page.</span></span>
 <span><span class="va">PKG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"surveyresamplr"</span>,</span>
-<span></span>
-<span>  <span class="co"># tidyverse</span></span>
 <span>  <span class="st">"dplyr"</span>,</span>
-<span>  <span class="st">"magrittr"</span>,</span>
 <span>  <span class="st">"tidyr"</span>,</span>
-<span>  <span class="st">"viridis"</span>,</span>
-<span>  <span class="st">"ggplot2"</span>,</span>
-<span>  <span class="st">"tibble"</span>,</span>
-<span>  <span class="st">"janitor"</span>,</span>
-<span>  <span class="st">"data.table"</span>,</span>
-<span></span>
-<span>  <span class="co"># parallelizing</span></span>
-<span>  <span class="st">"forcats"</span>,</span>
 <span>  <span class="st">"purrr"</span>,</span>
-<span>  <span class="st">"furrr"</span>,</span>
-<span>  <span class="st">"doParallel"</span>,</span>
-<span></span>
-<span>  <span class="co"># sampling</span></span>
-<span>  <span class="st">"sampling"</span>,</span>
-<span></span>
-<span>  <span class="co"># modeling</span></span>
-<span>  <span class="st">"arrow"</span>,</span>
-<span>  <span class="st">"future.apply"</span>,</span>
+<span>  <span class="st">"ggplot2"</span>,</span>
 <span>  <span class="st">"future.callr"</span>,</span>
-<span>  <span class="st">"sdmTMB"</span>, <span class="co"># install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",</span></span>
-<span>  <span class="st">"Matrix"</span>,</span>
-<span>  <span class="st">"MASS"</span>,</span>
-<span>  <span class="st">"cluster"</span>,</span>
-<span>  <span class="st">"TMB"</span>,</span>
-<span>  <span class="st">"INLA"</span></span>
+<span>  <span class="st">"flextable"</span>, </span>
+<span>  <span class="st">"sdmTMB"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pkg_install</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
@@ -164,7 +133,61 @@
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">p</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">PKG</span><span class="op">)</span>, <span class="va">pkg_install</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: surveyresamplr</span></span>
+<span><span class="co">#&gt; Loading required package: dplyr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="co">#&gt; Loading required package: tidyr</span></span>
+<span><span class="co">#&gt; Loading required package: purrr</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: future.callr</span></span>
+<span><span class="co">#&gt; Loading required package: future</span></span>
+<span><span class="co">#&gt; Loading required package: flextable</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'flextable'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:purrr':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     compose</span></span>
+<span><span class="co">#&gt; Loading required package: sdmTMB</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[4]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[5]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[6]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[7]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[8]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
+<span><span class="co"># Set directories --------------------------------------------------------------</span></span>
+<span><span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/vignettes/"</span><span class="op">)</span></span>
+<span><span class="va">dir_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">wd</span>, <span class="st">"output/"</span><span class="op">)</span></span>
+<span><span class="va">dir_final</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_out</span>, <span class="st">"GOA_0results/"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="run-scenarios">Run scenarios<a class="anchor" aria-label="anchor" href="#run-scenarios"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co">### Define study species -------------------------------------------------------</span></span>
 <span></span>
 <span><span class="va">spp_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -185,8 +208,8 @@
 <span>  model_fn <span class="op">=</span> <span class="st">"total_catch_wt_kg ~ 0 + factor(year)"</span>,</span>
 <span>  model_family <span class="op">=</span> <span class="st">"delta_gamma"</span>,</span>
 <span>  model_anisotropy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  model_spatiotemporal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"iid, iid"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  model_spatiotemporal <span class="op">=</span> <span class="st">"iid, iid"</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    file_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">" "</span>, replacement <span class="op">=</span> <span class="st">"_"</span>, x <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">common_name</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -194,7 +217,7 @@
 <span><span class="co">### Load survey data -----------------------------------------------------------</span></span>
 <span></span>
 <span><span class="co"># source(paste0(wd, "code/data_dl_ak.r"))</span></span>
-<span><span class="va">catch</span> <span class="op">&lt;-</span> <span class="fu">surveyresamplr</span><span class="fu">::</span><span class="va"><a href="../reference/noaa_afsc_catch.html">noaa_afsc_catch</a></span> <span class="op">%&gt;%</span></span>
+<span><span class="va">catch</span> <span class="op">&lt;-</span> <span class="fu">surveyresamplr</span><span class="fu">::</span><span class="va"><a href="../reference/noaa_afsc_catch.html">noaa_afsc_catch</a></span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">srvy</span> <span class="op">==</span> <span class="st">"GOA"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">### Load grid data -------------------------------------------------------------</span></span>
@@ -212,8 +235,7 @@
 <span></span>
 <span><span class="co">### Run ------------------------------------------------------------------------</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_out</span>, <span class="va">srvy</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"_logfile.txt"</span><span class="op">)</span>, append <span class="op">=</span> <span class="cn">FALSE</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># for screen and log</span></span>
-<span><span class="fu">map</span><span class="op">(</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span></span>
 <span>  <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">spp_list</span><span class="op">)</span>,</span>
 <span>  <span class="op">~</span> <span class="fu"><a href="../reference/clean_and_resample.html">clean_and_resample</a></span><span class="op">(</span><span class="va">spp_list</span><span class="op">[</span><span class="va">.x</span>, <span class="op">]</span>,</span>
 <span>    <span class="va">catch</span>, <span class="va">seq_from</span>, <span class="va">seq_to</span>, <span class="va">seq_by</span>,</span>
@@ -221,7 +243,6 @@
 <span>    test <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink</a></span><span class="op">(</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">### Plot indices --------------------------------------------------------------</span></span>
 <span></span>
@@ -244,158 +265,158 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fit_df"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-f6fb2dc2{}.cl-f6e1b19e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f6ec6cec{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f6ec6d00{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f6ecaf72{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6ecaf7c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6ecaf7d{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6ecaf86{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6ecaf87{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f6ecaf88{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-f6fb2dc2">
+<style>.cl-e0db1f7c{}.cl-e0c1720c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e0ca72bc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e0ca72da{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e0cad202{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0cad20c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0cad216{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0cad220{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0cad221{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e0cad22a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-e0db1f7c">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">X.1</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">X</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">srvy</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">common_name</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">species_code</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">filter_lat_lt</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">filter_lat_gt</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">filter_depth</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">model_fn</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">model_family</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">model_anisotropy</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">model_spatiotemporal</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">file_name</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">effort</span></p></th>
-<th class="cl-f6ecaf7c"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">term</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">estimate</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">std.error</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">conf.low</span></p></th>
-<th class="cl-f6ecaf72"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">conf.high</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">X.1</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">X</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">srvy</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">common_name</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">species_code</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">filter_lat_lt</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">filter_lat_gt</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">filter_depth</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">model_fn</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">model_family</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">model_anisotropy</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">model_spatiotemporal</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">file_name</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">effort</span></p></th>
+<th class="cl-e0cad20c"><p class="cl-e0ca72da"><span class="cl-e0c1720c">term</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">estimate</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">std.error</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">conf.low</span></p></th>
+<th class="cl-e0cad202"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">conf.high</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">1</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">1</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">GOA</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead sole</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">10,130</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">delta_gamma</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">TRUE</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">iid, iid</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead_sole</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">08_3</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">factor(year)1990</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">22.20962</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3,623.130</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">-7,078.994</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">7,123.414</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">1</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">1</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">GOA</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead sole</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">10,130</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">delta_gamma</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">TRUE</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">iid, iid</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead_sole</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">08_3</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">factor(year)1990</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">22.20962</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3,623.130</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">-7,078.994</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">7,123.414</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">2</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">2</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">GOA</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead sole</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">10,130</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">delta_gamma</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">TRUE</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">iid, iid</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead_sole</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">08_3</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">factor(year)1993</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">22.15425</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3,324.978</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">-6,494.683</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">6,538.992</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">2</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">2</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">GOA</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead sole</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">10,130</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">delta_gamma</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">TRUE</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">iid, iid</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead_sole</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">08_3</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">factor(year)1993</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">22.15425</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3,324.978</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">-6,494.683</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">6,538.992</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">GOA</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead sole</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">10,130</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">delta_gamma</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">TRUE</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">iid, iid</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead_sole</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">08_3</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">factor(year)1996</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">22.02771</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3,275.996</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">-6,398.807</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">6,442.862</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">GOA</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead sole</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">10,130</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">delta_gamma</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">TRUE</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">iid, iid</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead_sole</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">08_3</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">factor(year)1996</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">22.02771</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3,275.996</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">-6,398.807</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">6,442.862</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">4</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">4</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">GOA</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead sole</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">10,130</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">delta_gamma</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">TRUE</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">iid, iid</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead_sole</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">08_3</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">factor(year)1999</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">23.34060</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">6,546.774</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">-12,808.102</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">12,854.783</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">4</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">4</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">GOA</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead sole</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">10,130</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">delta_gamma</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">TRUE</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">iid, iid</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead_sole</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">08_3</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">factor(year)1999</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">23.34060</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">6,546.774</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">-12,808.102</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">12,854.783</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">5</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">5</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">GOA</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead sole</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">10,130</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">delta_gamma</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">TRUE</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">iid, iid</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead_sole</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">08_3</span></p></td>
-<td class="cl-f6ecaf86"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">factor(year)2001</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">21.66088</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3,589.083</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">-7,012.812</span></p></td>
-<td class="cl-f6ecaf7d"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">7,056.134</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">5</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">5</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">GOA</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead sole</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">10,130</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">delta_gamma</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">TRUE</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">iid, iid</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead_sole</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">08_3</span></p></td>
+<td class="cl-e0cad220"><p class="cl-e0ca72da"><span class="cl-e0c1720c">factor(year)2001</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">21.66088</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3,589.083</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">-7,012.812</span></p></td>
+<td class="cl-e0cad216"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">7,056.134</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">6</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">6</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">GOA</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead sole</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">10,130</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e"></span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">delta_gamma</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">TRUE</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">iid, iid</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">flathead_sole</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">08_3</span></p></td>
-<td class="cl-f6ecaf88"><p class="cl-f6ec6d00"><span class="cl-f6e1b19e">factor(year)2003</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">22.09698</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">3,319.433</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">-6,483.873</span></p></td>
-<td class="cl-f6ecaf87"><p class="cl-f6ec6cec"><span class="cl-f6e1b19e">6,528.066</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">6</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">6</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">GOA</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead sole</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">10,130</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c"></span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">delta_gamma</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">TRUE</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">iid, iid</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">flathead_sole</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">08_3</span></p></td>
+<td class="cl-e0cad22a"><p class="cl-e0ca72da"><span class="cl-e0c1720c">factor(year)2003</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">22.09698</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">3,319.433</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">-6,483.873</span></p></td>
+<td class="cl-e0cad221"><p class="cl-e0ca72bc"><span class="cl-e0c1720c">6,528.066</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -404,158 +425,158 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">i</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fit_pars"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-f754fcee{}.cl-f73d9f0e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f7460a22{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f7460a40{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f7464c08{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7464c12{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7464c1c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7464c26{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7464c27{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7464c30{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-f754fcee">
+<style>.cl-e1318a10{}.cl-e11d71e2{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e12466b4{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e12466be{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e124a386{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e124a39a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e124a39b{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e124a3a4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e124a3a5{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e124a3ae{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-e1318a10">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">X.1</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">X</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">srvy</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">common_name</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">species_code</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">filter_lat_lt</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">filter_lat_gt</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">filter_depth</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">model_fn</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">model_family</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">model_anisotropy</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">model_spatiotemporal</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">file_name</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">effort</span></p></th>
-<th class="cl-f7464c12"><p class="cl-f7460a40"><span class="cl-f73d9f0e">term</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">estimate</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">std.error</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">conf.low</span></p></th>
-<th class="cl-f7464c08"><p class="cl-f7460a22"><span class="cl-f73d9f0e">conf.high</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">X.1</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">X</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">srvy</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">common_name</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">species_code</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">filter_lat_lt</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">filter_lat_gt</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">filter_depth</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">model_fn</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">model_family</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">model_anisotropy</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">model_spatiotemporal</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">file_name</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">effort</span></p></th>
+<th class="cl-e124a39a"><p class="cl-e12466be"><span class="cl-e11d71e2">term</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">estimate</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">std.error</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">conf.low</span></p></th>
+<th class="cl-e124a386"><p class="cl-e12466b4"><span class="cl-e11d71e2">conf.high</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">1</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">1</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">GOA</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead sole</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">10,130</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">delta_gamma</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">TRUE</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">iid, iid</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead_sole</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">08_3</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">range</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0.4230446</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">3,307.7298</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">Inf</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">1</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">1</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">GOA</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead sole</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">10,130</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">delta_gamma</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">TRUE</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">iid, iid</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead_sole</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">08_3</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">range</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0.4230446</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">3,307.7298</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">2</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">2</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">GOA</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead sole</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">10,130</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">delta_gamma</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">TRUE</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">iid, iid</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead_sole</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">08_3</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">sigma_O</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0.2235829</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">1,245.4340</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">Inf</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">2</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">2</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">GOA</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead sole</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">10,130</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">delta_gamma</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">TRUE</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">iid, iid</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead_sole</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">08_3</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">sigma_O</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0.2235829</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">1,245.4340</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">3</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">3</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">GOA</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead sole</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">10,130</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">delta_gamma</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">TRUE</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">iid, iid</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead_sole</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">08_3</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">sigma_E</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0.2061478</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">797.8968</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">Inf</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">3</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">3</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">GOA</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead sole</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">10,130</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">delta_gamma</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">TRUE</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">iid, iid</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead_sole</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">08_3</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">sigma_E</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0.2061478</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">797.8968</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">4</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">GOA</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead sole</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">10,130</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">delta_gamma</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">TRUE</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">iid, iid</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead_sole</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">1_1</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">range</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">3.2400616</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">16,000.5812</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">Inf</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">4</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">GOA</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead sole</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">10,130</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">delta_gamma</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">TRUE</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">iid, iid</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead_sole</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">1_1</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">range</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">3.2400616</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">16,000.5812</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">5</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">GOA</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead sole</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">10,130</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">delta_gamma</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">TRUE</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">iid, iid</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead_sole</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">1_1</span></p></td>
-<td class="cl-f7464c26"><p class="cl-f7460a40"><span class="cl-f73d9f0e">sigma_O</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0.3181234</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">1,172.7933</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0</span></p></td>
-<td class="cl-f7464c1c"><p class="cl-f7460a22"><span class="cl-f73d9f0e">Inf</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">5</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">GOA</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead sole</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">10,130</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">delta_gamma</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">TRUE</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">iid, iid</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead_sole</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">1_1</span></p></td>
+<td class="cl-e124a3a4"><p class="cl-e12466be"><span class="cl-e11d71e2">sigma_O</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0.3181234</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">1,172.7933</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">0</span></p></td>
+<td class="cl-e124a39b"><p class="cl-e12466b4"><span class="cl-e11d71e2">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">6</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">GOA</span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead sole</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">10,130</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e"></span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">delta_gamma</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">TRUE</span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">iid, iid</span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">flathead_sole</span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">1_1</span></p></td>
-<td class="cl-f7464c30"><p class="cl-f7460a40"><span class="cl-f73d9f0e">sigma_E</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0.2486639</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">1,162.1914</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">0</span></p></td>
-<td class="cl-f7464c27"><p class="cl-f7460a22"><span class="cl-f73d9f0e">Inf</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">6</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">GOA</span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead sole</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">10,130</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2"></span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">delta_gamma</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">TRUE</span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">iid, iid</span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">flathead_sole</span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">1_1</span></p></td>
+<td class="cl-e124a3ae"><p class="cl-e12466be"><span class="cl-e11d71e2">sigma_E</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">0.2486639</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">1,162.1914</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">0</span></p></td>
+<td class="cl-e124a3a5"><p class="cl-e12466b4"><span class="cl-e11d71e2">Inf</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -564,186 +585,186 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">i</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fit_check"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-f7b96422{}.cl-f7a10ca6{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f7a9d872{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f7a9d886{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f7aa23fe{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7aa2408{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7aa2409{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7aa2412{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7aa241c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f7aa241d{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-f7b96422">
+<style>.cl-e191ce84{}.cl-e176f276{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e18031e2{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e18031f6{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e1806efa{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1806f0e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1806f18{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1806f22{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1806f2c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1806f36{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-e191ce84">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">X.1</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">X</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">srvy</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">common_name</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">species_code</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">filter_lat_lt</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">filter_lat_gt</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">filter_depth</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">model_fn</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">model_family</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">model_anisotropy</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">model_spatiotemporal</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">file_name</span></p></th>
-<th class="cl-f7aa2408"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">effort</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">hessian_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">eigen_values_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">nlminb_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">range_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">gradients_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">se_magnitude_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">se_na_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">sigmas_ok</span></p></th>
-<th class="cl-f7aa23fe"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">all_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">X.1</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">X</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">srvy</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">common_name</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">species_code</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">filter_lat_lt</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">filter_lat_gt</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">filter_depth</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">model_fn</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">model_family</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">model_anisotropy</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">model_spatiotemporal</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">file_name</span></p></th>
+<th class="cl-e1806f0e"><p class="cl-e18031f6"><span class="cl-e176f276">effort</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">hessian_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">eigen_values_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">nlminb_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">range_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">gradients_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">se_magnitude_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">se_na_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">sigmas_ok</span></p></th>
+<th class="cl-e1806efa"><p class="cl-e18031e2"><span class="cl-e176f276">all_ok</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">1</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">1</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">GOA</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">flathead sole</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">10,130</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">delta_gamma</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">iid, iid</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">flathead_sole</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">08_3</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">1</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">1</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">GOA</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">flathead sole</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">10,130</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">delta_gamma</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">iid, iid</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">flathead_sole</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">08_3</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">2</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">GOA</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">flathead sole</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">10,130</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">delta_gamma</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">iid, iid</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">flathead_sole</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">1_1</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">2</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">GOA</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">flathead sole</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">10,130</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">delta_gamma</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">iid, iid</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">flathead_sole</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">1_1</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">1</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">1</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">GOA</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">northern rockfish</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">30,420</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">delta_gamma</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">iid, iid</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">northern_rockfish</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">08_3</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">1</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">1</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">GOA</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">northern rockfish</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">30,420</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">delta_gamma</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">iid, iid</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">northern_rockfish</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">08_3</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">2</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">GOA</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">northern rockfish</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">30,420</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">delta_gamma</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">iid, iid</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">northern_rockfish</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">1_1</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">2</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">GOA</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">northern rockfish</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">30,420</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">delta_gamma</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">iid, iid</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">northern_rockfish</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">1_1</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">1</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">1</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">GOA</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">Pacific cod</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">21,720</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">delta_gamma</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">iid, iid</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">pacific_cod</span></p></td>
-<td class="cl-f7aa2412"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">08_3</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa2409"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">1</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">1</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">GOA</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">Pacific cod</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">21,720</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">delta_gamma</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">iid, iid</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">pacific_cod</span></p></td>
+<td class="cl-e1806f22"><p class="cl-e18031f6"><span class="cl-e176f276">08_3</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f18"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">2</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">GOA</span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">Pacific cod</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">21,720</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6"></span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">delta_gamma</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">iid, iid</span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">pacific_cod</span></p></td>
-<td class="cl-f7aa241d"><p class="cl-f7a9d886"><span class="cl-f7a10ca6">1_1</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">TRUE</span></p></td>
-<td class="cl-f7aa241c"><p class="cl-f7a9d872"><span class="cl-f7a10ca6">FALSE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">2</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">GOA</span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">Pacific cod</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">21,720</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276"></span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">delta_gamma</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">iid, iid</span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">pacific_cod</span></p></td>
+<td class="cl-e1806f36"><p class="cl-e18031f6"><span class="cl-e176f276">1_1</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">TRUE</span></p></td>
+<td class="cl-e1806f2c"><p class="cl-e18031e2"><span class="cl-e176f276">FALSE</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -752,175 +773,176 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">i</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "index"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-f81a7046{}.cl-f7feaf28{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-f809ec4e{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f809ec62{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-f80a3abe{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f80a3ac8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f80a3ad2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f80a3ad3{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f80a3adc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-f80a3add{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-f81a7046">
+<style>.cl-e1ef39ac{}.cl-e1d5ca6c{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e1dee03e{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e1dee052{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e1df235a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1df2364{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1df236e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1df2378{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1df2379{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e1df2382{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-e1ef39ac">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">X.1</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">X</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">srvy</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">common_name</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">species_code</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">filter_lat_lt</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">filter_lat_gt</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">filter_depth</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">model_fn</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">model_family</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">model_anisotropy</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">model_spatiotemporal</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">file_name</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">effort</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">year</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">est</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">lwr</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">upr</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">log_est</span></p></th>
-<th class="cl-f80a3abe"><p class="cl-f809ec4e"><span class="cl-f7feaf28">se</span></p></th>
-<th class="cl-f80a3ac8"><p class="cl-f809ec62"><span class="cl-f7feaf28">type</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">X.1</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">X</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">srvy</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">common_name</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">species_code</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">filter_lat_lt</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">filter_lat_gt</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">filter_depth</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">model_fn</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">model_family</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">model_anisotropy</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">model_spatiotemporal</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">file_name</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">effort</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">year</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">est</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">lwr</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">upr</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">log_est</span></p></th>
+<th class="cl-e1df235a"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">se</span></p></th>
+<th class="cl-e1df2364"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">type</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">1</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">1</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">GOA</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead sole</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,130</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">delta_gamma</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">TRUE</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">iid, iid</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead_sole</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">08_3</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">1,990</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">13,633,865</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">11,327,310</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">16,410,100</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">16.42807</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">0.09456306</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">index</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">1</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">1</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">GOA</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead sole</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,130</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">delta_gamma</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">TRUE</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">iid, iid</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead_sole</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">08_3</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">1,990</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">13,633,865</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">11,327,310</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">16,410,100</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">16.42807</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">0.09456306</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">2</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">2</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">GOA</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead sole</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,130</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">delta_gamma</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">TRUE</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">iid, iid</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead_sole</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">08_3</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">1,993</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">12,573,858</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,014,298</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">15,787,616</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">16.34713</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">0.11612763</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">index</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">2</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">2</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">GOA</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead sole</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,130</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">delta_gamma</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">TRUE</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">iid, iid</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead_sole</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">08_3</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">1,993</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">12,573,858</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,014,298</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">15,787,616</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">16.34713</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">0.11612763</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">3</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">3</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">GOA</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead sole</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,130</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">delta_gamma</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">TRUE</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">iid, iid</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead_sole</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">08_3</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">1,996</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">9,991,137</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">7,583,964</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">13,162,355</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">16.11721</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">0.14064669</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">index</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">3</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">3</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">GOA</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead sole</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,130</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">delta_gamma</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">TRUE</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">iid, iid</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead_sole</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">08_3</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">1,996</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">9,991,137</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">7,583,964</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">13,162,355</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">16.11721</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">0.14064669</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">4</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">4</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">GOA</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead sole</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,130</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">delta_gamma</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">TRUE</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">iid, iid</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead_sole</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">08_3</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">1,999</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">7,146,546</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">5,486,662</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">9,308,594</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">15.78214</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">0.13485400</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">index</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">4</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">4</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">GOA</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead sole</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,130</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">delta_gamma</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">TRUE</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">iid, iid</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead_sole</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">08_3</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">1,999</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">7,146,546</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">5,486,662</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">9,308,594</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">15.78214</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">0.13485400</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">5</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">5</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">GOA</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead sole</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,130</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">delta_gamma</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">TRUE</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">iid, iid</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead_sole</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">08_3</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">2,001</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">11,322,791</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">8,269,930</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">15,502,623</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">16.24233</span></p></td>
-<td class="cl-f80a3ad2"><p class="cl-f809ec4e"><span class="cl-f7feaf28">0.16030479</span></p></td>
-<td class="cl-f80a3ad3"><p class="cl-f809ec62"><span class="cl-f7feaf28">index</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">5</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">5</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">GOA</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead sole</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,130</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">delta_gamma</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">TRUE</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">iid, iid</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead_sole</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">08_3</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">2,001</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">11,322,791</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">8,269,930</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">15,502,623</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">16.24233</span></p></td>
+<td class="cl-e1df236e"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">0.16030479</span></p></td>
+<td class="cl-e1df2378"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">6</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">6</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">GOA</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead sole</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">10,130</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28"></span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">delta_gamma</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">TRUE</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">iid, iid</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">flathead_sole</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">08_3</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">2,003</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">11,073,005</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">8,457,789</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">14,496,865</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">16.22002</span></p></td>
-<td class="cl-f80a3adc"><p class="cl-f809ec4e"><span class="cl-f7feaf28">0.13746288</span></p></td>
-<td class="cl-f80a3add"><p class="cl-f809ec62"><span class="cl-f7feaf28">index</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">6</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">6</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">GOA</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead sole</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">10,130</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c"></span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">delta_gamma</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">TRUE</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">iid, iid</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">flathead_sole</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">08_3</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">2,003</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">11,073,005</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">8,457,789</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">14,496,865</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">16.22002</span></p></td>
+<td class="cl-e1df2379"><p class="cl-e1dee03e"><span class="cl-e1d5ca6c">0.13746288</span></p></td>
+<td class="cl-e1df2382"><p class="cl-e1dee052"><span class="cl-e1d5ca6c">index</span></p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
   </div>
 

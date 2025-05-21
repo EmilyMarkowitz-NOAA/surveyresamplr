@@ -108,15 +108,7 @@
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># Set directories --------------------------------------------------------------</span></span>
-<span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://here.r-lib.org/" class="external-link">here</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; here() starts at Z:/Projects/surveyresamplr_general/surveyresamplr</span></span>
-<span></span>
-<span><span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org//reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/vignettes/"</span><span class="op">)</span></span>
-<span><span class="va">dir_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">wd</span>, <span class="st">"output/"</span><span class="op">)</span></span>
-<span><span class="va">dir_final</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_out</span>, <span class="st">"EBS_0results/"</span><span class="op">)</span></span></code></pre></div>
-<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="co"># get rid of memory limits</span></span>
+<code class="sourceCode R"><span><span class="co"># Get rid of memory limits -----------------------------------------------------</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/options.html" class="external-link">options</a></span><span class="op">(</span>future.globals.maxSize <span class="op">=</span> <span class="fl">1</span> <span class="op">*</span> <span class="fl">1024</span><span class="op">^</span><span class="fl">4</span><span class="op">)</span> <span class="co"># Allow up to 1 TB for globals</span></span>
 <span></span>
 <span><span class="co"># Install Libraries ------------------------------------------------------------</span></span>
@@ -125,36 +117,13 @@
 <span><span class="co"># We'll also use this in our works cited page.</span></span>
 <span><span class="va">PKG</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span></span>
 <span>  <span class="st">"surveyresamplr"</span>,</span>
-<span></span>
-<span>  <span class="co"># tidyverse</span></span>
 <span>  <span class="st">"dplyr"</span>,</span>
-<span>  <span class="st">"magrittr"</span>,</span>
 <span>  <span class="st">"tidyr"</span>,</span>
-<span>  <span class="st">"viridis"</span>,</span>
-<span>  <span class="st">"ggplot2"</span>,</span>
-<span>  <span class="st">"tibble"</span>,</span>
-<span>  <span class="st">"janitor"</span>,</span>
-<span>  <span class="st">"data.table"</span>,</span>
-<span></span>
-<span>  <span class="co"># parallelizing</span></span>
-<span>  <span class="st">"forcats"</span>,</span>
 <span>  <span class="st">"purrr"</span>,</span>
-<span>  <span class="st">"furrr"</span>,</span>
-<span>  <span class="st">"doParallel"</span>,</span>
-<span></span>
-<span>  <span class="co"># sampling</span></span>
-<span>  <span class="st">"sampling"</span>,</span>
-<span></span>
-<span>  <span class="co"># modeling</span></span>
-<span>  <span class="st">"arrow"</span>,</span>
-<span>  <span class="st">"future.apply"</span>,</span>
+<span>  <span class="st">"ggplot2"</span>,</span>
 <span>  <span class="st">"future.callr"</span>,</span>
-<span>  <span class="st">"sdmTMB"</span>, <span class="co"># install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",</span></span>
-<span>  <span class="st">"Matrix"</span>,</span>
-<span>  <span class="st">"MASS"</span>,</span>
-<span>  <span class="st">"cluster"</span>,</span>
-<span>  <span class="st">"TMB"</span>,</span>
-<span>  <span class="st">"INLA"</span></span>
+<span>  <span class="st">"flextable"</span>, </span>
+<span>  <span class="st">"sdmTMB"</span></span>
 <span><span class="op">)</span></span>
 <span></span>
 <span><span class="va">pkg_install</span> <span class="op">&lt;-</span> <span class="kw">function</span><span class="op">(</span><span class="va">p</span><span class="op">)</span> <span class="op">{</span></span>
@@ -164,7 +133,61 @@
 <span>  <span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">require</a></span><span class="op">(</span><span class="va">p</span>, character.only <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span></span>
 <span><span class="op">}</span></span>
 <span><span class="fu">base</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/r/base/lapply.html" class="external-link">lapply</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/unique.html" class="external-link">unique</a></span><span class="op">(</span><span class="va">PKG</span><span class="op">)</span>, <span class="va">pkg_install</span><span class="op">)</span></span>
+<span><span class="co">#&gt; Loading required package: surveyresamplr</span></span>
+<span><span class="co">#&gt; Loading required package: dplyr</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'dplyr'</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:stats':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     filter, lag</span></span>
+<span><span class="co">#&gt; The following objects are masked from 'package:base':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     intersect, setdiff, setequal, union</span></span>
+<span><span class="co">#&gt; Loading required package: tidyr</span></span>
+<span><span class="co">#&gt; Loading required package: purrr</span></span>
+<span><span class="co">#&gt; Loading required package: ggplot2</span></span>
+<span><span class="co">#&gt; Loading required package: future.callr</span></span>
+<span><span class="co">#&gt; Loading required package: future</span></span>
+<span><span class="co">#&gt; Loading required package: flextable</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; Attaching package: 'flextable'</span></span>
+<span><span class="co">#&gt; The following object is masked from 'package:purrr':</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt;     compose</span></span>
+<span><span class="co">#&gt; Loading required package: sdmTMB</span></span>
+<span><span class="co">#&gt; [[1]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[2]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[3]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[4]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[5]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[6]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[7]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; [[8]]</span></span>
+<span><span class="co">#&gt; [1] TRUE</span></span>
 <span></span>
+<span><span class="co"># Set directories --------------------------------------------------------------</span></span>
+<span><span class="va">wd</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="fu">here</span><span class="fu">::</span><span class="fu"><a href="https://here.r-lib.org/reference/here.html" class="external-link">here</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"/vignettes/"</span><span class="op">)</span></span>
+<span><span class="va">dir_out</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">wd</span>, <span class="st">"output/"</span><span class="op">)</span></span>
+<span><span class="va">dir_final</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_out</span>, <span class="st">"EBS_0results/"</span><span class="op">)</span></span></code></pre></div>
+<div class="section level2">
+<h2 id="run-scenarios">Run scenarios<a class="anchor" aria-label="anchor" href="#run-scenarios"></a>
+</h2>
+<div class="sourceCode" id="cb2"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span></span>
 <span><span class="co">### Define study species -------------------------------------------------------</span></span>
 <span></span>
 <span><span class="va">spp_list</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
@@ -187,8 +210,8 @@
 <span>  model_fn <span class="op">=</span> <span class="st">"total_catch_wt_kg ~ 0 + factor(year) + bottom_temperature_c"</span>,</span>
 <span>  model_family <span class="op">=</span> <span class="st">"delta_gamma"</span>,</span>
 <span>  model_anisotropy <span class="op">=</span> <span class="cn">TRUE</span>,</span>
-<span>  model_spatiotemporal <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"iid, iid"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>  model_spatiotemporal <span class="op">=</span> <span class="st">"iid, iid"</span></span>
+<span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/mutate.html" class="external-link">mutate</a></span><span class="op">(</span></span>
 <span>    file_name <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/grep.html" class="external-link">gsub</a></span><span class="op">(</span>pattern <span class="op">=</span> <span class="st">" "</span>, replacement <span class="op">=</span> <span class="st">"_"</span>, x <span class="op">=</span> <span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/chartr.html" class="external-link">tolower</a></span><span class="op">(</span><span class="va">common_name</span><span class="op">)</span><span class="op">)</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
@@ -198,7 +221,7 @@
 <span><span class="co"># source(paste0(wd, "code/data_dl_ak.r"))</span></span>
 <span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/load.html" class="external-link">load</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">wd</span>, <span class="st">"/data/noaa_afsc_catch.rda"</span><span class="op">)</span><span class="op">)</span></span>
-<span><span class="va">catch</span> <span class="op">&lt;-</span> <span class="va">noaa_afsc_catch</span> <span class="op">%&gt;%</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">srvy</span> <span class="op">==</span> <span class="st">"EBS"</span><span class="op">)</span></span>
+<span><span class="va">catch</span> <span class="op">&lt;-</span> <span class="va">noaa_afsc_catch</span> <span class="op">|&gt;</span> <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/filter.html" class="external-link">filter</a></span><span class="op">(</span><span class="va">srvy</span> <span class="op">==</span> <span class="st">"EBS"</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co">### Load grid data -------------------------------------------------------------</span></span>
 <span></span>
@@ -212,11 +235,11 @@
 <span><span class="va">grid_yrs</span> <span class="op">&lt;-</span></span>
 <span>  <span class="fu">dplyr</span><span class="fu">::</span><span class="fu"><a href="https://dplyr.tidyverse.org/reference/bind_cols.html" class="external-link">bind_cols</a></span><span class="op">(</span></span>
 <span>    <span class="va">pred_grid_depth</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"longitude_dd"</span>, <span class="st">"latitude_dd"</span>, <span class="st">"depth_m"</span><span class="op">)</span><span class="op">]</span>,</span>
-<span>    <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/wrap.html" class="external-link">unwrap</a></span><span class="op">(</span><span class="fu">coldpool</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/coldpool/man/ebs_bottom_temperature.html" class="external-link">ebs_bottom_temperature</a></span><span class="op">)</span> <span class="op">%&gt;%</span></span>
-<span>      <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">crs_latlon</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span>    <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/wrap.html" class="external-link">unwrap</a></span><span class="op">(</span><span class="fu">coldpool</span><span class="fu">::</span><span class="va"><a href="https://rdrr.io/pkg/coldpool/man/ebs_bottom_temperature.html" class="external-link">ebs_bottom_temperature</a></span><span class="op">)</span> <span class="op">|&gt;</span></span>
+<span>      <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/project.html" class="external-link">project</a></span><span class="op">(</span><span class="va">crs_latlon</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>      <span class="fu">terra</span><span class="fu">::</span><span class="fu"><a href="https://rspatial.github.io/terra/reference/extract.html" class="external-link">extract</a></span><span class="op">(</span><span class="va">pred_grid_depth</span><span class="op">[</span>, <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"longitude_dd"</span>, <span class="st">"latitude_dd"</span><span class="op">)</span><span class="op">]</span><span class="op">)</span></span>
 <span>  <span class="op">)</span></span>
-<span><span class="va">grid_yrs</span> <span class="op">&lt;-</span> <span class="va">grid_yrs</span> <span class="op">%&gt;%</span></span>
+<span><span class="va">grid_yrs</span> <span class="op">&lt;-</span> <span class="va">grid_yrs</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">tidyr</span><span class="fu">::</span><span class="fu"><a href="https://tidyr.tidyverse.org/reference/pivot_longer.html" class="external-link">pivot_longer</a></span><span class="op">(</span></span>
 <span>    names_to <span class="op">=</span> <span class="st">"year"</span>,</span>
 <span>    values_to <span class="op">=</span> <span class="st">"bottom_temperature_c"</span>,</span>
@@ -225,7 +248,7 @@
 <span><span class="fu"><a href="https://rdrr.io/r/base/save.html" class="external-link">save</a></span><span class="op">(</span><span class="va">grid_yrs_depth_temperature</span>, file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="st">"grids/grid_yr_temperature/noaa_afsc_ebs_pred_grid_depth_temperature.rdata"</span><span class="op">)</span><span class="op">)</span></span>
 <span></span>
 <span><span class="co"># # test you extracted correctkt</span></span>
-<span><span class="co"># ggplot(data = grid_yrs %&gt;%</span></span>
+<span><span class="co"># ggplot(data = grid_yrs |&gt;</span></span>
 <span><span class="co">#          dplyr::filter(year %in% c(2022:2024)),</span></span>
 <span><span class="co">#        mapping = ggplot2::aes(x = longitude_dd, y = latitude_dd, color = bottom_temperature_c)) +</span></span>
 <span><span class="co">#   geom_point() +</span></span>
@@ -242,8 +265,7 @@
 <span></span>
 <span><span class="co">### Run ------------------------------------------------------------------------</span></span>
 <span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink</a></span><span class="op">(</span>file <span class="op">=</span> <span class="fu"><a href="https://rdrr.io/r/base/paste.html" class="external-link">paste0</a></span><span class="op">(</span><span class="va">dir_out</span>, <span class="va">srvy</span>, <span class="st">"_"</span>, <span class="fu"><a href="https://rdrr.io/r/base/Sys.time.html" class="external-link">Sys.Date</a></span><span class="op">(</span><span class="op">)</span>, <span class="st">"_logfile.txt"</span><span class="op">)</span>, append <span class="op">=</span> <span class="cn">FALSE</span>, split <span class="op">=</span> <span class="cn">TRUE</span><span class="op">)</span> <span class="co"># for screen and log</span></span>
-<span><span class="fu">map</span><span class="op">(</span></span>
+<span><span class="fu">purrr</span><span class="fu">::</span><span class="fu"><a href="https://purrr.tidyverse.org/reference/map.html" class="external-link">map</a></span><span class="op">(</span></span>
 <span>  <span class="fl">1</span><span class="op">:</span><span class="fu"><a href="https://rdrr.io/r/base/nrow.html" class="external-link">nrow</a></span><span class="op">(</span><span class="va">spp_list</span><span class="op">)</span>,</span>
 <span>  <span class="op">~</span> <span class="fu"><a href="../reference/clean_and_resample.html">clean_and_resample</a></span><span class="op">(</span><span class="va">spp_list</span><span class="op">[</span><span class="va">.x</span>, <span class="op">]</span>,</span>
 <span>    <span class="va">catch</span>, <span class="va">seq_from</span>, <span class="va">seq_to</span>, <span class="va">seq_by</span>,</span>
@@ -251,7 +273,8 @@
 <span>    test <span class="op">=</span> <span class="cn">TRUE</span></span>
 <span>  <span class="op">)</span></span>
 <span><span class="op">)</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/base/sink.html" class="external-link">sink</a></span><span class="op">(</span><span class="op">)</span></span>
+<span></span>
+<span><span class="co">### Plot indices ---------------------------------------------------------------</span></span>
 <span></span>
 <span><span class="va">out</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/plot_results.html">plot_results</a></span><span class="op">(</span>srvy <span class="op">=</span> <span class="va">srvy</span>, dir_out <span class="op">=</span> <span class="va">dir_out</span>, dir_final <span class="op">=</span> <span class="va">dir_final</span><span class="op">)</span></span></code></pre></div>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
@@ -272,186 +295,186 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fit_df"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-e6c42936{}.cl-e6a584d6{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e6b0f64a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e6b0f654{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e6b13aa6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e6b13ab0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e6b13aba{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e6b13ac4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e6b13ac5{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e6b13ace{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-e6c42936">
+<style>.cl-cfed28c2{}.cl-cfd1f8cc{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-cfdb269a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-cfdb26a4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-cfdb6cb8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cfdb6cc2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cfdb6ccc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cfdb6cd6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cfdb6cd7{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-cfdb6cd8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-cfed28c2">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">X.5</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">X.4</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">X.3</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">X.2</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">X.1</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">X</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">srvy</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">common_name</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">file_name</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">species_code</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">filter_lat_lt</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">filter_lat_gt</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">filter_depth</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">model_fn</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">model_family</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">model_anisotropy</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">model_spatiotemporal</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">effort</span></p></th>
-<th class="cl-e6b13ab0"><p class="cl-e6b0f654"><span class="cl-e6a584d6">term</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">estimate</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">std.error</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">conf.low</span></p></th>
-<th class="cl-e6b13aa6"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">conf.high</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">X.5</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">X.4</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">X.3</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">X.2</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">X.1</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">X</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">srvy</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">common_name</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">file_name</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">species_code</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">filter_lat_lt</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">filter_lat_gt</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">filter_depth</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">model_fn</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">model_family</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">model_anisotropy</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">model_spatiotemporal</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">effort</span></p></th>
+<th class="cl-cfdb6cc2"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">term</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">estimate</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">std.error</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">conf.low</span></p></th>
+<th class="cl-cfdb6cb8"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">conf.high</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">EBS</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye pollock</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye_pollock_test</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">21,740</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">delta_gamma</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">TRUE</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">iid, iid</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">05_1</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">factor(year)2015</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">19.77117</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1,391.123</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">-2,706.781</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2,746.323</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">EBS</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye pollock</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye_pollock_test</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">21,740</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">delta_gamma</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">TRUE</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">iid, iid</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">05_1</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">factor(year)2015</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">19.77117</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1,391.123</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">-2,706.781</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2,746.323</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">EBS</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye pollock</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye_pollock_test</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">21,740</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">delta_gamma</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">TRUE</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">iid, iid</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">05_1</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">factor(year)2016</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">19.90634</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1,384.990</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">-2,694.625</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2,734.437</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">EBS</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye pollock</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye_pollock_test</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">21,740</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">delta_gamma</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">TRUE</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">iid, iid</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">05_1</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">factor(year)2016</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">19.90634</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1,384.990</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">-2,694.625</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2,734.437</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">3</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">3</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">3</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">3</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">3</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">3</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">EBS</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye pollock</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye_pollock_test</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">21,740</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">delta_gamma</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">TRUE</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">iid, iid</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">05_1</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">factor(year)2017</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">19.86007</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1,340.321</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">-2,607.120</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2,646.840</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">3</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">3</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">3</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">3</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">3</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">3</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">EBS</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye pollock</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye_pollock_test</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">21,740</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">delta_gamma</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">TRUE</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">iid, iid</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">05_1</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">factor(year)2017</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">19.86007</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1,340.321</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">-2,607.120</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2,646.840</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">4</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">4</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">4</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">4</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">4</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">4</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">EBS</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye pollock</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye_pollock_test</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">21,740</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">delta_gamma</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">TRUE</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">iid, iid</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">05_1</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">factor(year)2018</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">19.80071</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1,454.167</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">-2,830.315</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2,869.916</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">4</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">4</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">4</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">4</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">4</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">4</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">EBS</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye pollock</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye_pollock_test</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">21,740</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">delta_gamma</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">TRUE</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">iid, iid</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">05_1</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">factor(year)2018</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">19.80071</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1,454.167</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">-2,830.315</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2,869.916</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">5</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">5</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">5</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">5</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">5</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">5</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">EBS</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye pollock</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye_pollock_test</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">21,740</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">delta_gamma</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">TRUE</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">iid, iid</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">05_1</span></p></td>
-<td class="cl-e6b13ac4"><p class="cl-e6b0f654"><span class="cl-e6a584d6">factor(year)2019</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">20.11844</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1,272.466</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">-2,473.869</span></p></td>
-<td class="cl-e6b13aba"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2,514.106</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">5</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">5</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">5</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">5</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">5</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">5</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">EBS</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye pollock</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye_pollock_test</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">21,740</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">delta_gamma</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">TRUE</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">iid, iid</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">05_1</span></p></td>
+<td class="cl-cfdb6cd6"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">factor(year)2019</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">20.11844</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1,272.466</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">-2,473.869</span></p></td>
+<td class="cl-cfdb6ccc"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2,514.106</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">6</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">6</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">6</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">6</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">6</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">6</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">EBS</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye pollock</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">walleye_pollock_test</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">21,740</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6"></span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">delta_gamma</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">TRUE</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">iid, iid</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">05_1</span></p></td>
-<td class="cl-e6b13ace"><p class="cl-e6b0f654"><span class="cl-e6a584d6">factor(year)2021</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">19.71943</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">1,278.253</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">-2,485.611</span></p></td>
-<td class="cl-e6b13ac5"><p class="cl-e6b0f64a"><span class="cl-e6a584d6">2,525.050</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">6</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">6</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">6</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">6</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">6</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">6</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">EBS</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye pollock</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">walleye_pollock_test</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">21,740</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc"></span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">delta_gamma</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">TRUE</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">iid, iid</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">05_1</span></p></td>
+<td class="cl-cfdb6cd8"><p class="cl-cfdb26a4"><span class="cl-cfd1f8cc">factor(year)2021</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">19.71943</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">1,278.253</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">-2,485.611</span></p></td>
+<td class="cl-cfdb6cd7"><p class="cl-cfdb269a"><span class="cl-cfd1f8cc">2,525.050</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -460,186 +483,186 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">i</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fit_pars"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-e72811ee{}.cl-e70999ee{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e714bd74{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e714bd92{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e71500ae{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71500c2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71500cc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71500d6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71500d7{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e71500e0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-e72811ee">
+<style>.cl-d052ef36{}.cl-d03ac140{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d042af9a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d042afa4{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d042ecd0{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d042ecda{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d042ece4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d042ecee{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d042ecef{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d042ecf8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-d052ef36">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">X.5</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">X.4</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">X.3</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">X.2</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">X.1</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">X</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">srvy</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">common_name</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">file_name</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">species_code</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">filter_lat_lt</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">filter_lat_gt</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">filter_depth</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">model_fn</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">model_family</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">model_anisotropy</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">model_spatiotemporal</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">effort</span></p></th>
-<th class="cl-e71500c2"><p class="cl-e714bd92"><span class="cl-e70999ee">term</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">estimate</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">std.error</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">conf.low</span></p></th>
-<th class="cl-e71500ae"><p class="cl-e714bd74"><span class="cl-e70999ee">conf.high</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">X.5</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">X.4</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">X.3</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">X.2</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">X.1</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">X</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">srvy</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">common_name</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">file_name</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">species_code</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">filter_lat_lt</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">filter_lat_gt</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">filter_depth</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">model_fn</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">model_family</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">model_anisotropy</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">model_spatiotemporal</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">effort</span></p></th>
+<th class="cl-d042ecda"><p class="cl-d042afa4"><span class="cl-d03ac140">term</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">estimate</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">std.error</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">conf.low</span></p></th>
+<th class="cl-d042ecd0"><p class="cl-d042af9a"><span class="cl-d03ac140">conf.high</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">1</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">1</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">1</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">1</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">1</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">1</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">EBS</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye pollock</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye_pollock_test</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">21,740</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">delta_gamma</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">TRUE</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">iid, iid</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">05_1</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">range</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3.7298099</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3,393.6903</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">0</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">Inf</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">1</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">1</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">1</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">1</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">1</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">1</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">EBS</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye pollock</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye_pollock_test</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">21,740</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">delta_gamma</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">TRUE</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">iid, iid</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">05_1</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">range</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3.7298099</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3,393.6903</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">0</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">EBS</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye pollock</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye_pollock_test</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">21,740</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">delta_gamma</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">TRUE</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">iid, iid</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">05_1</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">sigma_O</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">0.1812892</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">140.5073</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">0</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">Inf</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">EBS</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye pollock</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye_pollock_test</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">21,740</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">delta_gamma</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">TRUE</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">iid, iid</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">05_1</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">sigma_O</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">0.1812892</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">140.5073</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">0</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">3</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">EBS</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye pollock</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye_pollock_test</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">21,740</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">delta_gamma</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">TRUE</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">iid, iid</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">05_1</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">sigma_E</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">0.3717503</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">336.2267</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">0</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">Inf</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">3</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">EBS</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye pollock</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye_pollock_test</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">21,740</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">delta_gamma</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">TRUE</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">iid, iid</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">05_1</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">sigma_E</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">0.3717503</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">336.2267</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">0</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">Inf</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">4</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">4</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">4</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">4</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">4</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">EBS</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye pollock</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye_pollock_test</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">21,740</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">delta_gamma</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">TRUE</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">iid, iid</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">05_2</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">range</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">2.8284007</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">4</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">4</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">4</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">4</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">4</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">EBS</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye pollock</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye_pollock_test</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">21,740</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">delta_gamma</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">TRUE</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">iid, iid</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">05_2</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">range</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">2.8284007</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">5</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">5</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">5</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">5</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">5</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">EBS</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye pollock</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye_pollock_test</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">21,740</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">delta_gamma</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">TRUE</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">iid, iid</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">05_2</span></p></td>
-<td class="cl-e71500d6"><p class="cl-e714bd92"><span class="cl-e70999ee">sigma_O</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee">0.2820909</span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500cc"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">5</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">5</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">5</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">5</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">5</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">EBS</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye pollock</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye_pollock_test</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">21,740</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">delta_gamma</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">TRUE</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">iid, iid</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">05_2</span></p></td>
+<td class="cl-d042ecee"><p class="cl-d042afa4"><span class="cl-d03ac140">sigma_O</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140">0.2820909</span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ece4"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">6</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">6</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">6</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">6</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">6</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">EBS</span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye pollock</span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">walleye_pollock_test</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">21,740</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">delta_gamma</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">TRUE</span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">iid, iid</span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">05_2</span></p></td>
-<td class="cl-e71500e0"><p class="cl-e714bd92"><span class="cl-e70999ee">sigma_E</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee">0.2820909</span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
-<td class="cl-e71500d7"><p class="cl-e714bd74"><span class="cl-e70999ee"></span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">6</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">6</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">6</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">6</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">6</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">EBS</span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye pollock</span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">walleye_pollock_test</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">21,740</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">delta_gamma</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">TRUE</span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">iid, iid</span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">05_2</span></p></td>
+<td class="cl-d042ecf8"><p class="cl-d042afa4"><span class="cl-d03ac140">sigma_E</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140">0.2820909</span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
+<td class="cl-d042ecef"><p class="cl-d042af9a"><span class="cl-d03ac140"></span></p></td>
 </tr>
 </tbody>
 </table>
@@ -648,214 +671,214 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">i</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "fit_check"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-e79cae82{}.cl-e77e5c84{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e787d17e{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e787d19c{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e7881350{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e788135a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7881364{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7881365{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7881378{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7881379{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-e79cae82">
+<style>.cl-d0bfefdc{}.cl-d0a4e7aa{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d0adcd2a{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d0adcd48{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d0ae0c7c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d0ae0c86{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d0ae0c90{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d0ae0c9a{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d0ae0ca4{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d0ae0ca5{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-d0bfefdc">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">X.5</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">X.4</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">X.3</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">X.2</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">X.1</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">X</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">srvy</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">common_name</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">file_name</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">species_code</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">filter_lat_lt</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">filter_lat_gt</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">filter_depth</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">model_fn</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">model_family</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">model_anisotropy</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">model_spatiotemporal</span></p></th>
-<th class="cl-e788135a"><p class="cl-e787d19c"><span class="cl-e77e5c84">effort</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">hessian_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">eigen_values_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">nlminb_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">range_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">gradients_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">se_magnitude_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">se_na_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">sigmas_ok</span></p></th>
-<th class="cl-e7881350"><p class="cl-e787d17e"><span class="cl-e77e5c84">all_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">X.5</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">X.4</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">X.3</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">X.2</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">X.1</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">X</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">srvy</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">common_name</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">file_name</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">species_code</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">filter_lat_lt</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">filter_lat_gt</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">filter_depth</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">model_fn</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">model_family</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">model_anisotropy</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">model_spatiotemporal</span></p></th>
+<th class="cl-d0ae0c86"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">effort</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">hessian_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">eigen_values_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">nlminb_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">range_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">gradients_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">se_magnitude_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">se_na_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">sigmas_ok</span></p></th>
+<th class="cl-d0ae0c7c"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">all_ok</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">1</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">EBS</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye pollock</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye_pollock_test</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">21,740</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">delta_gamma</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">iid, iid</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">05_1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">1</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">EBS</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye pollock</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye_pollock_test</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">21,740</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">delta_gamma</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">iid, iid</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">05_1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">EBS</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye pollock</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye_pollock_test</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">21,740</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">delta_gamma</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">iid, iid</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">05_2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">EBS</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye pollock</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye_pollock_test</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">21,740</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">delta_gamma</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">iid, iid</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">05_2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">3</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">3</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">3</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">3</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">EBS</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye pollock</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye_pollock_test</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">21,740</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">delta_gamma</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">iid, iid</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">05_3</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">3</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">3</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">3</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">3</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">EBS</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye pollock</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye_pollock_test</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">21,740</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">delta_gamma</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">iid, iid</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">05_3</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">4</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">4</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">4</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">EBS</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye pollock</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">simple_walleye_pollock</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">21,740</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">delta_gamma</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">iid, iid</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">05_1</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">4</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">4</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">4</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">EBS</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye pollock</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">simple_walleye_pollock</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">21,740</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">delta_gamma</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">iid, iid</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">05_1</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">5</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">5</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">EBS</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye pollock</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">simple_walleye_pollock</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">21,740</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">delta_gamma</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">iid, iid</span></p></td>
-<td class="cl-e7881365"><p class="cl-e787d19c"><span class="cl-e77e5c84">05_2</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881364"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">5</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">5</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">EBS</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye pollock</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">simple_walleye_pollock</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">21,740</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">delta_gamma</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">iid, iid</span></p></td>
+<td class="cl-d0ae0c9a"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">05_2</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0c90"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">6</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">EBS</span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">walleye pollock</span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">simple_walleye_pollock</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">21,740</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84"></span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">delta_gamma</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">iid, iid</span></p></td>
-<td class="cl-e7881379"><p class="cl-e787d19c"><span class="cl-e77e5c84">05_3</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">TRUE</span></p></td>
-<td class="cl-e7881378"><p class="cl-e787d17e"><span class="cl-e77e5c84">FALSE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">6</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">EBS</span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">walleye pollock</span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">simple_walleye_pollock</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">21,740</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa"></span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">delta_gamma</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">iid, iid</span></p></td>
+<td class="cl-d0ae0ca5"><p class="cl-d0adcd48"><span class="cl-d0a4e7aa">05_3</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">TRUE</span></p></td>
+<td class="cl-d0ae0ca4"><p class="cl-d0adcd2a"><span class="cl-d0a4e7aa">FALSE</span></p></td>
 </tr>
 </tbody>
 </table>
@@ -864,203 +887,204 @@
 <code class="sourceCode R"><span><span class="va">i</span> <span class="op">&lt;-</span> <span class="fl">1</span> <span class="op">+</span> <span class="va">i</span></span>
 <span><span class="fu"><a href="https://rdrr.io/r/base/print.html" class="external-link">print</a></span><span class="op">(</span><span class="fu"><a href="https://rdrr.io/r/base/names.html" class="external-link">names</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">)</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">)</span></span>
 <span><span class="co">#&gt; [1] "index"</span></span>
-<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">%&gt;%</span></span>
+<span><span class="fu"><a href="https://rdrr.io/r/utils/head.html" class="external-link">head</a></span><span class="op">(</span><span class="va">out</span><span class="op">$</span><span class="va">tables</span><span class="op">[</span><span class="va">i</span><span class="op">]</span><span class="op">[[</span><span class="fl">1</span><span class="op">]</span><span class="op">]</span><span class="op">)</span> <span class="op">|&gt;</span></span>
 <span>  <span class="fu">flextable</span><span class="fu">::</span><span class="fu"><a href="https://davidgohel.github.io/flextable/reference/flextable.html" class="external-link">flextable</a></span><span class="op">(</span><span class="op">)</span></span></code></pre></div>
 <div class="tabwid">
-<style>.cl-e7fc75f6{}.cl-e7e6493e{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-e7edd3fc{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e7edd410{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-e7ee1894{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7ee18a8{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7ee18b2{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7ee18bc{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7ee18c6{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-e7ee18c7{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
-<table data-quarto-disable-processing="true" class="table cl-e7fc75f6">
+<style>.cl-d11f76aa{}.cl-d104a988{font-family:'Arial';font-size:11pt;font-weight:normal;font-style:normal;text-decoration:none;color:rgba(0, 0, 0, 1.00);background-color:transparent;}.cl-d10fcb4c{margin:0;text-align:right;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d10fcb6a{margin:0;text-align:left;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);padding-bottom:5pt;padding-top:5pt;padding-left:5pt;padding-right:5pt;line-height: 1;background-color:transparent;}.cl-d1101034{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d110103e{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 1.5pt solid rgba(102, 102, 102, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d1101048{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d1101052{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 0 solid rgba(0, 0, 0, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d1101053{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}.cl-d110105c{width:0.75in;background-color:transparent;vertical-align: middle;border-bottom: 1.5pt solid rgba(102, 102, 102, 1.00);border-top: 0 solid rgba(0, 0, 0, 1.00);border-left: 0 solid rgba(0, 0, 0, 1.00);border-right: 0 solid rgba(0, 0, 0, 1.00);margin-bottom:0;margin-top:0;margin-left:0;margin-right:0;}</style>
+<table data-quarto-disable-processing="true" class="table cl-d11f76aa">
 <thead><tr style="overflow-wrap:break-word;">
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">X.5</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">X.4</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">X.3</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">X.2</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">X.1</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">X</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">srvy</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">common_name</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">file_name</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">species_code</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">filter_lat_lt</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">filter_lat_gt</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">filter_depth</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">model_fn</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">model_family</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">model_anisotropy</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">model_spatiotemporal</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">effort</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">year</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">est</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">lwr</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">upr</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">log_est</span></p></th>
-<th class="cl-e7ee1894"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">se</span></p></th>
-<th class="cl-e7ee18a8"><p class="cl-e7edd410"><span class="cl-e7e6493e">type</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">X.5</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">X.4</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">X.3</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">X.2</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">X.1</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">X</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">srvy</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">common_name</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">file_name</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">species_code</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">filter_lat_lt</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">filter_lat_gt</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">filter_depth</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">model_fn</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">model_family</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">model_anisotropy</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">model_spatiotemporal</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">effort</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">year</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">est</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">lwr</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">upr</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">log_est</span></p></th>
+<th class="cl-d1101034"><p class="cl-d10fcb4c"><span class="cl-d104a988">se</span></p></th>
+<th class="cl-d110103e"><p class="cl-d10fcb6a"><span class="cl-d104a988">type</span></p></th>
 </tr></thead>
 <tbody>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">1</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">EBS</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye pollock</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye_pollock_test</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">21,740</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">delta_gamma</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">TRUE</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">iid, iid</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">05_1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2,015</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">311,329,658</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">254,290,109</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">381,163,688</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">19.55636</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">0.1032552</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">index</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">1</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">EBS</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye pollock</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye_pollock_test</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">21,740</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">delta_gamma</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">TRUE</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">iid, iid</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">05_1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2,015</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">311,329,658</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">254,290,109</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">381,163,688</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">19.55636</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">0.1032552</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">EBS</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye pollock</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye_pollock_test</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">21,740</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">delta_gamma</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">TRUE</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">iid, iid</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">05_1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2,016</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">245,697,312</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">201,795,592</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">299,150,087</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">19.31961</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">0.1004330</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">index</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">EBS</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye pollock</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye_pollock_test</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">21,740</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">delta_gamma</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">TRUE</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">iid, iid</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">05_1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2,016</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">245,697,312</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">201,795,592</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">299,150,087</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">19.31961</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">0.1004330</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">3</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">3</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">3</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">3</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">3</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">3</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">EBS</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye pollock</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye_pollock_test</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">21,740</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">delta_gamma</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">TRUE</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">iid, iid</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">05_1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2,017</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">241,587,105</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">198,504,083</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">294,020,799</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">19.30274</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">0.1002163</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">index</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">3</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">3</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">3</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">3</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">3</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">3</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">EBS</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye pollock</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye_pollock_test</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">21,740</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">delta_gamma</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">TRUE</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">iid, iid</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">05_1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2,017</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">241,587,105</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">198,504,083</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">294,020,799</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">19.30274</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">0.1002163</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">4</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">4</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">4</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">4</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">4</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">4</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">EBS</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye pollock</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye_pollock_test</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">21,740</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">delta_gamma</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">TRUE</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">iid, iid</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">05_1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2,018</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">127,954,658</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">101,264,147</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">161,680,073</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">18.66719</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">0.1193611</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">index</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">4</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">4</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">4</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">4</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">4</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">4</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">EBS</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye pollock</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye_pollock_test</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">21,740</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">delta_gamma</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">TRUE</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">iid, iid</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">05_1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2,018</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">127,954,658</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">101,264,147</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">161,680,073</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">18.66719</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">0.1193611</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">5</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">5</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">5</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">5</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">5</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">5</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">EBS</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye pollock</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye_pollock_test</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">21,740</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">delta_gamma</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">TRUE</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">iid, iid</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">05_1</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2,019</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">206,496,853</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">166,663,257</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">255,850,936</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">19.14580</span></p></td>
-<td class="cl-e7ee18b2"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">0.1093438</span></p></td>
-<td class="cl-e7ee18bc"><p class="cl-e7edd410"><span class="cl-e7e6493e">index</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">5</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">5</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">5</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">5</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">5</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">5</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">EBS</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye pollock</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye_pollock_test</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">21,740</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">delta_gamma</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">TRUE</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">iid, iid</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">05_1</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">2,019</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">206,496,853</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">166,663,257</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">255,850,936</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">19.14580</span></p></td>
+<td class="cl-d1101048"><p class="cl-d10fcb4c"><span class="cl-d104a988">0.1093438</span></p></td>
+<td class="cl-d1101052"><p class="cl-d10fcb6a"><span class="cl-d104a988">index</span></p></td>
 </tr>
 <tr style="overflow-wrap:break-word;">
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">6</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">6</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">6</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">6</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">6</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">6</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">EBS</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye pollock</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">walleye_pollock_test</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">21,740</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e"></span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">delta_gamma</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">TRUE</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">iid, iid</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">05_1</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">2,021</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">142,822,421</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">115,820,004</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">176,120,214</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">18.77711</span></p></td>
-<td class="cl-e7ee18c6"><p class="cl-e7edd3fc"><span class="cl-e7e6493e">0.1069228</span></p></td>
-<td class="cl-e7ee18c7"><p class="cl-e7edd410"><span class="cl-e7e6493e">index</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">6</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">6</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">6</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">6</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">6</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">6</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">EBS</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye pollock</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">walleye_pollock_test</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">21,740</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988"></span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">total_catch_wt_kg ~ 0 + factor(year)</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">delta_gamma</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">TRUE</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">iid, iid</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">05_1</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">2,021</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">142,822,421</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">115,820,004</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">176,120,214</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">18.77711</span></p></td>
+<td class="cl-d1101053"><p class="cl-d10fcb4c"><span class="cl-d104a988">0.1069228</span></p></td>
+<td class="cl-d110105c"><p class="cl-d10fcb6a"><span class="cl-d104a988">index</span></p></td>
 </tr>
 </tbody>
 </table>
+</div>
 </div>
   </div>
 

@@ -153,7 +153,9 @@ replicates - (replicates - 1). 5x3-2</p></dd>
 <span class="r-in"><span>  tot_dataframes <span class="op">=</span> <span class="fl">91</span>,</span></span>
 <span class="r-in"><span>  replicate_num <span class="op">=</span> <span class="fl">10</span></span></span>
 <span class="r-in"><span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in catch %&gt;% dplyr::filter(common_name == spp_info$common_name):</span> could not find function "%&gt;%"</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in dplyr::filter(catch, common_name == spp_info$common_name):</span> <span style="color: #00BBBB;">ℹ</span> In argument: `common_name == spp_info$common_name`.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="font-weight: bold;">Caused by error:</span></span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span style="color: #BBBB00;">!</span> object 'spp_info' not found</span>
 </code></pre></div>
     </div>
   </div>
