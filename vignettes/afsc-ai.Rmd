@@ -46,6 +46,7 @@ wd <- paste0(here::here(), "/vignettes/")
 dir_out <- paste0(wd, "output/")
 dir_final <- paste0(dir_out, "AI_0results/")
 ```
+
 # Run scenarios
 
 ```{r eval = FALSE}
