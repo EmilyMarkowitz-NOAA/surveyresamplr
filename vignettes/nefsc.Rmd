@@ -80,10 +80,6 @@ spp_list <-
 
 spp_list <- spp_list[1:3, ]
 
-### Load grid data -------------------------------------------------------------
-
-grid_yrs <- replicate_df(surveyresamplr::noaa_nefsc_pred_grid_depth, "year", unique(catch$year))
-
 ### Variables ------------------------------------------------------------------
 
 seq_from <- 0.2
@@ -106,7 +102,11 @@ dir_final <- paste0(dir_out, "NWA_SPRING_0results/")
 ```{r eval = FALSE}
 ### Load survey data -----------------------------------------------------------
 
-catch <- surveyresamplr::noaa_nefsc_catch |> dplyr::filter(srvy == "FALL")
+catch <- surveyresamplr::noaa_nefsc_catch |> dplyr::filter(srvy == "SPRING")
+
+### Load grid data -------------------------------------------------------------
+
+grid_yrs <- replicate_df(surveyresamplr::noaa_nefsc_pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -183,6 +183,10 @@ dir_final <- paste0(dir_out, "NWA_FALL_0results/")
 ### Load survey data -----------------------------------------------------------
 
 catch <- surveyresamplr::noaa_nefsc_catch %>% dplyr::filter(srvy == "FALL") # pulled data again to get 2024
+
+### Load grid data -------------------------------------------------------------
+
+grid_yrs <- replicate_df(surveyresamplr::noaa_nefsc_pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 

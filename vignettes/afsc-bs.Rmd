@@ -10,8 +10,7 @@ vignette: >
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
-  comment = "#>",
-  eval = FALSE
+  comment = "#>"
 )
 ```
 
@@ -153,6 +152,227 @@ purrr::map(
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 
 ```
+
+BS walleye pollock
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 1.29028e-18
+BS snow crab
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 1.49831e-19
+BS Pacific cod
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.0641e-16
+BS red king crab
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.36681e-18
+BS blue king crab
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.05487e-57
+BS yellowfin sole
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 5.39281e-21
+BS Pacific halibut
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 1.47882e-44
+BS Alaska plaice
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Warning: The model may not have converged: non-positive-definite Hessian matrix.
+Error in `$<-`(`*tmp*`, "est1", value = c(61.7707818685793, 55.6698623088797,  : 
+  Assigned data `r$proj_eta[, 1]` must be compatible with existing data.
+✖ Existing data has 7276038 rows.
+✖ Assigned data has 5076330 rows.
+ℹ Only vectors of size 1 are recycled.
+Caused by error in `vectbl_recycle_rhs_rows()`:
+! Can't recycle input of size 5076330 to size 7276038.
+BS flathead sole
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.94123e-18
+BS northern rock sole
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Error in solve.default(h, g) : 
+  Lapack routine dgesv: system is exactly singular: U[3,3] = 0
+BS arrowtooth flounder
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+Error in solve.default(h, g) : 
+  Lapack routine dgesv: system is exactly singular: U[3,3] = 0
+[[1]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 1.29028e-18\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 1.29028e-18>
+
+[[2]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 1.49831e-19\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 1.49831e-19>
+
+[[3]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 2.0641e-16\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 2.0641e-16>
+
+[[4]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 2.36681e-18\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 2.36681e-18>
+
+[[5]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 2.05487e-57\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 2.05487e-57>
+
+[[6]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 5.39281e-21\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 5.39281e-21>
+
+[[7]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 1.47882e-44\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 1.47882e-44>
+
+[[8]]
+[1] "Error in `$<-`(`*tmp*`, \"est1\", value = c(61.7707818685793, 55.6698623088797,  : \n  \033[38;5;252mAssigned data `r$proj_eta[, 1]` must be compatible with existing data.\n\033[31m✖\033[38;5;252m Existing data has 7276038 rows.\n\033[31m✖\033[38;5;252m Assigned data has 5076330 rows.\n\033[36mℹ\033[38;5;252m Only vectors of size 1 are recycled.\033[39m\n\033[1mCaused by error in `vectbl_recycle_rhs_rows()`:\033[22m\n\033[33m!\033[39m Can't recycle input of size 5076330 to size 7276038.\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<error/tibble_error_assign_incompatible_size>
+Error in `$<-`:
+! Assigned data `r$proj_eta[, 1]` must be compatible with existing data.
+✖ Existing data has 7276038 rows.
+✖ Assigned data has 5076330 rows.
+ℹ Only vectors of size 1 are recycled.
+Caused by error in `vectbl_recycle_rhs_rows()`:
+! Can't recycle input of size 5076330 to size 7276038.
+---
+Backtrace:
+     ▆
+  1. └─purrr::map(...)
+  2.   └─purrr:::map_("list", .x, .f, ..., .progress = .progress)
+  3.     ├─purrr:::with_indexed_errors(...)
+  4.     │ └─base::withCallingHandlers(...)
+  5.     ├─purrr:::call_with_cleanup(...)
+  6.     └─global .f(.x[[i]], ...)
+  7.       └─surveyresamplr::clean_and_resample(...)
+  8.         ├─base::try(...)
+  9.         │ └─base::tryCatch(...)
+ 10.         │   └─base (local) tryCatchList(expr, classes, parentenv, handlers)
+ 11.         │     └─base (local) tryCatchOne(expr, names, parentenv, handlers[[1L]])
+ 12.         │       └─base (local) doTryCatch(return(expr), name, parentenv, handler)
+ 13.         └─surveyresamplr::resample_tests(...)
+ 14.           └─surveyresamplr (local) innards(i, dir_spp, n_knots)
+ 15.             └─surveyresamplr (local) wrapper_model(...)
+ 16.               ├─stats::predict(fit, newdata = z, return_tmb_object = TRUE)
+ 17.               └─sdmTMB:::predict.sdmTMB(fit, newdata = z, return_tmb_object = TRUE)
+ 18.                 ├─base::`$<-`(`*tmp*`, "est1", value = `<dbl>`)
+ 19.                 └─tibble:::`$<-.tbl_df`(`*tmp*`, "est1", value = `<dbl>`)
+ 20.                   └─tibble:::tbl_subassign(...)
+ 21.                     └─tibble:::vectbl_recycle_rhs_rows(value, fast_nrow(xo), i_arg = NULL, value_arg, call)
+
+[[9]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: reciprocal condition number = 2.94123e-18\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: reciprocal condition number = 2.94123e-18>
+
+[[10]]
+[1] "Error in solve.default(h, g) : \n  Lapack routine dgesv: system is exactly singular: U[3,3] = 0\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): Lapack routine dgesv: system is exactly singular: U[3,3] = 0>
+
+[[11]]
+[1] "Error in solve.default(h, g) : \n  Lapack routine dgesv: system is exactly singular: U[3,3] = 0\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): Lapack routine dgesv: system is exactly singular: U[3,3] = 0>
 
 ```{r results-run, echo = FALSE}
 load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
