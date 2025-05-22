@@ -26,6 +26,8 @@ pkg_install <- function(p){
       remotes::install_github("afsc-gap-products/gapindex")
     } else if (p == "FishStatsUtils") {
       remotes::install_github("James-Thorson/FishStatsUtils")
+    } else if (p == "surveyjoin") {
+      pak::pkg_install("DFO-NOAA-Pacific/surveyjoin")
     } else {
       install.packages(p)
     }

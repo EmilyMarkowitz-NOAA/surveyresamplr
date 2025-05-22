@@ -32,6 +32,7 @@ PKG <- c(
   # "gapctd", # install_github("afsc-gap-products/gapctd")
   # "gapindex", # devtools::install_github("afsc-gap-products/gapindex")
   "nwfscSurvey", 
+  "surveyjoin", 
   
   "jsonlite", 
   "httr", 
