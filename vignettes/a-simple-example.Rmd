@@ -225,83 +225,190 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 
 ```{r sink-results-backup}
 # EBS walleye pollock
+# Starting cleanup of catch data
 # ...Starting parallel SDM processing
-#
+# 
 # ...05_1
-#
-# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for initial model exploration.
-# Check `your_mesh$mesh$n` to view the number of vertices.Warning: The model may not have converged: non-positive-definite Hessian matrix.Warning: The model may not have converged: non-positive-definite Hessian matrix.Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ Non-linear minimizer suggests successful convergence
+# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+# initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ Non-linear minimizer suggests successful convergence
 # ✖ Non-positive-definite Hessian matrix: model may not have converged
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
+# 
 # ✔ No extreme or very small eigenvalues detected
 # ✔ No gradients with respect to fixed effects are >= 0.001
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ No fixed-effect standard errors are NA
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✖ `b_j` standard error may be large
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ No fixed-effect standard errors are NA
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✖ `b_j` standard error may be large
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
+# 
 # ✖ `ln_kappa` standard error may be large
 # ℹ `ln_kappa` is an internal parameter affecting `range`
 # ℹ `range` is the distance at which data are effectively independent
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ No sigma parameters are < 0.01
+# 
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ No sigma parameters are < 0.01
 # ✔ No sigma parameters are > 100
 # ✔ Range parameters don't look unreasonably large
-#
+# 
 # ...05_2
-#
-# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for initial model exploration.
-# Check `your_mesh$mesh$n` to view the number of vertices.Warning: NaNs producedWarning: The model may not have converged: non-positive-definite Hessian matrix.Warning: NaNs producedWarning: The model may not have converged: non-positive-definite Hessian matrix.Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ Non-linear minimizer suggests successful convergence
+# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+# initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+# Warning in sqrt(diag(cov)) : NaNs produced
+# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning in sqrt(diag(cov)) : NaNs produced
+# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ Non-linear minimizer suggests successful convergence
 # ✖ Non-positive-definite Hessian matrix: model may not have converged
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
+# 
 # ✔ No extreme or very small eigenvalues detected
 # ✖ `b_j2` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
+# 
 # ✖ `ln_tau_E` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
+# 
 # ✖ `ln_kappa` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
+# 
 # ✖ `ln_phi` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ No fixed-effect standard errors are NA
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✖ `b_j` standard error may be large
+# 
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ No fixed-effect standard errors are NA
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✖ `b_j` standard error may be large
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ No sigma parameters are < 0.01
+# 
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ No sigma parameters are < 0.01
 # ✔ No sigma parameters are > 100
 # ✔ Range parameters don't look unreasonably large
-#
+# 
 # ...05_3
-#
-# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for initial model exploration.
-# Check `your_mesh$mesh$n` to view the number of vertices.Warning: NaNs producedWarning: The model may not have converged: non-positive-definite Hessian matrix.Warning: NaNs producedWarning: The model may not have converged: non-positive-definite Hessian matrix.Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ Non-linear minimizer suggests successful convergence
+# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
+# initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+# Warning in sqrt(diag(cov)) : NaNs produced
+# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning in sqrt(diag(cov)) : NaNs produced
+# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ Non-linear minimizer suggests successful convergence
 # ✖ Non-positive-definite Hessian matrix: model may not have converged
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
+# 
 # ✔ No extreme or very small eigenvalues detected
 # ✖ `b_j2` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
+# 
 # ✖ `b_j2` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
+# 
 # ✖ `ln_tau_E` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
+# 
 # ✖ `ln_kappa` gradient > 0.001
 # ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
-#
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ No fixed-effect standard errors are NA
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✖ `b_j` standard error may be large
+# 
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ No fixed-effect standard errors are NA
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✖ `b_j` standard error may be large
 # ℹ Try simplifying the model, adjusting the mesh, or adding priors
-#
-# Warning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs producedWarning: NaNs produced✔ No sigma parameters are < 0.01
+# 
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
+# ✔ No sigma parameters are < 0.01
 # ✔ No sigma parameters are > 100
 # ✔ Range parameters don't look unreasonably large
 # ...Parallel SDM processing complete

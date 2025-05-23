@@ -177,6 +177,7 @@ purrr::map(
 ### Plot indices ---------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
+
 ```
 
 ```{r results-run, eval, echo = FALSE}
