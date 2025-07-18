@@ -92,13 +92,13 @@ clean_and_resample <- function(
     # Error in `map()`:
     #   ℹ In index: 1.
     # Caused by error in `clean_and_resample()`:
-    #   ! ERROR: Not all variables called in funciton are available in the grid_yrs object: (depth_m^2
+    #   ! ERROR: Not all variables called in function are available in the grid_yrs object: (depth_m^2
     #                                                                                        Run `rlang::last_trace()` to see where the error occurred.
   }
 
   if (sum(aa %in% names(catch)) != length(aa)) {
     stop(paste0(
-      "ERROR: Not all variables called in funciton are available in the catch data object: ",
+      "ERROR: Not all variables called in function are available in the catch data object: ",
       aa[!(aa %in% names(catch))]
     ))
   }
@@ -116,10 +116,11 @@ clean_and_resample <- function(
   )
 
   if (!is.null(bio)) {
+    message("Starting cleanup of biological composition data")
     bio_df <- bio |>
       dplyr::filter(common_name == spp_info$common_name) |>
       dplyr::mutate(
-        trawlid = as.character(trawlid),
+        trawlid = as.double(trawlid),
         latitude_dd = as.numeric(latitude_dd),
         depth_m = as.numeric(depth_m)
       )
@@ -136,10 +137,11 @@ clean_and_resample <- function(
     }
 
     bio_resampled <- lapply(spp_dfs, function(catch_data) {
-      catch_data$trawlid <- as.character(catch_data$trawlid)
       replicate_id <- unique(catch_data$source) # Get replicate ID
-      matched_bio <- bio_df |> dplyr::filter(trawlid %in% catch_data$trawlid)
-      matched_bio <- matched_bio %>% dplyr::mutate(source = replicate_id) # Add replicate ID as a column
+      catch_data$trawlid <- as.double(catch_data$trawlid) # Ensure trawlid is numeric
+      matched_bio <- bio_df |> dplyr::filter(trawlid %in% catch_data$trawlid,
+                                             )
+      matched_bio <- matched_bio |> dplyr::mutate(source = replicate_id) # Add replicate ID as a column
       return(matched_bio)
     })
 
