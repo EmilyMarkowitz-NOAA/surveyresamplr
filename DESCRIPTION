@@ -16,6 +16,8 @@ Description: Resample multi-year surveys to understand effectiveness of
 License: GPL (>= 2)
 URL: https://nmfs-ost.github.io/surveyresamplr/, https://github.com/nmfs-ost/surveyresamplr
 BugReports: https://github.com/nmfs-ost/surveyresamplr/issues
+Remotes: 
+    github::afsc-gap-products/coldpool
 Imports: 
     arrow,
     dplyr,
@@ -34,12 +36,12 @@ Imports:
     MASS, 
     cluster,
     TMB,
-    sdmTMB
+    sdmTMB,
+    coldpool
 Suggests: 
     knitr,
     flextable,
     terra,
-    coldpool,
     rmarkdown,
     tidyr
 VignetteBuilder: 
