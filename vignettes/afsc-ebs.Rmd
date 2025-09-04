@@ -28,9 +28,8 @@ PKG <- c(
   "tidyr",
   "purrr",
   "ggplot2",
-  "future.callr",
   "flextable", 
-  "sdmTMB"
+  "terra"
 )
 
 pkg_install <- function(p) {
@@ -40,6 +39,9 @@ pkg_install <- function(p) {
   require(p, character.only = TRUE)
 }
 base::lapply(unique(PKG), pkg_install)
+
+# Need to install the coldpool package for temperature data
+devtools::install_github("afsc-gap-products/coldpool")
 
 # Set directories --------------------------------------------------------------
 wd <- paste0(here::here(), "/vignettes/")
@@ -59,7 +61,8 @@ spp_list <- data.frame(
     "walleye pollock", "snow crab", "Pacific cod",
     "red king crab", "blue king crab",
     "yellowfin sole", "Pacific halibut",
-    "Alaska plaice", "flathead sole", "northern rock sole", "arrowtooth flounder"
+    "Alaska plaice", "flathead sole", "northern rock sole", 
+    "arrowtooth flounder"
   ),
   species_code = as.character(c(
     21740, 68580, 21720,
@@ -76,7 +79,8 @@ spp_list <- data.frame(
   model_spatiotemporal = "iid, iid"
 ) |>
   dplyr::mutate(
-    file_name = gsub(pattern = " ", replacement = "_", x = (tolower(common_name)))
+    file_name = gsub(pattern = " ", replacement = "_", 
+                     x = (tolower(common_name)))
   )
 
 ### Load survey data -----------------------------------------------------------
@@ -92,8 +96,13 @@ load(paste0(wd, "grids/noaa_afsc_ebs_pred_grid_depth.rdata"), verbose = TRUE)
 
 #### Add temperature: Coldpool temperature data
 # Data that varies over space and time (bottom temperature)
-# Here, bottom temperature, and thereby the cold pool extent, have been show to drive the distribution of many species. This is especially true for walleye pollock.
-# For this we are going to lean on our in-house prepared validated and pre-prepared [{coldpool} R package](https://github.com/afsc-gap-products/coldpool) (S. Rohan, L. Barnett, and N. Charriere). This data interpolates over the whole area of the survey so there are no missing data.
+# Here, bottom temperature, and thereby the cold pool extent, have been show to 
+# drive the distribution of many species. This is especially true for walleye 
+# pollock.
+# For this we are going to lean on our in-house prepared validated and pre-
+# prepared [{coldpool} R package](https://github.com/afsc-gap-products/coldpool)
+# (S. Rohan, L. Barnett, and N. Charriere). This data interpolates over the 
+# whole area of the survey so there are no missing data.
 crs_latlon <- "+proj=longlat +datum=WGS84" # decimal degrees
 grid_yrs <-
   dplyr::bind_cols(
@@ -113,7 +122,8 @@ save(grid_yrs_depth_temperature, file = paste0("grids/grid_yr_temperature/noaa_a
 # # test you extracted correctkt
 # ggplot(data = grid_yrs |>
 #          dplyr::filter(year %in% c(2022:2024)),
-#        mapping = ggplot2::aes(x = longitude_dd, y = latitude_dd, color = bottom_temperature_c)) +
+#        mapping = ggplot2::aes(x = longitude_dd, y = latitude_dd, 
+#                               color = bottom_temperature_c)) +
 #   geom_point() +
 #   facet_wrap(facets = "year")
 
@@ -129,7 +139,7 @@ replicate_num <- 3
 ### Run ------------------------------------------------------------------------
 
 purrr::map(
-  1:nrow(spp_list),
+  seq_len(nrow(spp_list)),
   ~ clean_and_resample(spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
     tot_dataframes, replicate_num, grid_yrs, dir_out,
@@ -144,7 +154,8 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 ```
 
 ```{r results-run, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
+load(file = paste0(dir_final, "analysisoutput.rdata")) 
+# this file is created from plot_results()
 ```
 
 ```{r results-plots}
@@ -189,7 +200,8 @@ head(out$tables[i][[1]]) |>
 # for (i in 1:nrow(spp_list)) {
 #   file0 <- paste0(dir_out, "/", srvy, "_", spp_list$file_name[i])
 #   if (dir.exists(file0)) {
-#     aaa <- list.files(paste0(dir_out, "/", srvy, "_", spp_list$file_name[i]), full.names = TRUE)
+#     aaa <- list.files(paste0(dir_out, "/", srvy, "_", spp_list$file_name[i]), 
+#                       full.names = TRUE)
 #     aaa <- aaa[!grepl(pattern = ".csv", x = aaa)]
 #     file.remove(aaa)
 #   }

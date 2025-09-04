@@ -8,8 +8,8 @@ wrapper_surveyIndex(x, y, z, dir_spp, spp_info, n_knots = 500)
 }
 \arguments{
 \item{x}{speciesname_df[[i]] which is a data frame from a list of data frames
-created from the cleanup_by_species() function and any further post-processing
-of depth filters (see the smaller_function.R file for those).}
+created from the cleanup_by_species() function and any further post-
+processing of depth filters (see the smaller_function.R file for those).}
 
 \item{y}{speciesname_files[[i]] which is an item in a list created from}
 

@@ -28,10 +28,8 @@ options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 PKG <- c(
   "surveyresamplr",
   "dplyr",
-  "tidyr",
   "purrr",
   "ggplot2",
-  "future.callr",
   "flextable", 
   "sdmTMB"
 )
@@ -208,14 +206,16 @@ TOLDEO: explain why `purrr::map` is important, what the sink files are for.
 ```{r run-models, eval = FALSE}
 start.time <- Sys.time()
 purrr::map(
-  1:nrow(spp_list),
+  seq_len(nrow(spp_list)),
   ~ clean_and_resample(
     spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
     tot_dataframes, replicate_num, grid_yrs, dir_out
   )
 )
-write.csv(x = data.frame(time = as.numeric(Sys.time() - start.time), units = units(Sys.time() - start.time)), file = paste0(dir_final, srvy, "_simple_time.csv"))
+write.csv(x = data.frame(time = as.numeric(Sys.time() - start.time), 
+                         units = units(Sys.time() - start.time)), 
+                         file = paste0(dir_final, srvy, "_simple_time.csv"))
 ```
 
 ```{r time}
@@ -229,10 +229,14 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 # ...Starting parallel SDM processing
 # 
 # ...05_1
-# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
-# initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
-# Warning: The model may not have converged: non-positive-definite Hessian matrix.
-# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# This mesh has > 1000 vertices. Mesh complexity has the single largest 
+# influence on fitting speed. Consider whether you require a mesh this complex, 
+# especially for initial model exploration. Check `your_mesh$mesh$n` to view the 
+# number of vertices.
+# Warning: The model may not have converged: non-positive-definite Hessian 
+# matrix.
+# Warning: The model may not have converged: non-positive-definite Hessian 
+# matrix.
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
@@ -285,12 +289,17 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 # ✔ Range parameters don't look unreasonably large
 # 
 # ...05_2
-# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
-# initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+# This mesh has > 1000 vertices. Mesh complexity has the single largest 
+# influence on fitting speed. Consider whether you require a mesh this complex, 
+# especially for
+# initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+# vertices.
 # Warning in sqrt(diag(cov)) : NaNs produced
-# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning: The model may not have converged: non-positive-definite Hessian 
+# matrix.
 # Warning in sqrt(diag(cov)) : NaNs produced
-# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning: The model may not have converged: non-positive-definite Hessian 
+# matrix.
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
@@ -305,16 +314,20 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 # 
 # ✔ No extreme or very small eigenvalues detected
 # ✖ `b_j2` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # ✖ `ln_tau_E` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # ✖ `ln_kappa` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # ✖ `ln_phi` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
@@ -349,12 +362,17 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 # ✔ Range parameters don't look unreasonably large
 # 
 # ...05_3
-# This mesh has > 1000 vertices. Mesh complexity has the single largest influence on fitting speed. Consider whether you require a mesh this complex, especially for
-# initial model exploration. Check `your_mesh$mesh$n` to view the number of vertices.
+# This mesh has > 1000 vertices. Mesh complexity has the single largest 
+# influence on fitting speed. Consider whether you require a mesh this complex, 
+# especially for
+# initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+# vertices.
 # Warning in sqrt(diag(cov)) : NaNs produced
-# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning: The model may not have converged: non-positive-definite Hessian 
+# matrix.
 # Warning in sqrt(diag(cov)) : NaNs produced
-# Warning: The model may not have converged: non-positive-definite Hessian matrix.
+# Warning: The model may not have converged: non-positive-definite Hessian 
+# matrix.
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
@@ -369,16 +387,20 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 # 
 # ✔ No extreme or very small eigenvalues detected
 # ✖ `b_j2` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # ✖ `b_j2` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # ✖ `ln_tau_E` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # ✖ `ln_kappa` gradient > 0.001
-# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the model
+# ℹ See ?run_extra_optimization(), standardize covariates, and/or simplify the 
+# model
 # 
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
 # Warning in sqrt(diag(object$cov.fixed)) : NaNs produced
@@ -415,11 +437,13 @@ print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
 ```
 
 ```{r results-run1}
-out <- plot_results(srvy = paste0(srvy, "_simple"), dir_out = dir_out, dir_final = dir_final)
+out <- plot_results(srvy = paste0(srvy, "_simple"), dir_out = dir_out, 
+                    dir_final = dir_final)
 ```
 
 ```{r results-run, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
+load(file = paste0(dir_final, "analysisoutput.rdata")) 
+# this file is created from plot_results()
 ```
 
 ```{r results-plots}

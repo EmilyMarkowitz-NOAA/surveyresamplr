@@ -46,7 +46,7 @@ jobs:
             "jsonlite","httr","sp","RODBC","roxygen2","usethis",
             "plyr","dplyr","magrittr","tidyr","ggplot2","tibble","janitor","here",
             "readr","akgfmaps","coldpool","nwfscSurvey","sf","ggspatial","FishStatsUtils",
-            "fontawesome","rmarkdown"
+            "fontawesome","rmarkdown", "VAST"
           )
           source("inst/r/pkg_install.R")
           base::lapply(unique(PKG), pkg_install)

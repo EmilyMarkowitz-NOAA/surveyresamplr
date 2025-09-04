@@ -1,13 +1,17 @@
 #' Plot Results and Save Figures
 #'
 #' This function compiles results from species distribution models (SDMs) output
-#' of the clean_and_resample function for which it generates plots, and saves the
-#' figures.
+#' of the clean_and_resample function for which it generates plots, and saves 
+#' the figures.
 #'
 #' @param srvy A character string specifying the survey identifier.
 #' @param dir_out A character string specifying the directory for output files.
-#' @param dir_final A character string specifying the directory for new result files.
-#'
+#' @param dir_final A character string specifying the directory for new result 
+#' files.
+#' @importFrom ggplot2 ggplot aes geom_boxplot facet_wrap labs 
+#' scale_color_discrete geom_line theme_bw theme element_text ggsave
+#' @importFrom dplyr bind_rows
+#' @importFrom utils write.csv
 #'
 #' @details
 #' This function performs the following steps:
@@ -16,7 +20,8 @@
 #'   \item Searches for relevant files in the output directory.
 #'   \item Compiles data from the found files.
 #'   \item Saves the compiled data into CSV files.
-#'   \item Generates various plots such as boxplots and time series of biomass estimates.
+#'   \item Generates various plots such as boxplots and time series of biomass 
+#'   estimates.
 #'   \item TO DO: CREATE BIO PLOTS
 #'   \item Saves the generated plots as PNG files.
 #'   \item Saves the list of plots in an RData file.
@@ -43,7 +48,7 @@ plot_results <- function(srvy, dir_out, dir_final = NULL) {
 
   # compile files for each org
   fit_df <- fit_pars <- fit_check <- index <- data.frame()
-  for (i in 1:length(aaa)) {
+  for (i in seq_along(aaa)) {
     if (file.exists(paste0(aaa[i], "/fit_df.csv"))) {
       fit_df <- fit_df |>
         dplyr::bind_rows(utils::read.csv(paste0(aaa[i], "/fit_df.csv")))
@@ -160,7 +165,7 @@ plot_results <- function(srvy, dir_out, dir_final = NULL) {
   plot_list[[i]] <- p1
   names(plot_list)[i] <- "index_boxplot_biomass"
 
-  # biomass estimates over time ---------------------------------------------------
+  # biomass estimates over time ------------------------------------------------
   p1 <- ggplot2::ggplot(
     data = index,
     mapping = ggplot2::aes(
@@ -189,7 +194,7 @@ plot_results <- function(srvy, dir_out, dir_final = NULL) {
   # ADD BIO COMP PLOTS HERE ----------------------------------------------------
 
   # save -----------------------------------------------------------------------
-  for (ii in 1:length(plot_list)) {
+  for (ii in seq_along(plot_list)) {
     ggplot2::ggsave(
       filename = paste0(names(plot_list)[ii], ".png"),
       plot = plot_list[[ii]],

@@ -11,15 +11,16 @@ plot_results(srvy, dir_out, dir_final = NULL)
 
 \item{dir_out}{A character string specifying the directory for output files.}
 
-\item{dir_final}{A character string specifying the directory for new result files.}
+\item{dir_final}{A character string specifying the directory for new result 
+files.}
 }
 \value{
 A list of plots and tables generated during the function execution.
 }
 \description{
 This function compiles results from species distribution models (SDMs) output
-of the clean_and_resample function for which it generates plots, and saves the
-figures.
+of the clean_and_resample function for which it generates plots, and saves 
+the figures.
 }
 \details{
 This function performs the following steps:
@@ -28,7 +29,8 @@ This function performs the following steps:
   \item Searches for relevant files in the output directory.
   \item Compiles data from the found files.
   \item Saves the compiled data into CSV files.
-  \item Generates various plots such as boxplots and time series of biomass estimates.
+  \item Generates various plots such as boxplots and time series of biomass 
+  estimates.
   \item TO DO: CREATE BIO PLOTS
   \item Saves the generated plots as PNG files.
   \item Saves the list of plots in an RData file.

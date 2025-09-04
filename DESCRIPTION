@@ -14,6 +14,8 @@ Authors@R: c(
 Description: Resample multi-year surveys to understand effectiveness of
     assessing species coverage.  Many examples use sse sdmtmb wrappers.
 License: GPL (>= 2)
+URL: https://nmfs-ost.github.io/surveyresamplr/, https://github.com/nmfs-ost/surveyresamplr
+BugReports: https://github.com/nmfs-ost/surveyresamplr/issues
 Imports: 
     arrow,
     dplyr,
@@ -31,11 +33,15 @@ Imports:
     Matrix,
     MASS, 
     cluster,
-    TMB
+    TMB,
+    sdmTMB
 Suggests: 
     knitr,
+    flextable,
+    terra,
+    coldpool,
     rmarkdown,
-    sdmTMB
+    tidyr
 VignetteBuilder: 
     knitr
 Encoding: UTF-8
