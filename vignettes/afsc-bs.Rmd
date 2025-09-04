@@ -28,7 +28,7 @@ PKG <- c(
   "tidyr",
   "purrr",
   "ggplot2",
-  "terra"
+  "terra",
   "flextable", 
   "sdmTMB"
 )
