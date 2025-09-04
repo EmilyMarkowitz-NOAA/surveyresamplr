@@ -38,7 +38,8 @@ Imports:
     TMB,
     sdmTMB,
     coldpool,
-    RODBC
+    RODBC,
+    getPass
 Suggests: 
     knitr,
     flextable,
