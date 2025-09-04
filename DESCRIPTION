@@ -18,7 +18,8 @@ URL: https://nmfs-ost.github.io/surveyresamplr/, https://github.com/nmfs-ost/sur
 BugReports: https://github.com/nmfs-ost/surveyresamplr/issues
 Remotes: 
     github::afsc-gap-products/coldpool,
-    github::casperwberg/surveyIndex/surveyIndex
+    github::casperwberg/surveyIndex/surveyIndex,
+    github::DTUAqua/DATRAS/DATRAS
 Imports: 
     arrow,
     dplyr,
@@ -41,7 +42,8 @@ Imports:
     coldpool,
     RODBC,
     getPass,
-    surveyIndex
+    surveyIndex,
+    DATRAS
 Suggests: 
     knitr,
     flextable,
