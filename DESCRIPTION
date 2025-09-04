@@ -37,7 +37,8 @@ Imports:
     cluster,
     TMB,
     sdmTMB,
-    coldpool
+    coldpool,
+    RODBC
 Suggests: 
     knitr,
     flextable,
