@@ -17,6 +17,7 @@
 #'
 #' @importFrom dplyr filter bind_rows
 #' @importFrom purrr map2 map
+#' @importFrom utils globalVariables
 #'
 #' @examples
 #' catch <- surveyresamplr::noaa_nwfsc_catch
@@ -174,3 +175,14 @@ join_dfs <- function(list_of_dfs, main_df, shared_column) {
   })
   return(merged_dfs)
 }
+
+# The following lines are used to declare global variables
+# to avoid "no visible binding for global variable" warnings in R CMD check.
+utils::globalVariables(
+  c(
+    "common_name",
+    "trawlid",
+    "latitude_dd",
+    "depth_m"
+  )
+)

@@ -78,3 +78,5 @@ wrapper_tinyVAST <- function(x, y, z, dir_spp, spp_info, n_knots = 500) {
 
   return(out)
 }
+
+utils::globalVariables("fit")

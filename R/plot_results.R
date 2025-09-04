@@ -215,3 +215,16 @@ plot_results <- function(srvy, dir_out, dir_final = NULL) {
 
   return(out)
 }
+
+# The following lines are used to declare global variables
+# to avoid "no visible binding for global variable" warnings in R CMD check.
+utils::globalVariables(
+  c(
+    "depth_m",
+    "effort",
+    "log_est",
+    "se",
+    "est",
+    "year"
+  )
+)
