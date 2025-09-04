@@ -42,7 +42,7 @@ assignment to be resampled,
 }
 \examples{
 catch <- surveyresamplr::noaa_nwfsc_catch
-spp_list <- data.frame(
+spp_info <- data.frame(
   srvy = "CA",
   common_name = "arrowtooth flounder",
   file_name = "arrowtooth_flounder",
