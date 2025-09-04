@@ -17,7 +17,7 @@ License: GPL (>= 2)
 URL: https://nmfs-ost.github.io/surveyresamplr/, https://github.com/nmfs-ost/surveyresamplr
 BugReports: https://github.com/nmfs-ost/surveyresamplr/issues
 Remotes: 
-    github::afsc-gap-products/coldpool
+    github::afsc-gap-products/coldpool,
     github::casperwberg/surveyIndex
 Imports: 
     arrow,
