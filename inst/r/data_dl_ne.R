@@ -14,7 +14,6 @@ PKG <- c(
   "devtools",
   "plyr",
   "dplyr",
-  "magrittr",
   "tidyr",
   "here",
   "readr",

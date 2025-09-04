@@ -19,12 +19,10 @@ PKG <- c(
   "flextable",
   "plyr",
   "dplyr",
-  "magrittr",
   "tidyr",
   "ggplot2",
   "tibble",
   "janitor",
-  "here",
   "readr",
 
   # Survey data pull Specific packages
@@ -37,8 +35,6 @@ PKG <- c(
   "nwfscSurvey",
   "surveyjoin",
 
-  "jsonlite",
-  "httr",
   "sp",
   "RODBC",
 
