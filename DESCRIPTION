@@ -19,7 +19,8 @@ BugReports: https://github.com/nmfs-ost/surveyresamplr/issues
 Remotes: 
     github::afsc-gap-products/coldpool,
     github::casperwberg/surveyIndex/surveyIndex,
-    github::DTUAqua/DATRAS/DATRAS
+    github::DTUAqua/DATRAS/DATRAS,
+    github::vast-lib/tinyVAST
 Imports: 
     arrow,
     dplyr,
@@ -43,7 +44,8 @@ Imports:
     RODBC,
     getPass,
     surveyIndex,
-    DATRAS
+    DATRAS,
+    tinyVAST
 Suggests: 
     knitr,
     flextable,
