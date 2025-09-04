@@ -326,7 +326,7 @@ pred_grid <- california_current_grid |> # rename x and y cols
     area_km2 = area_km2_WCGBTS
   ) |>
   dplyr::mutate(srvy = "CA")
-grid_yrs <- replicate_df(pred_grid, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(pred_grid, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -555,7 +555,7 @@ catch <- noaa_afsc_catch |> dplyr::filter(srvy == "NBS")
 ### Load grid data -------------------------------------------------------------
 
 load(paste0(wd, "grids/noaa_afsc_nbs_pred_grid_depth.rdata"), verbose = TRUE)
-grid_yrs <- replicate_df(pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -781,7 +781,7 @@ catch <- noaa_afsc_catch |> dplyr::filter(srvy == "GOA")
 ### Load grid data -------------------------------------------------------------
 
 load(paste0(wd, "grids/noaa_afsc_goa_pred_grid_depth.rdata"), verbose = TRUE)
-grid_yrs <- replicate_df(pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -861,7 +861,7 @@ catch <- noaa_afsc_catch |> dplyr::filter(srvy == "AI")
 ### Load grid data -------------------------------------------------------------
 
 load(paste0(wd, "grids/noaa_afsc_ai_pred_grid_depth.rdata"), verbose = TRUE)
-grid_yrs <- replicate_df(pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -963,7 +963,7 @@ catch <- noaa_nefsc_catch |> dplyr::filter(srvy == "SPRING")
 ### Load grid data -------------------------------------------------------------
 
 load(paste0(wd, "grids/noaa_nefsc_nwa_pred_grid_depth.rdata"), verbose = TRUE)
-grid_yrs <- replicate_df(pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 
@@ -1066,7 +1066,7 @@ catch <- noaa_nefsc_catch |> dplyr::filter(srvy == "FALL")
 ### Load grid data -------------------------------------------------------------
 
 load(paste0(wd, "grids/noaa_nefsc_nwa_pred_grid_depth.rdata"), verbose = TRUE)
-grid_yrs <- replicate_df(pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(pred_grid_depth, "year", unique(catch$year))
 
 ### Variables ------------------------------------------------------------------
 

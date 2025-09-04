@@ -28,7 +28,8 @@ PKG <- c(
   "tidyr",
   "purrr",
   "ggplot2",
-  "flextable"
+  "flextable",
+  "sdmTMB"
 )
 
 pkg_install <- function(p) {
@@ -84,7 +85,7 @@ catch <- surveyresamplr::noaa_afsc_catch |>
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- replicate_df(surveyresamplr::noaa_afsc_goa_pred_grid_depth, "year", 
+grid_yrs <- sdmTMB::replicate_df(surveyresamplr::noaa_afsc_goa_pred_grid_depth, "year", 
                          unique(catch$year))
 
 ### Variables ------------------------------------------------------------------

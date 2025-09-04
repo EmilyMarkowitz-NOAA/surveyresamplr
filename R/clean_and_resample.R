@@ -41,7 +41,7 @@
 #' dir_out <- here::here("vignettes", "output")
 #' catch <- surveyresamplr::noaa_nwfsc_catch
 #' bio <- surveyresamplr::noaa_nwfsc_bio
-#' grid_yrs <- replicate_df(
+#' grid_yrs <- sdmTMB::replicate_df(
 #'   dat = surveyresamplr::noaa_nwfsc_catch, time_name = "year",
 #'   time_values = unique(catch$year)
 #' )
