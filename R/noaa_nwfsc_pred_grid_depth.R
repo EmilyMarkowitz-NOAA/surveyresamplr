@@ -21,4 +21,4 @@
 #' data(noaa_nwfsc_pred_grid_depth)
 #' @details ENTER.
 
-'noaa_nwfsc_pred_grid_depth'
+"noaa_nwfsc_pred_grid_depth"

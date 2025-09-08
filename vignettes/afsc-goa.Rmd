@@ -49,7 +49,6 @@ dir_final <- paste0(dir_out, "GOA_0results/")
 # Run scenarios
 
 ```{r eval = FALSE}
-
 ### Define study species -------------------------------------------------------
 
 spp_list <- data.frame(
@@ -73,8 +72,10 @@ spp_list <- data.frame(
   model_spatiotemporal = "iid, iid"
 ) |>
   dplyr::mutate(
-    file_name = gsub(pattern = " ", replacement = "_", 
-                     x = (tolower(common_name)))
+    file_name = gsub(
+      pattern = " ", replacement = "_",
+      x = (tolower(common_name))
+    )
   )
 
 ### Load survey data -----------------------------------------------------------
@@ -85,8 +86,10 @@ catch <- surveyresamplr::noaa_afsc_catch |>
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- sdmTMB::replicate_df(surveyresamplr::noaa_afsc_goa_pred_grid_depth, "year", 
-                         unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(
+  surveyresamplr::noaa_afsc_goa_pred_grid_depth, "year",
+  unique(catch$year)
+)
 
 ### Variables ------------------------------------------------------------------
 
@@ -114,7 +117,7 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 ```
 
 ```{r results-run, eval = TRUE, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata")) 
+load(file = paste0(dir_final, "analysisoutput.rdata"))
 # this file is created from plot_results()
 ```
 

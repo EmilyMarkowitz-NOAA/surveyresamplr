@@ -34,4 +34,4 @@
 #' data(noaa_nwfsc_catch)
 #' @details ENTER.
 
-'noaa_nwfsc_catch'
+"noaa_nwfsc_catch"

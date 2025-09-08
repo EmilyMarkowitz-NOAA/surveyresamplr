@@ -7,8 +7,10 @@ bibliography: "https://raw.githubusercontent.com/afsc-gap-products/citations/mai
 ---
 
 ```{r setup, include=FALSE}
-knitr::opts_chunk$set(echo = FALSE, warnings = FALSE, error = FALSE, 
-                      message = FALSE, comment = FALSE)
+knitr::opts_chunk$set(
+  echo = FALSE, warnings = FALSE, error = FALSE,
+  message = FALSE, comment = FALSE
+)
 link_repo <- "https://github.com/nmfs-ost/surveyresamplr"
 ```
 
@@ -72,17 +74,25 @@ Seattle, WA 98195
 # Table of contents
 
 ```{r toc, include=FALSE}
-toc <- strsplit(x = readtext::readtext(file = "./README.Rmd", 
-                                       verbosity = 0)[[2]], split = "\n")
+toc <- strsplit(x = readtext::readtext(
+  file = "./README.Rmd",
+  verbosity = 0
+)[[2]], split = "\n")
 toc <- toc[[1]][substr(x = toc[[1]], start = 1, stop = 1) == "#"]
 toc <- toc[-c(1:3)]
 toc_list <- toc
-toc_list <- gsub(pattern = "### ", replacement = ">      - [*", 
-                 x = toc_list, fixed = TRUE)
-toc_list <- gsub(pattern = "## ", replacement = ">    - [*", 
-                 x = toc_list, fixed = TRUE)
-toc_list <- gsub(pattern = "# ", replacement = ">  - [*", 
-                 x = toc_list, fixed = TRUE)
+toc_list <- gsub(
+  pattern = "### ", replacement = ">      - [*",
+  x = toc_list, fixed = TRUE
+)
+toc_list <- gsub(
+  pattern = "## ", replacement = ">    - [*",
+  x = toc_list, fixed = TRUE
+)
+toc_list <- gsub(
+  pattern = "# ", replacement = ">  - [*",
+  x = toc_list, fixed = TRUE
+)
 toc_link <- tolower(gsub(
   pattern = " ", replacement = "-",
   x = gsub(
@@ -124,9 +134,12 @@ the package and install it from scratch. There are two suggested packages,
 with:
 
 ```{r also-install, eval = FALSE, echo = TRUE}
-install.packages("INLA", repos = c(getOption("repos"), 
-                 INLA = "https://inla.r-inla-download.org/R/stable"), 
-                 dep = TRUE)
+install.packages("INLA",
+  repos = c(getOption("repos"),
+    INLA = "https://inla.r-inla-download.org/R/stable"
+  ),
+  dep = TRUE
+)
 inla.upgrade() # for the stable version
 
 if (!requireNamespace("BiocManager", quietly = TRUE)) {
@@ -135,9 +148,11 @@ if (!requireNamespace("BiocManager", quietly = TRUE)) {
 BiocManager::install(c("graph", "Rgraphviz"), dep = TRUE)
 
 
-options(repos = c(inlabruorg = "https://inlabru-org.r-universe.dev", 
-        INLA = "https://inla.r-inla-download.org/R/testing", 
-        CRAN = "https://cran.rstudio.com"))
+options(repos = c(
+  inlabruorg = "https://inlabru-org.r-universe.dev",
+  INLA = "https://inla.r-inla-download.org/R/testing",
+  CRAN = "https://cran.rstudio.com"
+))
 install.packages("fmesher")
 ```
 

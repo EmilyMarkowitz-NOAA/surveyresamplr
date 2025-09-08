@@ -24,15 +24,15 @@ resample_tests(
 
 \item{dir_out}{A character string specifying the directory for output files.}
 
-\item{test}{Logical. Default = FALSE. If TRUE, will only run first two 
+\item{test}{Logical. Default = FALSE. If TRUE, will only run first two
 resampling tests.}
 
-\item{parallel}{Logical. Default = FALSE. If TRUE, will run models using 
+\item{parallel}{Logical. Default = FALSE. If TRUE, will run models using
 \code{furrr::future_map()}.}
 
 \item{n_knots}{Numeric. Default  = 500.}
 
-\item{model_type}{String. Default = "wrapper_sdmtmb", but can be any preset 
+\item{model_type}{String. Default = "wrapper_sdmtmb", but can be any preset
 wrapper_*() function or a premade home built function.}
 }
 \description{
@@ -43,7 +43,7 @@ This function resamples species data frames, runs species distribution models
 This function performs the following steps:
 \itemize{
   \item Sets up directories for output files.
-  \item Reduces the list of data frames to the last two entries for testing 
+  \item Reduces the list of data frames to the last two entries for testing
 purposes.
   \item Saves each data frame in Parquet format.
   \item Sets up parallel processing using the \code{furrr} package.

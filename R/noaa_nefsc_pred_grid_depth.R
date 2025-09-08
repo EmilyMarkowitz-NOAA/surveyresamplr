@@ -20,4 +20,4 @@
 #' data(noaa_nefsc_pred_grid_depth)
 #' @details ENTER.
 
-'noaa_nefsc_pred_grid_depth'
+"noaa_nefsc_pred_grid_depth"

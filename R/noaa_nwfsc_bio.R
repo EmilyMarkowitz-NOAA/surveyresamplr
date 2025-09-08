@@ -33,4 +33,4 @@
 #' data(noaa_nwfsc_bio)
 #' @details ENTER.
 
-'noaa_nwfsc_bio'
+"noaa_nwfsc_bio"

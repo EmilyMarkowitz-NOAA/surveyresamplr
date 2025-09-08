@@ -7,12 +7,12 @@
 #' @param spp_info A data frame containing information about the test species.
 #' @param grid_yrs A data frame or list containing grid years information.
 #' @param dir_out A character string specifying the directory for output files.
-#' @param test Logical. Default = FALSE. If TRUE, will only run first two 
+#' @param test Logical. Default = FALSE. If TRUE, will only run first two
 #' resampling tests.
-#' @param parallel Logical. Default = FALSE. If TRUE, will run models using 
+#' @param parallel Logical. Default = FALSE. If TRUE, will run models using
 #' \code{furrr::future_map()}.
 #' @param n_knots Numeric. Default  = 500.
-#' @param model_type String. Default = "wrapper_sdmtmb", but can be any preset 
+#' @param model_type String. Default = "wrapper_sdmtmb", but can be any preset
 #' wrapper_*() function or a premade home built function.
 #'
 #' @importFrom arrow write_parquet read_parquet
@@ -27,7 +27,7 @@
 #' This function performs the following steps:
 #' \itemize{
 #'   \item Sets up directories for output files.
-#'   \item Reduces the list of data frames to the last two entries for testing 
+#'   \item Reduces the list of data frames to the last two entries for testing
 #' purposes.
 #'   \item Saves each data frame in Parquet format.
 #'   \item Sets up parallel processing using the \code{furrr} package.
@@ -38,17 +38,19 @@
 #' \dontrun{
 #' resample_tests() # TO DO: NEED EXAMPLE OF HOW TO USE
 #' }
-resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE, 
-                           parallel = FALSE, n_knots = 500, 
+resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE,
+                           parallel = FALSE, n_knots = 500,
                            model_type = "wrapper_sdmtmb") {
-  # rename n_knots to knots or else wrapper function gets confused since it 
+  # rename n_knots to knots or else wrapper function gets confused since it
   # also has an n_knots
   knots <- n_knots
 
   # set directories for outputs
 
-  dir_spp <- paste0(dir_out, 
-                    paste0(spp_info$srvy, "_", spp_info$file_name, "/"))
+  dir_spp <- paste0(
+    dir_out,
+    paste0(spp_info$srvy, "_", spp_info$file_name, "/")
+  )
 
   if (!dir.exists(dir_spp)) {
     dir.create(dir_spp, showWarnings = FALSE)
@@ -56,19 +58,21 @@ resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE,
 
   if (test) {
     spp_names <- names(spp_dfs)
-    spp_dfs <- spp_dfs[spp_names[(length(spp_names) - 1):length(spp_names)]] 
+    spp_dfs <- spp_dfs[spp_names[(length(spp_names) - 1):length(spp_names)]]
     # reduce DFs for testing
   }
   spp_files <- as.list(names(spp_dfs)) # make the names file
   for (i in seq_along(spp_dfs)) { # Save each dataframe separately
-    arrow::write_parquet(spp_dfs[[i]], 
-                         paste0(dir_spp, paste0("df_", i, ".parquet")))
+    arrow::write_parquet(
+      spp_dfs[[i]],
+      paste0(dir_spp, paste0("df_", i, ".parquet"))
+    )
   }
   rm(spp_dfs) # Optional: Remove from memory
   gc()
 
   # set up parallel processing
-  future::plan(future.callr::callr, workers = 6) 
+  future::plan(future.callr::callr, workers = 6)
   # Adjust the number of workers based on available memory
 
   # Remove large objects before parallel execution

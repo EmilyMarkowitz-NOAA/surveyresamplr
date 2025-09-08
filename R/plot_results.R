@@ -1,14 +1,14 @@
 #' Plot Results and Save Figures
 #'
 #' This function compiles results from species distribution models (SDMs) output
-#' of the clean_and_resample function for which it generates plots, and saves 
+#' of the clean_and_resample function for which it generates plots, and saves
 #' the figures.
 #'
 #' @param srvy A character string specifying the survey identifier.
 #' @param dir_out A character string specifying the directory for output files.
-#' @param dir_final A character string specifying the directory for new result 
+#' @param dir_final A character string specifying the directory for new result
 #' files.
-#' @importFrom ggplot2 ggplot aes geom_boxplot facet_wrap labs 
+#' @importFrom ggplot2 ggplot aes geom_boxplot facet_wrap labs
 #' scale_color_discrete geom_line theme_bw theme element_text ggsave
 #' @importFrom dplyr bind_rows
 #' @importFrom utils write.csv
@@ -20,7 +20,7 @@
 #'   \item Searches for relevant files in the output directory.
 #'   \item Compiles data from the found files.
 #'   \item Saves the compiled data into CSV files.
-#'   \item Generates various plots such as boxplots and time series of biomass 
+#'   \item Generates various plots such as boxplots and time series of biomass
 #'   estimates.
 #'   \item TO DO: CREATE BIO PLOTS
 #'   \item Saves the generated plots as PNG files.

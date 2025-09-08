@@ -29,4 +29,4 @@
 #' Center (AFSC) conducts fisheries-independent bottom trawl surveys to assess
 #' the populations of demersal fish and crab stocks of Alaska.
 
-'noaa_afsc_ai_pred_grid_depth'
+"noaa_afsc_ai_pred_grid_depth"

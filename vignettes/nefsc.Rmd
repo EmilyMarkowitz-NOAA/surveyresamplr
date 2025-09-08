@@ -40,7 +40,6 @@ pkg_install <- function(p) {
   require(p, character.only = TRUE)
 }
 base::lapply(unique(PKG), pkg_install)
-
 ```
 
 # Run scenarios
@@ -74,8 +73,10 @@ spp_list <-
     model_spatiotemporal = "iid, iid"
   ) |>
   dplyr::mutate(
-    file_name = gsub(pattern = " ", replacement = "_", 
-                     x = (tolower(common_name)))
+    file_name = gsub(
+      pattern = " ", replacement = "_",
+      x = (tolower(common_name))
+    )
   )
 
 spp_list <- spp_list[1:3, ]
@@ -106,8 +107,10 @@ catch <- surveyresamplr::noaa_nefsc_catch |> dplyr::filter(srvy == "SPRING")
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- sdmTMB::replicate_df(surveyresamplr::noaa_nefsc_pred_grid_depth, "year", 
-                         unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(
+  surveyresamplr::noaa_nefsc_pred_grid_depth, "year",
+  unique(catch$year)
+)
 
 ### Variables ------------------------------------------------------------------
 
@@ -127,11 +130,10 @@ purrr::map(
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
-
 ```
 
 ```{r results-run1, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata")) 
+load(file = paste0(dir_final, "analysisoutput.rdata"))
 # this file is created from plot_results()
 ```
 
@@ -184,13 +186,15 @@ dir_final <- paste0(dir_out, "NWA_FALL_0results/")
 ```{r eval = FALSE}
 ### Load survey data -----------------------------------------------------------
 
-catch <- surveyresamplr::noaa_nefsc_catch |> dplyr::filter(srvy == "FALL") 
+catch <- surveyresamplr::noaa_nefsc_catch |> dplyr::filter(srvy == "FALL")
 # pulled data again to get 2024
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- sdmTMB::replicate_df(surveyresamplr::noaa_nefsc_pred_grid_depth, "year", 
-                         unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(
+  surveyresamplr::noaa_nefsc_pred_grid_depth, "year",
+  unique(catch$year)
+)
 
 ### Variables ------------------------------------------------------------------
 
@@ -210,11 +214,10 @@ purrr::map(
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
-
 ```
 
 ```{r results-run, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata")) 
+load(file = paste0(dir_final, "analysisoutput.rdata"))
 # this file is created from plot_results()
 ```
 

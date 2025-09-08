@@ -71,20 +71,19 @@
 #' )
 #'
 clean_and_resample <- function(
-  spp_info,
-  catch,
-  seq_from = 0.1,
-  seq_to = 1,
-  seq_by = 0.1,
-  tot_dataframes = 91,
-  replicate_num = 10,
-  grid_yrs,
-  dir_out,
-  test = FALSE,
-  n_knots = 500,
-  model_type = "wrapper_sdmtmb",
-  bio = NULL
-) {
+    spp_info,
+    catch,
+    seq_from = 0.1,
+    seq_to = 1,
+    seq_by = 0.1,
+    tot_dataframes = 91,
+    replicate_num = 10,
+    grid_yrs,
+    dir_out,
+    test = FALSE,
+    n_knots = 500,
+    model_type = "wrapper_sdmtmb",
+    bio = NULL) {
   message(paste0(spp_info$srvy, " ", spp_info$common_name))
   # check input variables
   # do all of the model function variables exist in grid_yrs and the catch data?

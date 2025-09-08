@@ -46,14 +46,13 @@
 #' @return List of resampled catch dataframes
 #'
 cleanup_by_species <- function(
-  catch,
-  spp_info,
-  seq_from = 0.1,
-  seq_to = 1.0,
-  seq_by = 0.1,
-  tot_dataframes = 91,
-  replicate_num = 10
-) {
+    catch,
+    spp_info,
+    seq_from = 0.1,
+    seq_to = 1.0,
+    seq_by = 0.1,
+    tot_dataframes = 91,
+    replicate_num = 10) {
   # Filter the catch data frame by species
   df <- catch |>
     dplyr::filter(

@@ -28,7 +28,8 @@ tows <- base::lapply(catch_split, tow_fn)
 props <- as.data.frame(seq(from = 0.1, to = 1, by = 0.1))
 names(props) <- "trawlid"
 props <- base::rep(props, length(tows))
-tows_assigned <- purrr::map2(tows, props, include_or_exclude, replicate_num
-= 10)
+tows_assigned <- purrr::map2(tows, props, include_or_exclude,
+  replicate_num = 10
+)
 
 }
