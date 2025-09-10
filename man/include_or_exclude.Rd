@@ -23,6 +23,7 @@ Specify how to downsample using output of tow_fn. For simple random sampling,
 a proportion of tows should do. Utilized in the cleanup_by_species function.
 }
 \examples{
+catch <- surveyresamplr::noaa_nwfsc_catch
 catch_split <- base::split(catch, catch$year) # Catch data for 1 species
 tows <- base::lapply(catch_split, tow_fn)
 props <- as.data.frame(seq(from = 0.1, to = 1, by = 0.1))
