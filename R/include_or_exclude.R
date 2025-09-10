@@ -9,6 +9,7 @@
 #' of the props is "trawlid".
 #' @param replicate_num going to be 10 for NWFSC and 3 for AK
 #' @examples
+#' catch <- surveyresamplr::noaa_nwfsc_catch
 #' catch_split <- base::split(catch, catch$year) # Catch data for 1 species
 #' tows <- base::lapply(catch_split, tow_fn)
 #' props <- as.data.frame(seq(from = 0.1, to = 1, by = 0.1))
