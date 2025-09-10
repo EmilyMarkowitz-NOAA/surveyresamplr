@@ -14,30 +14,50 @@ Authors@R: c(
 Description: Resample multi-year surveys to understand effectiveness of
     assessing species coverage.  Many examples use sse sdmtmb wrappers.
 License: GPL (>= 2)
+URL: https://nmfs-ost.github.io/surveyresamplr/,
+    https://github.com/nmfs-ost/surveyresamplr
+BugReports: https://github.com/nmfs-ost/surveyresamplr/issues
 Imports: 
     arrow,
+    callr,
+    cluster,
+    coldpool,
+    DATRAS,
+    doParallel,
     dplyr,
+    forcats,
     furrr,
     future,
-    callr,
-    ggplot2,
-    purrr,
-    utils, 
-    forcats,
-    doParallel, 
-    sampling, 
-    future.callr,
     future.apply,
+    future.callr,
+    getPass,
+    ggplot2,
+    MASS,
     Matrix,
-    MASS, 
-    cluster,
-    TMB
+    purrr,
+    RODBC,
+    sampling,
+    sdmTMB,
+    surveyIndex,
+    tinyVAST,
+    TMB,
+    utils
 Suggests: 
+    devtools,
+    flextable,
+    here,
     knitr,
     rmarkdown,
-    sdmTMB
+    terra,
+    tidyr
 VignetteBuilder: 
     knitr
+Remotes: 
+    github::afsc-gap-products/coldpool,
+    github::casperwberg/surveyIndex/surveyIndex,
+    github::DTUAqua/DATRAS/DATRAS,
+    github::vast-lib/tinyVAST
 Encoding: UTF-8
 LazyData: true
-RoxygenNote: 7.3.2
+RoxygenNote: 7.3.3
+VignetteDepends: devtools, here

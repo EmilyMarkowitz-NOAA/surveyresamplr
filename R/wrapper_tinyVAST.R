@@ -6,8 +6,8 @@
 #' Learn more: https://github.com/vast-lib/tinyVAST
 #'
 #' @param x speciesname_df[[i]] which is a data frame from a list of data frames
-#' created from the cleanup_by_species() function and any further post-processing
-#' of depth filters (see the smaller_function.R file for those).
+#' created from the cleanup_by_species() function and any further post-
+#' processing of depth filters (see the smaller_function.R file for those).
 #' @param y speciesname_files[[i]] which is an item in a list created from
 #' @param z A dataframe with the new data to predict on.
 #' @param dir_spp A character string specifying the directory for output files.
@@ -15,6 +15,8 @@
 #' @param n_knots Numeric. Default  = 500.
 #' names(speciesname_df)
 #' @import tinyVAST
+#' @importFrom sdmTMB make_mesh sdmTMB get_index
+#' @importFrom stats predict
 #' @export
 #' @examples
 #' \dontrun{
@@ -22,21 +24,45 @@
 #' }
 wrapper_tinyVAST <- function(x, y, z, dir_spp, spp_info, n_knots = 500) {
   # make mesh
-  mesh <- sdmTMB::make_mesh(x, xy_cols = c("longitude_dd", "latitude_dd"), n_knots = n_knots)
+  mesh <- sdmTMB::make_mesh(
+    x,
+    xy_cols = c("longitude_dd", "latitude_dd"),
+    n_knots = n_knots
+  )
 
-  eval(parse(text = paste0("fit <- sdmTMB::sdmTMB(
-    ", spp_info$model_fn, ",
+  eval(parse(
+    text = paste0(
+      "fit <- sdmTMB::sdmTMB(
+    ",
+      spp_info$model_fn,
+      ",
     data = x,
     mesh = mesh,
-    family = ", spp_info$model_family, '(),
+    family = ",
+      spp_info$model_family,
+      '(),
     time = "year",
-    anisotropy = ', spp_info$model_anisotropy, ',
-    spatiotemporal = as.list(c("', gsub(pattern = ", ", replacement = '", "', x = spp_info$model_spatiotemporal), '"))
-  )')))
+    anisotropy = ',
+      spp_info$model_anisotropy,
+      ',
+    spatiotemporal = as.list(c("',
+      gsub(
+        pattern = ", ",
+        replacement = '", "',
+        x = spp_info$model_spatiotemporal
+      ),
+      '"))
+  )'
+    )
+  ))
 
   # get the index
-  predictions <- stats::predict(fit, newdata = z, return_tmb_object = TRUE) #
-  index <- sdmTMB::get_index(predictions, area = z$area_km2, bias_correct = TRUE)
+  predictions <- stats::predict(fit, newdata = z, return_tmb_object = TRUE)
+  index <- sdmTMB::get_index(
+    predictions,
+    area = z$area_km2,
+    bias_correct = TRUE
+  )
 
   # save file
   out <- list(
@@ -52,3 +78,5 @@ wrapper_tinyVAST <- function(x, y, z, dir_spp, spp_info, n_knots = 500) {
 
   return(out)
 }
+
+utils::globalVariables("fit")

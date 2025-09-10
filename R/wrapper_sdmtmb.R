@@ -5,8 +5,8 @@
 #' Learn more: https://github.com/pbs-assess/sdmTMB/
 #'
 #' @param x speciesname_df[[i]] which is a data frame from a list of data frames
-#' created from the cleanup_by_species() function and any further post-processing
-#' of depth filters (see the smaller_function.R file for those).
+#' created from the cleanup_by_species() function and any further
+#' post-processing of depth filters (see the smaller_function.R file for those).
 #' @param y speciesname_files[[i]] which is an item in a list created from
 #' @param z A dataframe with the new data to predict on.
 #' @param dir_spp A character string specifying the directory for output files.
@@ -14,7 +14,7 @@
 #' @param n_knots Numeric.
 #' names(speciesname_df)
 #'
-#' @import sdmTMB
+#' @importFrom sdmTMB make_mesh sdmTMB get_index
 #' @importFrom stats predict
 #'
 #' @export
@@ -24,7 +24,10 @@
 #' }
 wrapper_sdmtmb <- function(x, y, z, dir_spp, spp_info, n_knots = 300) {
   # make mesh
-  mesh <- sdmTMB::make_mesh(x, xy_cols = c("longitude_dd", "latitude_dd"), n_knots = n_knots)
+  mesh <- sdmTMB::make_mesh(x,
+    xy_cols = c("longitude_dd", "latitude_dd"),
+    n_knots = n_knots
+  )
 
   eval(parse(text = paste0(
     "fit <- sdmTMB::sdmTMB(
@@ -35,13 +38,19 @@ wrapper_sdmtmb <- function(x, y, z, dir_spp, spp_info, n_knots = 300) {
     time = "year",
     anisotropy = ', spp_info$model_anisotropy, ',
     spatiotemporal = as.list(c("',
-    gsub(pattern = ", ", replacement = '", "', x = spp_info$model_spatiotemporal), '"))
+    gsub(
+      pattern = ", ",
+      replacement = '", "', x = spp_info$model_spatiotemporal
+    ), '"))
   )'
   )))
 
   # get the index
-  predictions <- stats::predict(fit, newdata = z, return_tmb_object = TRUE) #
-  index <- sdmTMB::get_index(predictions, area = z$area_km2, bias_correct = TRUE)
+  predictions <- stats::predict(fit, newdata = z, return_tmb_object = TRUE)
+  index <- sdmTMB::get_index(predictions,
+    area = z$area_km2,
+    bias_correct = TRUE
+  )
 
   # save file
   out <- list(
@@ -57,3 +66,5 @@ wrapper_sdmtmb <- function(x, y, z, dir_spp, spp_info, n_knots = 300) {
 
   return(out)
 }
+
+utils::globalVariables("fit")

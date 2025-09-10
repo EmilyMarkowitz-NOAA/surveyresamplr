@@ -28,8 +28,7 @@ PKG <- c(
   "tidyr",
   "purrr",
   "ggplot2",
-  "future.callr",
-  "flextable", 
+  "flextable",
   "sdmTMB"
 )
 
@@ -50,7 +49,6 @@ dir_final <- paste0(dir_out, "GOA_0results/")
 # Run scenarios
 
 ```{r eval = FALSE}
-
 ### Define study species -------------------------------------------------------
 
 spp_list <- data.frame(
@@ -74,7 +72,10 @@ spp_list <- data.frame(
   model_spatiotemporal = "iid, iid"
 ) |>
   dplyr::mutate(
-    file_name = gsub(pattern = " ", replacement = "_", x = (tolower(common_name)))
+    file_name = gsub(
+      pattern = " ", replacement = "_",
+      x = (tolower(common_name))
+    )
   )
 
 ### Load survey data -----------------------------------------------------------
@@ -85,7 +86,10 @@ catch <- surveyresamplr::noaa_afsc_catch |>
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- replicate_df(surveyresamplr::noaa_afsc_goa_pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(
+  surveyresamplr::noaa_afsc_goa_pred_grid_depth, "year",
+  unique(catch$year)
+)
 
 ### Variables ------------------------------------------------------------------
 
@@ -99,7 +103,7 @@ replicate_num <- 3
 ### Run ------------------------------------------------------------------------
 
 purrr::map(
-  1:nrow(spp_list),
+  seq_len(nrow(spp_list)),
   ~ clean_and_resample(spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
     tot_dataframes, replicate_num, grid_yrs, dir_out,
@@ -113,7 +117,8 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 ```
 
 ```{r results-run, eval = TRUE, echo = FALSE}
-load(file = paste0(dir_final, "analysisoutput.rdata")) # this file is created from plot_results()
+load(file = paste0(dir_final, "analysisoutput.rdata"))
+# this file is created from plot_results()
 ```
 
 ```{r results-plots}

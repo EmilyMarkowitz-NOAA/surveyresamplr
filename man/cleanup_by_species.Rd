@@ -19,13 +19,16 @@ cleanup_by_species(
 
 \item{spp_info}{A data frame containing information about the test species.}
 
-\item{seq_from}{A numeric value specifying the start of the sequence for data frames.}
+\item{seq_from}{A numeric value specifying the start of the sequence for
+data frames.}
 
-\item{seq_to}{A numeric value specifying the end of the sequence for data frames.}
+\item{seq_to}{A numeric value specifying the end of the sequence for data
+frames.}
 
-\item{seq_by}{A numeric value specifying the step size of the sequence for data frames.}
+\item{seq_by}{A numeric value specifying the step size of the sequence for
+data frames.}
 
-\item{tot_dataframes}{the number of data frames you want to output. effort x
+\item{tot_dataframes}{the number of data frames you want to output. Effort x
 replicates - (replicates - 1). 5x3-2}
 
 \item{replicate_num}{An integer specifying the number of replicates.}
@@ -39,7 +42,7 @@ assignment to be resampled,
 }
 \examples{
 catch <- surveyresamplr::noaa_nwfsc_catch
-spp_list <- data.frame(
+spp_info <- data.frame(
   srvy = "CA",
   common_name = "arrowtooth flounder",
   file_name = "arrowtooth_flounder",

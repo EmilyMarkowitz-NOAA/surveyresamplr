@@ -7,31 +7,43 @@
 \format{
 A data frame with 38282 observations on the following 7 variables.
 \describe{
-  \item{\code{srvy}}{Abbreviated survey names. Abbreviated survey names. }
-  \item{\code{latitude_dd}}{Latitude (decimal degrees). Latitude (one hundred thousandth of a decimal degree).}
-  \item{\code{longitude_dd}}{Longitude (decimal degrees). Longitude (one hundred thousandth of a decimal degree).}
-  \item{\code{pass}}{Pass. Pass}
-  \item{\code{depth_m}}{Depth (m). Bottom depth (meters).}
-  \item{\code{stratum}}{Stratum. Statistical area for analyzing data. Strata are often designed using bathymetry and other geographic and habitat-related elements. The strata are unique to each survey region.}
-  \item{\code{area_km2}}{Area (km2). Area in square kilometers.}#'   }
+\item{\code{srvy}}{Abbreviated survey names. Abbreviated survey names. }
+\item{\code{latitude_dd}}{Latitude (decimal degrees). Latitude (one
+hundred thousandth of a decimal degree).}
+\item{\code{longitude_dd}}{Longitude (decimal degrees). Longitude (one
+hundred thousandth of a decimal degree).}
+\item{\code{pass}}{Pass. Pass}
+\item{\code{depth_m}}{Depth (m). Bottom depth (meters).}
+\item{\code{stratum}}{Stratum. Statistical area for analyzing data. Strata
+are often designed using bathymetry and other geographic and
+habitat-related elements. The strata are unique to each survey region.}
+\item{\code{area_km2}}{Area (km2). Area in square kilometers.}
+}
 }
 \source{
-https://github.com/afsc-gap-products/gap_products and https://github.com/afsc-gap-products/akgfmaps
+https://github.com/afsc-gap-products/gap_products and
+https://github.com/afsc-gap-products/akgfmaps
 }
 \usage{
 data('noaa_afsc_ebs_pred_grid_depth')
 }
 \description{
-Vector geometries ('shapefiles') that are commonly needed for mapping and spatial analysis in Alaska marine management areas, marine statistical areas, and fishery-independent survey regions in Alaska.
+Vector geometries ('shapefiles') that are commonly needed for
+mapping and spatial analysis in Alaska marine management areas, marine
+statistical areas, and fishery-independent survey regions in Alaska.
 }
 \details{
-The Resource Assessment and Conservation Engineering (RACE) Division Groundfish Assessment Program (GAP) of the Alaska Fisheries Science Center (AFSC) conducts fisheries-independent bottom trawl surveys to assess the populations of demersal fish and crab stocks of Alaska.
+The Resource Assessment and Conservation Engineering (RACE)
+Division Groundfish Assessment Program (GAP) of the Alaska Fisheries Science
+Center (AFSC) conducts fisheries-independent bottom trawl surveys to assess
+the populations of demersal fish and crab stocks of Alaska.
 }
 \examples{
 data(noaa_afsc_ebs_pred_grid_depth)
 }
 \author{
-Alaska Fisheries Science Center, compiled by Emily Markowitz (Emily.Markowitz AT noaa.gov)
+Alaska Fisheries Science Center, compiled by Emily Markowitz
+(Emily.Markowitz AT noaa.gov)
 }
 \keyword{code}
 \keyword{data}

@@ -7,12 +7,15 @@
 \format{
 A data frame with 80413 observations on the following 6 variables.
 \describe{
-  \item{\code{srvy}}{Abbreviated survey names. Abbreviated survey names. }
-  \item{\code{latitude_dd}}{Latitude (decimal degrees). Latitude (one hundred thousandth of a decimal degree).}
-  \item{\code{longitude_dd}}{Longitude (decimal degrees). Longitude (one hundred thousandth of a decimal degree).}
-  \item{\code{pass}}{Pass. Pass}
-  \item{\code{depth_m}}{Depth (m). Bottom depth (meters).}
-  \item{\code{area_km2}}{Area (km2). Area in square kilometers.}#'   }
+\item{\code{srvy}}{Abbreviated survey names. Abbreviated survey names.}
+\item{\code{latitude_dd}}{Latitude (decimal degrees). Latitude (one
+hundred thousandth of a decimal degree).}
+\item{\code{longitude_dd}}{Longitude (decimal degrees). Longitude (one
+hundred thousandth of a decimal degree).}
+\item{\code{pass}}{Pass. Pass}
+\item{\code{depth_m}}{Depth (m). Bottom depth (meters).}
+\item{\code{area_km2}}{Area (km2). Area in square kilometers.}
+}
 }
 \source{
 Data request to the NEFSC.
@@ -30,7 +33,8 @@ ENTER.
 data(noaa_nefsc_pred_grid_depth)
 }
 \author{
-Northeast Fisheries Science Center, compiled by Emily Markowitz (Emily.Markowitz AT noaa.gov)
+Northeast Fisheries Science Center, compiled by Emily Markowitz
+(Emily.Markowitz AT noaa.gov)
 }
 \keyword{code}
 \keyword{data}

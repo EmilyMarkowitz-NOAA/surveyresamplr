@@ -25,13 +25,17 @@ clean_and_resample(
 
 \item{catch}{A data frame containing the catch data.}
 
-\item{seq_from}{A numeric value specifying the start of the sequence for data frames.}
+\item{seq_from}{A numeric value specifying the start of the sequence for
+data frames.}
 
-\item{seq_to}{A numeric value specifying the end of the sequence for data frames.}
+\item{seq_to}{A numeric value specifying the end of the sequence for data
+frames.}
 
-\item{seq_by}{A numeric value specifying the step size of the sequence for data frames.}
+\item{seq_by}{A numeric value specifying the step size of the sequence for
+data frames.}
 
-\item{tot_dataframes}{An integer specifying the total number of data frames to generate.}
+\item{tot_dataframes}{An integer specifying the total number of data frames
+to generate.}
 
 \item{replicate_num}{An integer specifying the number of replicates.}
 
@@ -39,25 +43,31 @@ clean_and_resample(
 
 \item{dir_out}{A character string specifying the directory for output files.}
 
-\item{test}{Logical. TRUE/FALSE. If TRUE, will only run first two resampling tests.}
+\item{test}{Logical. TRUE/FALSE. If TRUE, will only run first two resampling
+tests.}
 
 \item{n_knots}{Numeric. Default  = 500.}
 
-\item{model_type}{String. Default = "wrapper_sdmtmb", but can be any preset wrapper_*() function or a premade home built function.}
+\item{model_type}{String. Default = "wrapper_sdmtmb", but can be any preset
+wrapper_*() function or a premade home built function.}
 
-\item{bio}{A data frame containing the biological data, if applicable. NULL is default.}
+\item{bio}{A data frame containing the biological data, if applicable. NULL
+is default.}
 }
 \value{
-A list of data frames containing the cleaned and resampled catch data.
+A list of data frames containing the cleaned and resampled catch
+data.
 }
 \description{
-This function cleans up the catch data for a specific species and then performs
+This function cleans up the catch data for a specific species and then
+performs
 resampling tests,
 }
 \details{
 This function performs the following steps:
 \itemize{
-  \item Cleans up the catch data for the specified species using `cleanup_by_species`.
+  \item Cleans up the catch data for the specified species using
+`cleanup_by_species`.
   \item Performs resampling tests on the cleaned data using `resample_tests`.
 }
 }
@@ -65,7 +75,7 @@ This function performs the following steps:
 dir_out <- here::here("vignettes", "output")
 catch <- surveyresamplr::noaa_nwfsc_catch
 bio <- surveyresamplr::noaa_nwfsc_bio
-grid_yrs <- replicate_df(
+grid_yrs <- sdmTMB::replicate_df(
   dat = surveyresamplr::noaa_nwfsc_catch, time_name = "year",
   time_values = unique(catch$year)
 )

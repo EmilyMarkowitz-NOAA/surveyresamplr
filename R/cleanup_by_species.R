@@ -5,19 +5,23 @@
 #'
 #' @param catch full catch df
 #' @param spp_info A data frame containing information about the test species.
-#' @param seq_from A numeric value specifying the start of the sequence for data frames.
-#' @param seq_to A numeric value specifying the end of the sequence for data frames.
-#' @param seq_by A numeric value specifying the step size of the sequence for data frames.
-#' @param tot_dataframes the number of data frames you want to output. effort x
+#' @param seq_from A numeric value specifying the start of the sequence for
+#' data frames.
+#' @param seq_to A numeric value specifying the end of the sequence for data
+#' frames.
+#' @param seq_by A numeric value specifying the step size of the sequence for
+#' data frames.
+#' @param tot_dataframes the number of data frames you want to output. Effort x
 #' replicates - (replicates - 1). 5x3-2
 #' @param replicate_num An integer specifying the number of replicates.
 #'
-#' @import dplyr filter bind_rows
+#' @importFrom dplyr filter bind_rows
 #' @importFrom purrr map2 map
+#' @importFrom utils globalVariables
 #'
 #' @examples
 #' catch <- surveyresamplr::noaa_nwfsc_catch
-#' spp_list <- data.frame(
+#' spp_info <- data.frame(
 #'   srvy = "CA",
 #'   common_name = "arrowtooth flounder",
 #'   file_name = "arrowtooth_flounder",
@@ -72,7 +76,8 @@ cleanup_by_species <- function(
   # Use tow_fn to create a vector of tows for including or excluding.
   tows <- base::lapply(catch_split, tow_fn)
 
-  # Assign random 1s and 0s based on the specified proportions to a list of dataframes
+  # Assign random 1s and 0s based on the specified proportions to a list of
+  # dataframes
   props <- as.data.frame(seq(from = seq_from, to = seq_to, by = seq_by))
   names(props) <- "trawlid"
 
@@ -85,7 +90,9 @@ cleanup_by_species <- function(
     include_or_exclude,
     replicate_num = replicate_num
   )
-  # tows_assigned <- purrr::pmap(list(.x = tows, .y = props, .z = replicate_num), include_or_exclude)
+  # tows_assigned <- purrr::pmap(list(.x = tows, .y = props,
+  #                                   .z = replicate_num),
+  #                              include_or_exclude)
 
   # remove replicates of the 1 effort level
   tows_assigned <- base::lapply(tows_assigned, function(x) {
@@ -99,7 +106,7 @@ cleanup_by_species <- function(
     })
   })
 
-  tows_assigned_resampled <- unlist(tows_assigned_resampled, recursive = F)
+  tows_assigned_resampled <- unlist(tows_assigned_resampled, recursive = FALSE)
 
   alldata_resampled <- join_dfs(tows_assigned_resampled, df, "trawlid")
 
@@ -159,10 +166,22 @@ tow_fn <- function(x) {
 #'
 #'
 join_dfs <- function(list_of_dfs, main_df, shared_column) {
-  # Merge the list of data frames with the main data frame using the shared_column
+  # Merge the list of data frames with the main data frame using the
+  # shared_column
   merged_dfs <- base::lapply(list_of_dfs, function(df) {
     merged_df <- base::merge(df, main_df, by = shared_column)
     return(merged_df)
   })
   return(merged_dfs)
 }
+
+# The following lines are used to declare global variables
+# to avoid "no visible binding for global variable" warnings in R CMD check.
+utils::globalVariables(
+  c(
+    "common_name",
+    "trawlid",
+    "latitude_dd",
+    "depth_m"
+  )
+)
