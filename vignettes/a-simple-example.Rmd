@@ -158,7 +158,7 @@ Here we load the data for the model run, cropping it to the data we would like t
 
 catch <- surveyresamplr::noaa_afsc_catch |>
   dplyr::filter(srvy == "EBS") |>
-  dplyr::filter(year >= 2015)
+  dplyr::filter(year >= 2020)
 
 ### Load grid data -------------------------------------------------------------
 
