@@ -29,14 +29,13 @@ performs several essential tasks:
 - **Package Management**: It installs and loads all the necessary R packages, including surveyresamplr, dplyr, purrr, ggplot2, and flextable. A helper function, `pkg_install()`, is used to check for and install packages if they're not already present.
 - **Memory Allocation**: The `options(future.globals.maxSize = 1 * 1024^4)` line is crucial for parallel processing. It increases the memory limit for global  variables to 1 TB, preventing memory-related errors when running complex models or processing large datasets.
 
-```{r setup}
+```{r setup, message = FALSE, warning = FALSE}
 # Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
 # Install Libraries ------------------------------------------------------------
 # Here we list all the packages we will need for this vignette
 PKG <- c(
-  "surveyresamplr",
   "dplyr",
   "purrr",
   "ggplot2",
@@ -51,6 +50,9 @@ pkg_install <- function(p) {
   require(p, character.only = TRUE)
 }
 base::lapply(unique(PKG), pkg_install)
+
+devtools::load_all()
+library(surveyresamplr)
 ```
 
 ## Defining the Species and Model in `spp_list`
@@ -62,10 +64,6 @@ For this example, we've defined a model for eastern Bering Sea (EBS) walleye pol
 - **`srvy`**: The name of the survey(s), in this case, "EBS".
 
 - **`common_name`**: The common name of the species(s)
-
-- **`file_name`**:
-
-- **`species_code`**:
 
 - **`model_fn`**: The model formula: total_catch_wt_kg ~ 0 + factor(year). This tells the model to fit catch weight in kg as a function of year, without an intercept.
 
@@ -79,8 +77,6 @@ For this example, we've defined a model for eastern Bering Sea (EBS) walleye pol
 spp_list <- data.frame(
   srvy = "EBS",
   common_name = "walleye pollock",
-  file_name = "simple_walleye_pollock",
-  species_code = as.character(21740),
   model_fn = "total_catch_wt_kg ~ 0 + factor(year)",
   model_family = "delta_gamma",
   model_anisotropy = TRUE,
@@ -97,7 +93,13 @@ The `noaa_afsc_catch` data frame contains catch information, including zero-catc
 
 ```{r explore-catch}
 head(surveyresamplr::noaa_afsc_catch) |>
-  flextable::flextable()
+  dplyr::mutate(trawlid = as.character(trawlid),
+         species_code = as.character(species_code),
+         cpue_kgkm2 = round(cpue_kgkm2, digits = 2),
+         year = as.character(year)) |>
+  dplyr::rename_with(~ gsub("_", " ", .x)) |>
+  flextable::flextable() |>
+  flextable::autofit()
 ```
 
 
@@ -161,7 +163,10 @@ ggplot2::ggplot(
     label = "Prediction Grid",
     subtitle = "AFSC Eastern Bering Sea bottom trawl survey"
   ) +
-  ggplot2::scale_color_gradient(name = "Depth (m)") +
+  ggplot2::scale_color_gradient(name = "Depth (m)",
+    guide = ggplot2::guide_colorbar(reverse = TRUE),
+    low = "#56B1F7",
+    high = "#132B43") +
   ggplot2::theme_bw()
 ```   
 
@@ -173,13 +178,11 @@ Here we load the data for the model run, cropping it to the data we would like t
 
 ```{r load-data}
 ### Load survey data -----------------------------------------------------------
-
 catch <- surveyresamplr::noaa_afsc_catch |>
   dplyr::filter(srvy == "EBS") |>
   dplyr::filter(year >= 2020)
 
 ### Load grid data -------------------------------------------------------------
-
 grid_yrs <- sdmTMB::replicate_df(
   dat = surveyresamplr::noaa_afsc_ebs_pred_grid_depth,
   time_name = "year",
@@ -191,6 +194,7 @@ The resulting `grid_yrs` data frame now contains a year column, allowing the mod
 
 ```{r grid-yrs}
 head(grid_yrs) |>
+  dplyr::mutate(year = as.character(year)) |>
   flextable::flextable()
 ```
 
@@ -209,7 +213,6 @@ The code below defines key parameters that control the resampling process:
 **ADD EXAMPLE USING THE TEST FEATURE IN RESAMPLE TESTS**
 
 For this example, we are creating the following effort levels: 0.5, 0.75, and 1 which translates to 50% effort, 75% effort, and 100% effort. We then specify that we want 7 replicates for each effort.
-
 
 tot_dataframes = effort x replicates - (replicates - 1). TOLEDO: is this hard and fast?
 
@@ -242,9 +245,6 @@ The `purrr::map` function is used to apply the `clean_and_resample` function to 
 The number you input for `n_knots` can make or break your model. We have more details on considerations when choosing `n_knots` or allowing the function to select the number of knots for you in the [Importance of `n_knots` in `{sdmTMB}` Models section](#importance-of-sdmtmb-models). 
 :::
 
-TODO: explain why `purrr::map` is important, what the sink files are for. 
-TODO: n_knots is lower here because the sample size is small
-
 ```{r run-models, eval = FALSE}
 start.time <- Sys.time()
 purrr::map(
@@ -271,7 +271,7 @@ a <- read.csv(file = paste0(dir_final, srvy, "_simple_time.csv"))
 print(paste0("Completed in: ", round(a$time, 2), " ", a$units))
 ```
 
-```{r sink-results-backup}
+```{r sink-results-backup, include = FALSE}
 # EBS walleye pollock
 # Starting cleanup of catch data
 # ...Starting parallel SDM processing
@@ -484,6 +484,8 @@ print(paste0("Completed in: ", round(a$time, 2), " ", a$units))
 # ...Parallel SDM processing complete
 ```
 
+## Viewing output of Resampled Models
+### Plotting output
 ```{r results-run1}
 out <- plot_results(
   srvy = paste0(srvy, "_simple"), dir_out = dir_out,
@@ -500,8 +502,7 @@ load(file = paste0(dir_final, "analysisoutput.rdata"))
 out$plots
 ```
 
-Parameter output: 
-
+### Parameter output 
 ```{r results-tables-1}
 i <- 1
 print(names(out$tables)[i])

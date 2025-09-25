@@ -48,7 +48,6 @@
 #' spp_list <- data.frame(
 #'   srvy = "CA",
 #'   common_name = "arrowtooth flounder",
-#'   file_name = "arrowtooth_flounder",
 #'   filter_lat_gt = 34,
 #'   filter_lat_lt = NA,
 #'   filter_depth = NA,
@@ -141,13 +140,16 @@ clean_and_resample <- function(
       )
 
     # Apply depth and latitude filters
-    if (!is.na(spp_info$filter_lat_lt) | is.null(spp_info$filter_lat_lt)) {
+    if (!is.null(spp_info[["filter_lat_lt"]]) && 
+      length(spp_info$filter_lat_lt) > 0 && !is.na(spp_info$filter_lat_lt)) {
       bio_df <- bio_df |> dplyr::filter(latitude_dd < spp_info$filter_lat_lt)
     }
-    if (!is.na(spp_info$filter_lat_gt) | is.null(spp_info$filter_lat_gt)) {
+    if (!is.null(spp_info[["filter_lat_gt"]]) 
+      && length(spp_info$filter_lat_gt) > 0 && !is.na(spp_info$filter_lat_gt)) {
       bio_df <- bio_df |> dplyr::filter(latitude_dd > spp_info$filter_lat_gt)
     }
-    if (!is.na(spp_info$filter_depth) | is.null(spp_info$filter_depth)) {
+    if (!is.null(spp_info[["filter_depth"]]) 
+      && length(spp_info$filter_depth) > 0 && !is.na(spp_info$filter_depth)) {
       bio_df <- bio_df |> dplyr::filter(depth_m < spp_info$filter_depth)
     }
 
@@ -163,9 +165,10 @@ clean_and_resample <- function(
 
     bio_spp_dfs <- dplyr::bind_rows(bio_resampled)
 
+    file_name <- gsub(" ", "_", spp_info$common_name)
     dir_spp <- paste0(
       dir_out,
-      paste0(spp_info$srvy, "_", spp_info$file_name, "/")
+      paste0(spp_info$srvy, "_", file_name, "/")
     )
     if (!dir.exists(dir_spp)) {
       dir.create(dir_spp, showWarnings = FALSE)

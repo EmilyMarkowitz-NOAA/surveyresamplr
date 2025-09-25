@@ -52,9 +52,10 @@ resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE,
   }
 
   # set directories for outputs
+  file_name <- gsub(" ", "_", spp_info$common_name)
   dir_spp <- paste0(
     dir_out,
-    paste0(spp_info$srvy, "_", spp_info$file_name, "/")
+    paste0(spp_info$srvy, "_", file_name, "/")
   )
 
   if (!dir.exists(dir_spp)) {

@@ -24,7 +24,6 @@
 #' spp_info <- data.frame(
 #'   srvy = "CA",
 #'   common_name = "arrowtooth flounder",
-#'   file_name = "arrowtooth_flounder",
 #'   filter_lat_gt = 34,
 #'   filter_lat_lt = NA,
 #'   filter_depth = NA,
@@ -60,13 +59,16 @@ cleanup_by_species <- function(
     )
 
   # Implement latitude and depth filters
-  if (!is.na(spp_info$filter_lat_lt) | is.null(spp_info$filter_lat_lt)) {
+  if (!is.null(spp_info[["filter_lat_lt"]]) && 
+      length(spp_info$filter_lat_lt) > 0 && !is.na(spp_info$filter_lat_lt)) {
     df <- df |> dplyr::filter(latitude_dd < spp_info$filter_lat_lt)
   }
-  if (!is.na(spp_info$filter_lat_gt) | is.null(spp_info$filter_lat_gt)) {
+  if (!is.null(spp_info[["filter_lat_gt"]]) 
+      && length(spp_info$filter_lat_gt) > 0 && !is.na(spp_info$filter_lat_gt)) {
     df <- df |> dplyr::filter(latitude_dd > spp_info$filter_lat_gt)
   }
-  if (!is.na(spp_info$filter_depth) | is.null(spp_info$filter_depth)) {
+  if (!is.null(spp_info[["filter_depth"]]) 
+      && length(spp_info$filter_depth) > 0 && !is.na(spp_info$filter_depth)) {
     df <- df |> dplyr::filter(depth_m < spp_info$filter_depth)
   }
 
