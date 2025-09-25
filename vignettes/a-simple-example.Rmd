@@ -7,24 +7,34 @@ vignette: >
   %\VignetteEncoding{UTF-8}
 ---
 
+## A Simple Example: A Guide to Using `{surveyresamplr}`
+
+This vignette serves as a practical guide to using the `{surveyresamplr}` R package. It's structured to walk you through a complete analysis, from data preparation to model execution and results visualization. We'll use a simple, yet realistic, case study of eastern Bering Sea (EBS) walleye pollock (*Gadus chalcogrammus*). The analysis will involve defining a species distribution model (SDM), running a series of resampling tests, and interpreting the output.
+
 ```{r, include = FALSE}
 knitr::opts_chunk$set(
   collapse = TRUE,
   comment = "#>"
 )
+
+# set CRAN mirror for github action
+options(repos = c(CRAN = "https://cran.rstudio.com"))
 ```
 
-```{r setup}
-# set CRAN mirror
-options(repos = c(CRAN = "https://cran.rstudio.com"))
+## Setting Up the R Environment
 
+The first step in any analysis is to prepare your R session. The following code 
+performs several essential tasks:
+
+- **Package Management**: It installs and loads all the necessary R packages, including surveyresamplr, dplyr, purrr, ggplot2, and flextable. A helper function, `pkg_install()`, is used to check for and install packages if they're not already present.
+- **Memory Allocation**: The `options(future.globals.maxSize = 1 * 1024^4)` line is crucial for parallel processing. It increases the memory limit for global  variables to 1 TB, preventing memory-related errors when running complex models or processing large datasets.
+
+```{r setup}
 # Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
 # Install Libraries ------------------------------------------------------------
-
-# Here we list all the packages we will need for this whole process
-# We'll also use this in our works cited page.
+# Here we list all the packages we will need for this vignette
 PKG <- c(
   "surveyresamplr",
   "dplyr",
@@ -41,18 +51,29 @@ pkg_install <- function(p) {
   require(p, character.only = TRUE)
 }
 base::lapply(unique(PKG), pkg_install)
-
-# Set directories --------------------------------------------------------------
-wd <- paste0(here::here(), "/vignettes/")
-dir_out <- paste0(wd, "output/")
-dir_final <- paste0(dir_out, "CA_0results/")
 ```
 
-## Test Species List
+## Defining the Species and Model in `spp_list`
 
-Then we define our species and model list. In this simple example, we'll assess a model for eastern Bering Sea (EBS) walleye pollock (*Gadus chalcogrammus*) from 2015-present, using data collected by the Alaska Fisheries Science Center. 
+Then we define our species and model list. The core of our analysis is defined in the `spp_list` data frame. This is where you specify the target species and the parameters for the SDM. Each row in this data frame represents a single species or model configuration you wish to test. This table-based approach allows you to easily scale your analysis to include multiple species or different model specifications.
 
-Walleye pollock are fairly well distributed across the area, very common in the area, and very economically important, so this will be a great species to start testing these models with. 
+For this example, we've defined a model for eastern Bering Sea (EBS) walleye pollock from 2015-present using data collected by the Alaska Fisheries Science Center. The model will have the following key settings:
+
+- **`srvy`**: The name of the survey(s), in this case, "EBS".
+
+- **`common_name`**: The common name of the species(s)
+
+- **`file_name`**:
+
+- **`species_code`**:
+
+- **`model_fn`**: The model formula: total_catch_wt_kg ~ 0 + factor(year). This tells the model to fit catch weight in kg as a function of year, without an intercept.
+
+- **`model_family`**: The statistical distribution family for the model, "delta_gamma". This is an advanced family from the sdmTMB package that models both the probability of catching a species (presence/absence) and the magnitude of the catch.
+
+- **`model_anisotropy`**: A setting for the spatial random field, set to TRUE, which allows the spatial correlation to vary by direction.
+
+- **`model_spatiotemporal`**: A setting for the spatiotemporal random field, "iid, iid", which specifies that both spatial and temporal effects are treated as independently and identically distributed.
 
 ```{r define-spp-list}
 spp_list <- data.frame(
@@ -60,9 +81,6 @@ spp_list <- data.frame(
   common_name = "walleye pollock",
   file_name = "simple_walleye_pollock",
   species_code = as.character(21740),
-  filter_lat_lt = NA,
-  filter_lat_gt = NA,
-  filter_depth = NA,
   model_fn = "total_catch_wt_kg ~ 0 + factor(year)",
   model_family = "delta_gamma",
   model_anisotropy = TRUE,
@@ -70,24 +88,20 @@ spp_list <- data.frame(
 )
 ```
 
-## Pull in data
 
-Some example data is included in the R package for examples like this. We'll need 
+## Exploring and Preparing the Data
+To run the SDM, we need two main data components: zero-filled catch data and an extrapolation grid. The `{surveyresamplr}` package includes example data for this purpose, which we'll explore before using.
 
-1. Zero-filled catch data from the survey to use for developing the model and 
-2. an extrapolation grid that you can replicate across years for your prediction matrix. Note that if your model models over depth (as with this model) your prediction grid will also need to have a depth field. 
-
-Use `?surveyresamplr::noaa_afsc_catch` and `?surveyresamplr::noaa_afsc_ebs_pred_grid_depth`) to learn more about these data sources. In the meantime, this is what these resources look like: 
+### Catch Data
+The `noaa_afsc_catch` data frame contains catch information, including zero-catch observations, which are essential for modeling species distributions. The plot below visualizes the distribution of walleye pollock catches and zero-catch sites in the EBS survey from 2023-2024. This helps you understand the spatial patterns in your raw data. 
 
 ```{r explore-catch}
-# ?surveyresamplr::noaa_afsc_catch
-
 head(surveyresamplr::noaa_afsc_catch) |>
   flextable::flextable()
 ```
 
 
-```{r explore-catch-plot, fig.width=6, fig.height=4, fig.cap= "CPUE (kg/km^2) of walleye pollock (Weight CPUE; kg/km2) from 2023 and 2024 in the EBS survey. "}
+```{r explore-catch-plot, fig.width=6, fig.height=4, fig.cap= "CPUE (kg/km^2) of walleye pollock (Weight CPUE; kg/km2) from 2023 and 2024 in the EBS survey."}
 dat <- surveyresamplr::noaa_afsc_catch |>
   dplyr::filter(year %in% 2023:2024 &
     srvy %in% c("EBS") &
@@ -120,15 +134,15 @@ ggplot2::ggplot(
   ggplot2::theme_bw()
 ```
 
+### Prediction Grid
+The `noaa_afsc_ebs_pred_grid_depth` data frame serves as our prediction matrix. 
 
 ```{r explore-grid}
-# ?surveyresamplr::noaa_afsc_ebs_pred_grid_depth
-
 head(surveyresamplr::noaa_afsc_ebs_pred_grid_depth) |>
   flextable::flextable()
 ```
 
-```{r explore-grid-plot, fig.width=6, fig.height=6, fig.cap= "Prediction grid for the EBS survey. "}
+```{r explore-grid-plot, fig.width=6, fig.height=6, fig.cap= "Prediction grid for the EBS survey."}
 ggplot2::ggplot(
   data = surveyresamplr::noaa_afsc_ebs_pred_grid_depth,
   mapping = aes(
@@ -151,7 +165,11 @@ ggplot2::ggplot(
   ggplot2::theme_bw()
 ```   
 
-Here we load the data for the model run, cropping it to the data we would like to include (the EBS survey and years greater than 2010) and replicating the the prediction grid across the years in the catch data. 
+Use `?surveyresamplr::noaa_afsc_catch` and `?surveyresamplr::noaa_afsc_ebs_pred_grid_depth` to learn more about these data sources. In the meantime, this is what these resources look like: 
+
+### Loading the data 
+
+Here we load the data for the model run, cropping it to the data we would like to include (the EBS survey and years greater than or equal to 2020), and replicateing this grid across all years present in our catch data, which is a necessary step for making predictions over the entire time series.
 
 ```{r load-data}
 ### Load survey data -----------------------------------------------------------
@@ -169,14 +187,29 @@ grid_yrs <- sdmTMB::replicate_df(
 )
 ```
 
-Now you'll notice the year column has been added, repeated with all of the years in the catch data. 
+The resulting `grid_yrs` data frame now contains a year column, allowing the model to generate predictions for each year in our study period.
 
 ```{r grid-yrs}
 head(grid_yrs) |>
   flextable::flextable()
 ```
 
-Set variables. This... requires more description. `seq(from = seq_from, to = seq_to, by = seq_by)`
+## Running the Resampling Models
+With the data prepared, we are ready to run the main analysis. This involves resampling the data and fitting the SDM to each resampled dataset.
+
+### Defining Resampling Parameters: 
+
+The code below defines key parameters that control the resampling process:
+
+- `seq_from`, `seq_to`, `seq_by`: These define a sequence of effort levels to simulate.
+
+- `tot_dataframes`, `replicate_num`: These control the total number of resampled datasets to create.
+
+**WHY DO WE NEED TOT_DATAFRAMES??? I don't understand this.**
+**ADD EXAMPLE USING THE TEST FEATURE IN RESAMPLE TESTS**
+
+For this example, we are creating the following effort levels: 0.5, 0.75, and 1 which translates to 50% effort, 75% effort, and 100% effort. We then specify that we want 7 replicates for each effort.
+
 
 tot_dataframes = effort x replicates - (replicates - 1). TOLEDO: is this hard and fast?
 
@@ -189,19 +222,28 @@ tot_dataframes <- 3
 replicate_num <- 7
 ```
 
-# Set directories
+### Set directories
 
 ```{r set-directories}
-wd <- paste0(here::here(), "/vignettes/")
-dir_out <- paste0(wd, "output/")
-dir_final <- paste0(dir_out, "EBS_simple_0results/")
+dir_out <- here::here("vignettes", "output")
+dir_final <- file.path(dir_out, "EBS_simple_0results")
 dir.create(dir_final, showWarnings = FALSE)
 crs_latlon <- "+proj=longlat +datum=WGS84" # decimal degrees
 ```
 
-# Run resampling models
+### Run resampling models
+The `purrr::map` function is used to apply the `clean_and_resample` function to each species in `spp_list`. This function handles the entire workflow: it generates resampled data, fits the SDM, and saves the output.
 
-TOLDEO: explain why `purrr::map` is important, what the sink files are for. 
+::: {.callout-note}
+`purrr::map` is a powerful R tool for iteration. It's often combined with parallel processing packages like `furrr` to speed up computations, especially for complex or long-running models.
+:::
+
+::: {.callout-note}
+The number you input for `n_knots` can make or break your model. We have more details on considerations when choosing `n_knots` or allowing the function to select the number of knots for you in the [Importance of `n_knots` in `{sdmTMB}` Models section](#importance-of-sdmtmb-models). 
+:::
+
+TODO: explain why `purrr::map` is important, what the sink files are for. 
+TODO: n_knots is lower here because the sample size is small
 
 ```{r run-models, eval = FALSE}
 start.time <- Sys.time()
@@ -210,7 +252,8 @@ purrr::map(
   ~ clean_and_resample(
     spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
-    tot_dataframes, replicate_num, grid_yrs, dir_out
+    tot_dataframes, replicate_num, grid_yrs, dir_out,
+    n_knots = 300
   )
 )
 write.csv(
@@ -222,9 +265,10 @@ write.csv(
 )
 ```
 
+Don't freak out if this takes a long time. It should take the following amount of time:
 ```{r time}
 a <- read.csv(file = paste0(dir_final, srvy, "_simple_time.csv"))
-print(paste0("Time difference of ", round(a$time, 2), " ", a$units))
+print(paste0("Completed in: ", round(a$time, 2), " ", a$units))
 ```
 
 ```{r sink-results-backup}
@@ -488,3 +532,28 @@ print(names(out$tables)[i])
 head(out$tables[i][[1]]) |>
   flextable::flextable()
 ```
+
+
+### The Importance of `n_knots` in `{sdmTMB}` Models
+When you fit an `{sdmTMB}` model, you're trying to capture a complex spatial and/or spatiotemporal pattern in your data. Instead of trying to estimate an effect for every single point in your dataset, `{sdmTMB}` uses a clever shortcut: a spatial mesh. This mesh is a collection of triangles that covers your study area. The vertices of these triangles are called knots.
+
+The `n_knots` argument tells the model how many knots to use when building this mesh. The number you choose is a critical decision that balances model performance and computational efficiency.
+
+#### What Happens When n_knots is Too Low?
+A low number of knots creates a coarse mesh with large triangles. This can cause two problems:
+
+1. **Poor Fit**: A coarse mesh might not be flexible enough to capture fine-scale spatial patterns in your data. If your species' distribution is patchy or has small, localized "hotspots," a model with too few knots will likely miss these details, resulting in a poor fit.
+
+2. **Unidentifiable Parameters**: In some cases, a very low `n_knots` can cause the model to fail. The model may attempt to fit a spatial effect but find that the knots are too far apart to be informed by the data, leading to a singular Hessian matrix and a lack of identifiability.
+
+#### What Happens When n_knots is Too High?
+Using a very high number of knots creates a fine-grained mesh with many small triangles. While this might seem like a good idea for capturing detail, it comes with its own risks:
+
+1. **Overfitting**: A mesh with too many knots can capture random noise in your data rather than the true underlying signal. This leads to a model that fits your observed data very well but performs poorly when making predictions on new, unseen data.
+
+2. **Computational Cost**: More knots mean more parameters for the model to estimate, leading to significantly longer run times and higher memory usage.
+
+#### The "Sweet Spot" for n_knots
+Finding the "sweet spot" for `n_knots` is key to a good `{sdmTMB}` model. A common rule of thumb is to set `n_knots` so that you have roughly 10-25 data points for every knot in your mesh. This balance ensures that each knot is sufficiently informed by the data, while still providing enough flexibility to capture important spatial patterns.
+
+The `{surveyresamplr}` package includes a utility function, `select_n_knots()`, to help you with this task. It automatically suggests a reasonable number of knots based on the size of your dataset, ensuring that you start with a sensible mesh configuration. However, in this vignette, we have chosen to input a specific mesh size.
