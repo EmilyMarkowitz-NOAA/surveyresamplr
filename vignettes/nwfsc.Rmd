@@ -14,62 +14,41 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = TRUE}
-# Set directories --------------------------------------------------------------
-library(here)
+```{r setup}
+# Get rid of memory limits -----------------------------------------------------
+options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
+# Install Libraries ------------------------------------------------------------
+
+# Here we list all the packages we will need for this whole process
+# We'll also use this in our works cited page.
+PKG <- c(
+  "surveyresamplr",
+  "dplyr",
+  "tidyr",
+  "purrr",
+  "ggplot2",
+  "flextable",
+  "sdmTMB"
+)
+
+pkg_install <- function(p) {
+  if (!require(p, character.only = TRUE)) {
+    install.packages(p)
+  }
+  require(p, character.only = TRUE)
+}
+base::lapply(unique(PKG), pkg_install)
+
+# Set directories --------------------------------------------------------------
 wd <- paste0(here::here(), "/vignettes/")
 dir_out <- paste0(wd, "output/")
 dir_final <- paste0(dir_out, "CA_0results/")
 ```
 
+# Run scenarios
 
 ```{r eval = FALSE}
-# get rid of memory limits
-options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
-
-# Install Libraries ------------------------------------------------------------
-library(surveyresamplr)
-
-# Here we list all the packages we will need for this whole process
-# We'll also use this in our works cited page.
-PKG <- c(
-  "here",
-  "dplyr",
-  "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "flextable",
-
-  # parallelizing
-  "forcats",
-  "purrr",
-  "furrr",
-  "doParallel",
-
-  # sampling
-  "sampling",
-
-  # modeling
-  "arrow",
-  "future.apply",
-  "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
-)
-
-pkg_install <- function(p) {
-  install.packages(p)
-  require(p, character.only = TRUE)
-}
-base::lapply(unique(PKG), pkg_install)
-
 ### Define study species -------------------------------------------------------
 
 spp_list <- data.frame(
@@ -78,21 +57,32 @@ spp_list <- data.frame(
     "CA", "CA", "CA", "CA", "CA", "CA", "CA", "CA"
   ),
   common_name = c(
-    "arrowtooth flounder", "bocaccio", "canary rockfish", "darkblotched rockfish",
+    "arrowtooth flounder", "bocaccio", "canary rockfish",
+    "darkblotched rockfish",
     "Dover sole", "lingcod", "lingcod", "longnose skate",
     "Pacific ocean perch", "Pacific spiny dogfish",
     "petrale sole", "rex sole", "sablefish",
     "shortspine thornyhead", "yellowtail rockfish", "widow rockfish"
   ),
   file_name = c(
-    "arrowtooth_flounder", "bocaccio", "canary_rockfish", "darkblotched_rockfish",
+    "arrowtooth_flounder", "bocaccio", "canary_rockfish",
+    "darkblotched_rockfish",
     "dover_sole", "lingcod_N", "lingcod_S", "longnose_skate",
     "pacific_ocean_perch", "pacific_spiny_dogfish", "petrale_sole", "rex_sole",
     "sabefish", "shortspine_thornyhead", "yellowtail_rockfish", "widow_rockfish"
   ),
-  filter_lat_gt = c(34, NA, NA, 335, NA, 35, NA, NA, 35, NA, NA, NA, NA, NA, 35.5, 33.5),
-  filter_lat_lt = c(NA, NA, NA, NA, NA, NA, 35, NA, NA, NA, NA, NA, NA, NA, NA, NA),
-  filter_depth = c(NA, 500, 275, 675, NA, 450, 450, NA, 500, 700, 675, 700, NA, NA, 425, 675),
+  filter_lat_gt = c(
+    34, NA, NA, 335, NA, 35, NA, NA, 35, NA, NA, NA, NA, NA,
+    35.5, 33.5
+  ),
+  filter_lat_lt = c(
+    NA, NA, NA, NA, NA, NA, 35, NA, NA, NA, NA, NA, NA, NA, NA,
+    NA
+  ),
+  filter_depth = c(
+    NA, 500, 275, 675, NA, 450, 450, NA, 500, 700, 675, 700, NA,
+    NA, 425, 675
+  ),
   model_fn = c(
     "total_catch_wt_kg ~ 0 + factor(year) + pass",
     "total_catch_wt_kg ~ 0 + factor(year) + pass",
@@ -111,7 +101,8 @@ spp_list <- data.frame(
     "total_catch_wt_kg ~ 0 + factor(year) + pass",
     "total_catch_wt_kg ~ 0 + factor(year) + pass"
   ),
-  # model_fn = c( # name of funcion for sdm. Will build in specificity for this later
+  # model_fn = c( # name of funcion for sdm. Will build in specificity for
+  # this later
   # "species_sdm_fn", "species_sdm_fn", "canary_sdm_fn", "darkblotched_sdm_fn",
   # "species_sdm_fn", "species_sdm_fn", "species_sdm_fn", "species_sdm_fn",
   # "species_sdm_fn", "species_sdm_fn",
@@ -177,9 +168,8 @@ replicate_num <- 10
 
 ### Run ------------------------------------------------------------------------
 
-sink(file = paste0(dir_out, srvy, "_", Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE) # for screen and log
 purrr::map(
-  1:nrow(spp_list),
+  seq_len(nrow(spp_list)),
   ~ clean_and_resample(spp_list[.x, ],
     catch,
     seq_from,
@@ -193,7 +183,6 @@ purrr::map(
     bio = bio
   )
 )
-sink()
 
 ### Plot indices ---------------------------------------------------------------
 
@@ -202,6 +191,7 @@ out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 
 ```{r results-run, eval, echo = FALSE}
 load(file = paste0(dir_final, "analysisoutput.rdata"))
+# this file is created from plot_results()
 ```
 
 ```{r results-plots}

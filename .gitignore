@@ -5,4 +5,4 @@
 vignettes/output/notforgit/
 *.rds 
 *.parquet 
-
+**/bio.csv

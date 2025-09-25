@@ -14,18 +14,8 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = TRUE}
-# Set directories --------------------------------------------------------------
-library(here)
-
-wd <- paste0(here::here(), "/vignettes/")
-dir_out <- paste0(wd, "output/")
-dir_final <- paste0(dir_out, "AI_0results/")
-```
-
-
-```{r eval = FALSE}
-# get rid of memory limits
+```{r setup}
+# Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
 # Install Libraries ------------------------------------------------------------
@@ -34,36 +24,11 @@ options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 # We'll also use this in our works cited page.
 PKG <- c(
   "surveyresamplr",
-
-  # tidyverse
   "dplyr",
-  "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "data.table",
-  "flextable",
-
-  # parallelizing
-  "forcats",
   "purrr",
-  "furrr",
-  "doParallel",
-
-  # sampling
-  "sampling",
-
-  # modeling
-  "arrow",
-  "future.apply",
-  "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
+  "ggplot2",
+  "flextable",
+  "sdmTMB"
 )
 
 pkg_install <- function(p) {
@@ -74,10 +39,15 @@ pkg_install <- function(p) {
 }
 base::lapply(unique(PKG), pkg_install)
 
-# Run scenarios ----------------------------------------------------------------
+# Set directories --------------------------------------------------------------
+wd <- paste0(here::here(), "/vignettes/")
+dir_out <- paste0(wd, "output/")
+dir_final <- paste0(dir_out, "AI_0results/")
+```
 
-## Aleutian Islands ------------------------------------------------------------
+# Run scenarios
 
+```{r eval = FALSE}
 ### Define study species -------------------------------------------------------
 
 spp_list <- data.frame(
@@ -101,7 +71,10 @@ spp_list <- data.frame(
   model_spatiotemporal = "iid, iid"
 ) |>
   dplyr::mutate(
-    file_name = gsub(pattern = " ", replacement = "_", x = (tolower(common_name)))
+    file_name = gsub(
+      pattern = " ", replacement = "_",
+      x = (tolower(common_name))
+    )
   )
 
 ### Load survey data -----------------------------------------------------------
@@ -112,7 +85,10 @@ catch <- surveyresamplr::noaa_afsc_catch |>
 
 ### Load grid data -------------------------------------------------------------
 
-grid_yrs <- replicate_df(surveyresamplr::noaa_afsc_ai_pred_grid_depth, "year", unique(catch$year))
+grid_yrs <- sdmTMB::replicate_df(
+  surveyresamplr::noaa_afsc_ai_pred_grid_depth,
+  "year", unique(catch$year)
+)
 
 ### Variables ------------------------------------------------------------------
 
@@ -125,24 +101,23 @@ replicate_num <- 3
 
 ### Run ------------------------------------------------------------------------
 
-sink(file = paste0(dir_out, srvy, "_", Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE) # for screen and log
 map(
-  1:nrow(spp_list),
+  seq_len(nrow(spp_list)),
   ~ clean_and_resample(spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
     tot_dataframes, replicate_num, grid_yrs, dir_out,
     test = FALSE
   )
 )
-sink()
 
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 ```
 
-```{r results-run, eval = TRUE, echo = FALSE}
+```{r results-run, echo = FALSE}
 load(file = paste0(dir_final, "analysisoutput.rdata"))
+# this file is created from plot_results()
 ```
 
 ```{r results-plots}

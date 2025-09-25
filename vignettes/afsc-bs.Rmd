@@ -14,15 +14,11 @@ knitr::opts_chunk$set(
 )
 ```
 
-```{r eval = TRUE}
-# Set directories --------------------------------------------------------------
-wd <- paste0(here::here(), "/vignettes/")
-dir_out <- paste0(wd, "output/")
-dir_final <- paste0(dir_out, "BS_0results/")
-```
+```{r setup}
+# set CRAN mirror
+options(repos = c(CRAN = "https://cran.rstudio.com"))
 
-```{r  eval = FALSE}
-# get rid of memory limits
+# Get rid of memory limits -----------------------------------------------------
 options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 
 # Install Libraries ------------------------------------------------------------
@@ -30,37 +26,16 @@ options(future.globals.maxSize = 1 * 1024^4) # Allow up to 1 TB for globals
 # Here we list all the packages we will need for this whole process
 # We'll also use this in our works cited page.
 PKG <- c(
+  "devtools",
+  "here",
   "surveyresamplr",
-
-  # tidyverse
   "dplyr",
   "tidyr",
-  "viridis",
-  "ggplot2",
-  "tibble",
-  "janitor",
-  "data.table",
-  "terra",
-
-  # parallelizing
-  "forcats",
   "purrr",
-  "furrr",
-  "doParallel",
-
-  # sampling
-  "sampling",
-
-  # modeling
-  "arrow",
-  "future.apply",
-  "future.callr",
-  "sdmTMB", # install.packages("remotes"",; remotes::install_github("pbs-assess/sdmTMBextra", dependencies = TRUE",
-  "Matrix",
-  "MASS",
-  "cluster",
-  "TMB",
-  "INLA"
+  "ggplot2",
+  "terra",
+  "flextable",
+  "sdmTMB"
 )
 
 pkg_install <- function(p) {
@@ -71,6 +46,18 @@ pkg_install <- function(p) {
 }
 base::lapply(unique(PKG), pkg_install)
 
+# Need to install the coldpool package for temperature data
+devtools::install_github("afsc-gap-products/coldpool")
+
+# Set directories --------------------------------------------------------------
+wd <- paste0(here::here(), "/vignettes/")
+dir_out <- paste0(wd, "output/")
+dir_final <- paste0(dir_out, "BS_0results/")
+```
+
+# Run scenarios
+
+```{r eval = FALSE}
 ### Define study species -------------------------------------------------------
 
 spp_list <- data.frame(
@@ -79,7 +66,8 @@ spp_list <- data.frame(
     "walleye pollock", "snow crab", "Pacific cod",
     "red king crab", "blue king crab",
     "yellowfin sole", "Pacific halibut",
-    "Alaska plaice", "flathead sole", "northern rock sole", "arrowtooth flounder"
+    "Alaska plaice", "flathead sole", "northern rock sole",
+    "arrowtooth flounder"
   ),
   species_code = as.character(c(
     21740, 68580, 21720,
@@ -96,7 +84,10 @@ spp_list <- data.frame(
   model_spatiotemporal = "iid, iid"
 ) |>
   dplyr::mutate(
-    file_name = gsub(pattern = " ", replacement = "_", x = (tolower(common_name)))
+    file_name = gsub(
+      pattern = " ", replacement = "_",
+      x = (tolower(common_name))
+    )
   )
 
 ### Load survey data -----------------------------------------------------------
@@ -107,14 +98,23 @@ catch <- surveyresamplr::noaa_afsc_catch |>
 
 ### Load grid data -------------------------------------------------------------
 
-# grid_yrs <- replicate_df(surveyresamplr::noaa_afsc_GOA_pred_grid_depth, "year", unique(catch$year))
+# grid_yrs <- replicate_df(surveyresamplr::noaa_afsc_GOA_pred_grid_depth,
+# "year", unique(catch$year))
 pred_grid_depth <- surveyresamplr::noaa_afsc_bs_pred_grid_depth
 #### Add temperature: Coldpool temperature data
 # Data that varies over space and time (bottom temperature)
-# Here, bottom temperature, and thereby the cold pool extent, have been show to drive the distribution of many species. This is especially true for walleye pollock.
-# For this we are going to lean on our in-house prepared validated and pre-prepared [{coldpool} R package](https://github.com/afsc-gap-products/coldpool) (S. Rohan, L. Barnett, and N. Charriere). This data interpolates over the whole area of the survey so there are no missing data.
+# Here, bottom temperature, and thereby the cold pool extent, have been show to
+# drive the distribution of many species. This is especially true for walleye
+# pollock.
+# For this we are going to lean on our in-house prepared validated and pre-
+# prepared [{coldpool} R package](https://github.com/afsc-gap-products/coldpool)
+# (S. Rohan, L. Barnett, and N. Charriere). This data interpolates over the
+# whole area of the survey so there are no missing data.
 crs_latlon <- "+proj=longlat +datum=WGS84" # decimal degrees
-ebs_only <- setdiff(names(terra::unwrap(coldpool::ebs_bottom_temperature)), names(terra::unwrap(coldpool::nbs_ebs_bottom_temperature)))
+ebs_only <- setdiff(
+  names(terra::unwrap(coldpool::ebs_bottom_temperature)),
+  names(terra::unwrap(coldpool::nbs_ebs_bottom_temperature))
+)
 grid_yrs_temperature <- dplyr::full_join(
   dplyr::bind_cols(
     pred_grid_depth[, c("longitude_dd", "latitude_dd", "depth_m", "area_km2")],
@@ -138,12 +138,14 @@ grid_yrs_depth_temperature <- grid_yrs <- grid_yrs_temperature |>
     cols = names(grid_yrs_temperature)[6:ncol(grid_yrs_temperature)]
   ) |>
   dplyr::mutate(year = as.numeric(year))
-# save(grid_yrs_depth_temperature, file = paste0("grids/grid_yr_temperature/noaa_afsc_bs_pred_grid_depth_temperature.rdata"))
+# save(grid_yrs_depth_temperature,
+# file = paste0("grids/grid_yr_temperature/noaa_afsc_bs_pred_grid_depth_temperature.rdata"))
 
 # # test you extracted correct
 # ggplot(data = grid_yrs |>
 #          dplyr::filter(year %in% c(2022:2024)),
-#        mapping = ggplot2::aes(x = longitude_dd, y = latitude_dd, color = bottom_temperature_c)) +
+#          mapping = ggplot2::aes(x = longitude_dd, y = latitude_dd,
+#                                 color = bottom_temperature_c)) +
 #   geom_point() +
 #   facet_wrap(facets = "year")
 
@@ -158,8 +160,7 @@ replicate_num <- 3
 
 ### Run ------------------------------------------------------------------------
 
-sink(file = paste0(dir_out, srvy, "_", Sys.Date(), "_logfile.txt"), append = FALSE, split = TRUE) # for screen and log
-map(
+purrr::map(
   1:nrow(spp_list),
   ~ clean_and_resample(spp_list[.x, ],
     catch, seq_from, seq_to, seq_by,
@@ -167,11 +168,323 @@ map(
     test = TRUE
   )
 )
-sink()
 
 ### Plot indices --------------------------------------------------------------
 
 out <- plot_results(srvy = srvy, dir_out = dir_out, dir_final = dir_final)
 ```
 
+BS walleye pollock
+Starting cleanup of catch data
+...Starting parallel SDM processing
 
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 1.29028e-18
+BS snow crab
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 1.49831e-19
+BS Pacific cod
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.0641e-16
+BS red king crab
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.36681e-18
+BS blue king crab
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.05487e-57
+BS yellowfin sole
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, 
+  gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 5.39281e-21
+BS Pacific halibut
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, 
+  gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 1.47882e-44
+BS Alaska plaice
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, 
+  gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Warning: The model may not have converged: non-positive-definite Hessian matrix.
+Error in `$<-`(`*tmp*`, "est1", value = c(61.7707818685793, 55.6698623088797,  : 
+  Assigned data `r$proj_eta[, 1]` must be compatible with existing data.
+✖ Existing data has 7276038 rows.
+✖ Assigned data has 5076330 rows.
+ℹ Only vectors of size 1 are recycled.
+Caused by error in `vectbl_recycle_rhs_rows()`:
+! Can't recycle input of size 5076330 to size 7276038.
+BS flathead sole
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  system is computationally singular: reciprocal condition number = 2.94123e-18
+BS northern rock sole
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Warning in stats::nlminb(start = tmb_obj$par, objective = tmb_obj$fn, 
+  gradient = tmb_obj$gr,  :
+  NA/NaN function evaluation
+Error in solve.default(h, g) : 
+  Lapack routine dgesv: system is exactly singular: U[3,3] = 0
+BS arrowtooth flounder
+Starting cleanup of catch data
+...Starting parallel SDM processing
+
+...08_3
+This mesh has > 1000 vertices. Mesh complexity has the single largest influence 
+on fitting speed. Consider whether you require a mesh this complex, especially 
+for initial model exploration. Check `your_mesh$mesh$n` to view the number of 
+vertices.
+Error in solve.default(h, g) : 
+  Lapack routine dgesv: system is exactly singular: U[3,3] = 0
+[[1]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 1.29028e-18\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 1.29028e-18>
+
+[[2]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 1.49831e-19\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 1.49831e-19>
+
+[[3]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 2.0641e-16\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 2.0641e-16>
+
+[[4]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 2.36681e-18\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 2.36681e-18>
+
+[[5]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 2.05487e-57\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 2.05487e-57>
+
+[[6]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 5.39281e-21\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 5.39281e-21>
+
+[[7]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 1.47882e-44\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 1.47882e-44>
+
+[[8]]
+[1] "Error in `$<-`(`*tmp*`, \"est1\", value = c(61.7707818685793, 
+55.6698623088797,  : \n  \033[38;5;252mAssigned data `r$proj_eta[, 1]` must be 
+compatible with existing data.\n\033[31m✖\033[38;5;252m Existing data has 
+7276038 rows.\n\033[31m✖\033[38;5;252m Assigned data has 5076330 rows.
+\n\033[36mℹ\033[38;5;252m Only vectors of size 1 are recycled.\033[39m\n\033
+[1mCaused by error in `vectbl_recycle_rhs_rows()`:\033[22m\n\033[33m!\033[39m 
+Can't recycle input of size 5076330 to size 7276038.\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<error/tibble_error_assign_incompatible_size>
+Error in `$<-`:
+! Assigned data `r$proj_eta[, 1]` must be compatible with existing data.
+✖ Existing data has 7276038 rows.
+✖ Assigned data has 5076330 rows.
+ℹ Only vectors of size 1 are recycled.
+Caused by error in `vectbl_recycle_rhs_rows()`:
+! Can't recycle input of size 5076330 to size 7276038.
+---
+Backtrace:
+     ▆
+  1. └─purrr::map(...)
+  2.   └─purrr:::map_("list", .x, .f, ..., .progress = .progress)
+  3.     ├─purrr:::with_indexed_errors(...)
+  4.     │ └─base::withCallingHandlers(...)
+  5.     ├─purrr:::call_with_cleanup(...)
+  6.     └─global .f(.x[[i]], ...)
+  7.       └─surveyresamplr::clean_and_resample(...)
+  8.         ├─base::try(...)
+  9.         │ └─base::tryCatch(...)
+ 10.         │   └─base (local) tryCatchList(expr, classes, parentenv, handlers)
+ 11.         │     └─base (local) tryCatchOne(expr, names, parentenv, handlers[[1L]])
+ 12.         │       └─base (local) doTryCatch(return(expr), name, parentenv, handler)
+ 13.         └─surveyresamplr::resample_tests(...)
+ 14.           └─surveyresamplr (local) innards(i, dir_spp, n_knots)
+ 15.             └─surveyresamplr (local) wrapper_model(...)
+ 16.               ├─stats::predict(fit, newdata = z, return_tmb_object = TRUE)
+ 17.               └─sdmTMB:::predict.sdmTMB(fit, newdata = z, return_tmb_object = TRUE)
+ 18.                 ├─base::`$<-`(`*tmp*`, "est1", value = `<dbl>`)
+ 19.                 └─tibble:::`$<-.tbl_df`(`*tmp*`, "est1", value = `<dbl>`)
+ 20.                   └─tibble:::tbl_subassign(...)
+ 21.                     └─tibble:::vectbl_recycle_rhs_rows(value, fast_nrow(xo), i_arg = NULL, value_arg, call)
+
+[[9]]
+[1] "Error in solve.default(h, g) : \n  system is computationally singular: 
+reciprocal condition number = 2.94123e-18\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): system is computationally singular: 
+reciprocal condition number = 2.94123e-18>
+
+[[10]]
+[1] "Error in solve.default(h, g) : \n  Lapack routine dgesv: system is exactly 
+singular: U[3,3] = 0\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): Lapack routine dgesv: system is exactly 
+singular: U[3,3] = 0>
+
+[[11]]
+[1] "Error in solve.default(h, g) : \n  Lapack routine dgesv: system is exactly 
+singular: U[3,3] = 0\n"
+attr(,"class")
+[1] "try-error"
+attr(,"condition")
+<simpleError in solve.default(h, g): Lapack routine dgesv: system is exactly 
+singular: U[3,3] = 0>
+
+```{r results-run, echo = FALSE}
+load(file = paste0(dir_final, "analysisoutput.rdata"))
+# this file is created from plot_results()
+```
+
+```{r results-plots}
+out$plots
+```
+
+Parameter output: 
+
+```{r results-tables-1}
+i <- 1
+print(names(out$tables)[i])
+head(out$tables[i][[1]]) |>
+  flextable::flextable()
+```
+
+
+```{r results-tables-2}
+i <- 1 + i
+print(names(out$tables)[i])
+head(out$tables[i][[1]]) |>
+  flextable::flextable()
+```
+
+
+```{r results-tables-3}
+i <- 1 + i
+print(names(out$tables)[i])
+head(out$tables[i][[1]]) |>
+  flextable::flextable()
+```
+
+
+```{r results-tables-4}
+i <- 1 + i
+print(names(out$tables)[i])
+head(out$tables[i][[1]]) |>
+  flextable::flextable()
+```
