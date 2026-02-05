@@ -245,7 +245,16 @@ The `purrr::map` function is used to apply the `clean_and_resample` function to 
 The number you input for `n_knots` can make or break your model. We have more details on considerations when choosing `n_knots` or allowing the function to select the number of knots for you in the [Importance of `n_knots` in `{sdmTMB}` Models section](#importance-of-sdmtmb-models). 
 :::
 
-```{r run-models, eval = FALSE}
+You can run this in testing mode
+```{r}
+clean_and_resample(spp_info = spp_list,
+                   catch,
+                   seq_from, seq_to, seq_by, 
+                   tot_dataframes, replicate_num,
+                   grid_yrs, dir_out, test = TRUE, n_knots = 300) 
+```
+
+```{r run-models}
 start.time <- Sys.time()
 purrr::map(
   seq_len(nrow(spp_list)),
@@ -256,19 +265,11 @@ purrr::map(
     n_knots = 300
   )
 )
-write.csv(
-  x = data.frame(
-    time = as.numeric(Sys.time() - start.time),
-    units = units(Sys.time() - start.time)
-  ),
-  file = paste0(dir_final, srvy, "_simple_time.csv")
-)
 ```
 
 Don't freak out if this takes a long time. It should take the following amount of time:
-```{r time}
-a <- read.csv(file = paste0(dir_final, srvy, "_simple_time.csv"))
-print(paste0("Completed in: ", round(a$time, 2), " ", a$units))
+```{r, echo = FALSE}
+print(paste0("Completed in: ", round(as.numeric(Sys.time() - start.time), 2), " ", units(Sys.time() - start.time)))
 ```
 
 ```{r sink-results-backup, include = FALSE}

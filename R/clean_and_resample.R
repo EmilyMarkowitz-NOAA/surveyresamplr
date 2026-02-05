@@ -27,7 +27,8 @@
 #' @param dir_out A character string specifying the directory for output files.
 #' @param test Logical. TRUE/FALSE. If TRUE, will only run first two resampling
 #' tests.
-#' @param n_knots Numeric. Default  = 500.
+#' @param n_knots Numeric. This will be calculated for you based on sample size 
+#' if there is no input.
 #' @param model_type String. Default = "wrapper_sdmtmb", but can be any preset
 #' wrapper_*() function or a premade home built function.
 #' @param bio A data frame containing the biological data, if applicable. NULL

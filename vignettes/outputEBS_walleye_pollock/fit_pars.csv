@@ -1,0 +1,10 @@
+"srvy","common_name","model_fn","model_family","model_anisotropy","model_spatiotemporal","effort","model","term","estimate","std.error","conf.low","conf.high"
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1",1,"range",4.72029117415423,4440.71934866836,0,Inf
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1",1,"sigma_O",0.372801823912436,404.226533521257,0,Inf
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1",1,"sigma_E",0.585763596865226,550.44549404194,0,Inf
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2",1,"range",5.70864202193261,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2",1,"sigma_O",0.354241212984186,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2",1,"sigma_E",0.617270265522019,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3",1,"range",2.8284235151935,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3",1,"sigma_O",0.282094265824194,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3",1,"sigma_E",0.282094263910191,NA,NA,NA

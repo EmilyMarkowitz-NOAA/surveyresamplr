@@ -1,0 +1,13 @@
+"srvy","common_name","model_fn","model_family","model_anisotropy","model_spatiotemporal","effort","term","estimate","std.error","conf.low","conf.high"
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1","factor(year)2021",20.3035148497297,1020.3623946318,-1979.57002980765,2020.17705950711
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1","factor(year)2022",21.4673087246129,2860.24471327961,-5584.50931627451,5627.44393372374
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1","factor(year)2023",21.006938931454,2166.32132286837,-4224.90483283172,4266.91871069463
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_1","factor(year)2024",20.7459415141075,1707.14795575973,-3325.20256805615,3366.69445108436
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2","factor(year)2021",21.7210323464771,2442.61938463255,-4765.72498947272,4809.16705416567
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2","factor(year)2022",21.6242224589619,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2","factor(year)2023",21.5654413409925,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_2","factor(year)2024",21.4913033210022,1669.97594763063,-3251.60140908318,3294.58401572518
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3","factor(year)2021",20.4135309519096,1679.53172014375,-3271.40815142244,3312.23521332626
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3","factor(year)2022",20.4193816640038,1170.4479263295,-2273.61639972141,2314.45516304942
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3","factor(year)2023",20.4135309512272,NA,NA,NA
+"EBS","walleye pollock","total_catch_wt_kg ~ 0 + factor(year)","delta_gamma",TRUE,"iid, iid","05_3","factor(year)2024",20.3390234786106,1783.02587428651,-3474.327473626,3515.00552058322

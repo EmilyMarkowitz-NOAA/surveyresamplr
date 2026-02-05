@@ -37,8 +37,43 @@
 #' }
 #' @examples
 #' \dontrun{
-#' resample_tests() # TO DO: NEED EXAMPLE OF HOW TO USE
+#'   catch <- surveyresamplr::noaa_nwfsc_catch
+#'   grid_yrs <- sdmTMB::replicate_df(
+#'    dat = surveyresamplr::noaa_nwfsc_catch, time_name = "year",
+#'    time_values = unique(catch$year)
+#'   )
+#'  spp_list <- data.frame(
+#'    srvy = "CA",
+#'    common_name = "arrowtooth flounder",
+#'    filter_lat_gt = 34,
+#'    filter_lat_lt = NA,
+#'    filter_depth = NA,
+#'    model_fn = "total_catch_wt_kg ~ 0 + factor(year) + pass",
+#'    model_family = "delta_gamma",
+#'    model_anisotropy = TRUE,
+#'    model_spatiotemporal = "iid, iid"
+#'  )
+#' 
+#'  spp_dfs <- cleanup_by_species(
+#'    spp_info = spp_list,
+#'    catch,
+#'    seq_from = 0.1,
+#'    seq_to = 1,
+#'    seq_by = 0.1,
+#'    tot_dataframes = 91,
+#'    replicate_num = 10,
+#'  )
+#' 
+#'  resample_tests(
+#'    spp_dfs = spp_dfs,
+#'    spp_info = spp_list,
+#'    grid_yrs = grid_yrs,
+#'    dir_out = dir_out,
+#'    test = TRUE,
+#'    model_type = "wrapper_sdmtmb"
+#'  )
 #' }
+#' 
 resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE,
                            parallel = FALSE, n_knots = 500,
                            model_type = "wrapper_sdmtmb") {
@@ -136,14 +171,9 @@ resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE,
   if (parallel) {
     n_cores <- future::availableCores()
     n_workers <- round(n_cores * 0.75)
-    if (Sys.info()['sysname'] == 'Windows') {
-      future::plan(future::multisession, workers = n_workers)
-      message("...Running in parallel with multisession")
-    } else {
-      # Use multicore for Linux/macOS for better performance
-      future::plan(future::multicore, workers = n_workers)
-      message("...Running in parallel with multicore")
-    }
+
+    future::plan(future::multisession, workers = n_workers)
+
     results <- furrr::future_map(
       seq_along(spp_files),
       run_parallel_models,
