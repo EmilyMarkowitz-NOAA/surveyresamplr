@@ -217,25 +217,19 @@ resample_tests <- function(spp_dfs, spp_info, grid_yrs, dir_out, test = FALSE,
 #' # For a small dataset
 #' select_n_knots(n_points = 500)
 #'
-#' # For a large dataset
+#' # For a large data set
 #' select_n_knots(n_points = 10000)
 #'
 select_n_knots <- function(n_points) {
   if (n_points < 1000) {
-    # For very small datasets, a small number of knots is sufficient.
     n_knots <- 50
-  } else if (n_points < 5000) {
-    # For small to medium datasets, a moderate number of knots works well.
+  } else if (n_points >= 1000 & n_points < 5000) {
     n_knots <- 100
-  } else if (n_points < 10000) {
-    # For larger datasets, increase the number of knots to capture spatial effects.
+  } else if (n_points >= 5000 & n_points < 10000) {
     n_knots <- 200
-  } else if (n_points < 50000) {
-    # For very large datasets, a larger mesh is needed.
+  } else if (n_points >= 10000 & n_points < 50000) {
     n_knots <- 500
   } else {
-    # For extremely large datasets, a very large mesh might be necessary,
-    # but be mindful of memory.
     n_knots <- 1000
   }
   return(n_knots)

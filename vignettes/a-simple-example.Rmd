@@ -93,13 +93,8 @@ The `noaa_afsc_catch` data frame contains catch information, including zero-catc
 
 ```{r explore-catch}
 head(surveyresamplr::noaa_afsc_catch) |>
-  dplyr::mutate(trawlid = as.character(trawlid),
-         species_code = as.character(species_code),
-         cpue_kgkm2 = round(cpue_kgkm2, digits = 2),
-         year = as.character(year)) |>
-  dplyr::rename_with(~ gsub("_", " ", .x)) |>
   flextable::flextable() |>
-  flextable::autofit()
+  aut
 ```
 
 
@@ -163,10 +158,7 @@ ggplot2::ggplot(
     label = "Prediction Grid",
     subtitle = "AFSC Eastern Bering Sea bottom trawl survey"
   ) +
-  ggplot2::scale_color_gradient(name = "Depth (m)",
-    guide = ggplot2::guide_colorbar(reverse = TRUE),
-    low = "#56B1F7",
-    high = "#132B43") +
+  ggplot2::scale_color_gradient(name = "Depth (m)") +
   ggplot2::theme_bw()
 ```   
 
@@ -178,11 +170,13 @@ Here we load the data for the model run, cropping it to the data we would like t
 
 ```{r load-data}
 ### Load survey data -----------------------------------------------------------
+
 catch <- surveyresamplr::noaa_afsc_catch |>
   dplyr::filter(srvy == "EBS") |>
   dplyr::filter(year >= 2020)
 
 ### Load grid data -------------------------------------------------------------
+
 grid_yrs <- sdmTMB::replicate_df(
   dat = surveyresamplr::noaa_afsc_ebs_pred_grid_depth,
   time_name = "year",
@@ -194,7 +188,6 @@ The resulting `grid_yrs` data frame now contains a year column, allowing the mod
 
 ```{r grid-yrs}
 head(grid_yrs) |>
-  dplyr::mutate(year = as.character(year)) |>
   flextable::flextable()
 ```
 
@@ -245,16 +238,7 @@ The `purrr::map` function is used to apply the `clean_and_resample` function to 
 The number you input for `n_knots` can make or break your model. We have more details on considerations when choosing `n_knots` or allowing the function to select the number of knots for you in the [Importance of `n_knots` in `{sdmTMB}` Models section](#importance-of-sdmtmb-models). 
 :::
 
-You can run this in testing mode
-```{r}
-clean_and_resample(spp_info = spp_list,
-                   catch,
-                   seq_from, seq_to, seq_by, 
-                   tot_dataframes, replicate_num,
-                   grid_yrs, dir_out, test = TRUE, n_knots = 300) 
-```
-
-```{r run-models}
+```{r run-models, eval = FALSE}
 start.time <- Sys.time()
 purrr::map(
   seq_len(nrow(spp_list)),
@@ -265,11 +249,19 @@ purrr::map(
     n_knots = 300
   )
 )
+write.csv(
+  x = data.frame(
+    time = as.numeric(Sys.time() - start.time),
+    units = units(Sys.time() - start.time)
+  ),
+  file = paste0(dir_final, srvy, "_simple_time.csv")
+)
 ```
 
 Don't freak out if this takes a long time. It should take the following amount of time:
-```{r, echo = FALSE}
-print(paste0("Completed in: ", round(as.numeric(Sys.time() - start.time), 2), " ", units(Sys.time() - start.time)))
+```{r time}
+a <- read.csv(file = paste0(dir_final, srvy, "_simple_time.csv"))
+print(paste0("Completed in: ", round(a$time, 2), " ", a$units))
 ```
 
 ```{r sink-results-backup, include = FALSE}
